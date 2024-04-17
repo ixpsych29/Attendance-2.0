@@ -8,7 +8,8 @@ import { useState } from "react";
 import Nopage from "./Components/Nopage";
 import UserDashboard from "./Components/UserDashboard";
 import ProfileParent from "./Components/ProfileParent";
-
+import "./app.css";
+import ChangePassword from "./Components/ChangePassword";
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
   const [role, setRole] = useState("");
@@ -33,7 +34,7 @@ function App() {
           element={<LoginForm login={setAuthenticated} role={setRole} />}
           index
         />
-        <Route path="/signup" element={<SignupForm />} index /> 
+        <Route path="/signup" element={<SignupForm />} index />
         <Route path="/*" element={<Nopage />} index />
         <Route
           path="/home/"
@@ -48,6 +49,11 @@ function App() {
             path="profile"
             element={<ProtectedRoute element={<ProfileParent />} />}
           ></Route>
+          <Route
+            path="update-password"
+            element={<ProtectedRoute element={<ChangePassword />} />}
+          ></Route>
+
           {role === "user" && (
             <Route
               path="attendence"
