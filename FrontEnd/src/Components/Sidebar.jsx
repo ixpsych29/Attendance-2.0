@@ -184,12 +184,17 @@ const Sidebar = ({ mode, setMode }) => {
   };
 
   return (
-    <aside className="ml-[-100%] fixed z-10 top-0 pb-3 px-6 w-full flex flex-col justify-between h-screen border-r bg-white transition duration-300 md:w-4/12 lg:ml-0 lg:w-[25%] xl:w-[20%] 2xl:w-[15%] mt-10">
+    <aside className="ml-[-100%] fixed z-10 top-0 pb-3 px-6 w-full flex flex-col justify-between h-screen border-r  transition duration-300 md:w-4/12 lg:ml-0 lg:w-[25%] xl:w-[20%] 2xl:w-[15%] mt-0 bg-[#19B0E7]">
       <div>
-        <div className="-mx-6 px-6 py-4">
+        <img
+          src="/src/assets/Images/sidebarlogo.png"
+          alt="Your Logo"
+          style={{ marginTop: "20px" }}
+        />
+        <div className="mx-6 px-6 py-4 mt-50">
           <Link to="/home" title="home"></Link>
         </div>
-        <ul className="space-y-2 tracking-wide mt-8">
+        <ul className="space-y-2 tracking-wide ">
           <li>
             <Link
               to="/home"
@@ -197,17 +202,17 @@ const Sidebar = ({ mode, setMode }) => {
               className={`relative px-4 py-3 flex items-center space-x-4 rounded-lg text-black ${
                 isActiveLink("/home")
                   ? "bg-gradient-to-r from-sky-600 to-cyan-400"
-                  : "bg-white"
+                  : ""
               }`}
             >
               <FaHome
                 className={`w-6 h-6 ${
-                  isActiveLink("/home") ? "text-white" : "text-black"
+                  isActiveLink("/home") ? "text-white" : "text-white"
                 }`}
               />
               <span
                 className={`-mr-1 font-medium ${
-                  isActiveLink("/home") ? "text-white" : "text-black"
+                  isActiveLink("/home") ? "text-white" : "text-white"
                 }`}
               >
                 Home
@@ -221,21 +226,21 @@ const Sidebar = ({ mode, setMode }) => {
                 className={`px-4 py-3 flex items-center space-x-4 rounded-md ${
                   isActiveLink("/home/attendence")
                     ? "bg-gradient-to-r from-sky-600 to-cyan-400 text-white"
-                    : "bg-white text-gray-700 "
+                    : " "
                 }`}
               >
                 <FaUserCheck
                   className={`w-6 h-6 ${
                     isActiveLink("/home/attendence")
                       ? "text-white"
-                      : "text-gray-700 "
+                      : "text-white "
                   }`}
                 />
                 <span
                   className={`-mr-1 font-medium ${
                     isActiveLink("/home/attendence")
                       ? "text-white"
-                      : "text-gray-700 "
+                      : "text-white "
                   }`}
                 >
                   Attendance
@@ -249,17 +254,17 @@ const Sidebar = ({ mode, setMode }) => {
               className={`px-4 py-3 flex items-center space-x-4 rounded-md ${
                 isActiveLink("/home/profile")
                   ? "bg-gradient-to-r from-sky-600 to-cyan-400 text-white"
-                  : "bg-white text-gray-700"
+                  : ""
               }`}
             >
               <CgProfile
                 className={`w-6 h-6 ${
-                  isActiveLink("/home/profile") ? "text-white" : "text-gray-700"
+                  isActiveLink("/home/profile") ? "text-white" : "text-white"
                 }`}
               />
               <span
                 className={`-mr-1 font-medium ${
-                  isActiveLink("/home/profile") ? "text-white" : "text-gray-700"
+                  isActiveLink("/home/profile") ? "text-white" : "text-white"
                 }`}
               >
                 Profile
@@ -274,21 +279,21 @@ const Sidebar = ({ mode, setMode }) => {
               className={`px-4 py-3 flex items-center space-x-4 rounded-md ${
                 isActiveLink("/home/update-password")
                   ? "bg-gradient-to-r from-sky-600 to-cyan-400 text-white"
-                  : "bg-white text-gray-700"
+                  : ""
               }`}
             >
               <FaCog
                 className={`w-6 h-6 ${
                   isActiveLink("/home/update-password")
                     ? "text-white"
-                    : "text-gray-700"
+                    : "text-white"
                 }`}
               />
               <span
                 className={`-mr-1 font-medium ${
                   isActiveLink("/home/update-password")
                     ? "text-white"
-                    : "text-gray-700"
+                    : "text-white"
                 }`}
               >
                 Settings
@@ -297,11 +302,11 @@ const Sidebar = ({ mode, setMode }) => {
           </li>
         </ul>
       </div>
-      <div className="px-6 -mx-6 pt-4 flex justify-between items-center border-t mb-10 ">
+      <div className="px-6 -mx-6 pt-4 flex justify-between items-center border-t mb-0.1 ">
         {/* Dark mode toggle button */}
         <button
           onClick={toggleDarkMode}
-          className="px-4 py-3 flex flex-col items-center rounded-md text-gray-700 group transition duration-300 ease-in-out transform hover:scale-110"
+          className="px-4 py-3 flex flex-col items-center rounded-md text-white group transition duration-300 ease-in-out transform hover:scale-110"
         >
           {/* Adjust the icon based on dark mode state */}
           {darkMode ? (
@@ -313,7 +318,7 @@ const Sidebar = ({ mode, setMode }) => {
         </button>
 
         {/* Logout button */}
-        <button className="px-4 py-3 flex flex-col items-center rounded-md text-gray-700 group transition duration-300 ease-in-out transform hover:scale-110">
+        <button className="px-4 py-3 flex flex-col items-center rounded-md text-white group transition duration-300 ease-in-out transform hover:scale-110">
           <Link
             to="/"
             onClick={() => {

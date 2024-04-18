@@ -17,7 +17,7 @@ import DownloadCSVReport from "./DownladReport";
 import AttendanceRecordTable from "./AttendanceRecordTable";
 
 const RecordList = ({ selectedDate, setSelectedDate }) => {
-  const { username, role ,Api_EndPoint} = useContext(UserContext);
+  const { username, role, Api_EndPoint } = useContext(UserContext);
   const [attendanceRecord, setAttendanceRecord] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
   const [dateRange, setDateRange] = useState({
@@ -151,7 +151,13 @@ const RecordList = ({ selectedDate, setSelectedDate }) => {
         <Button
           variant="contained"
           onClick={handleLastMonthClick}
-          sx={{ left: "5%", mr: 1 }}
+          sx={{
+            left: "2%",
+            mr: 1,
+            marginBottom: 2,
+            bgcolor: "#1db0e6", // Set background color
+            // Set text color to white
+          }}
         >
           Previous Month Records
         </Button>

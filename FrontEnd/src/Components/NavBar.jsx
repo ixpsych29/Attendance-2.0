@@ -118,6 +118,8 @@
 // };
 // export default Navbar;
 
+// ----------------
+
 import {
   AppBar,
   Toolbar,
@@ -130,7 +132,6 @@ import {
   MenuItem,
   Slide,
 } from "@mui/material";
-import NotificationsIcon from "@mui/icons-material/Notifications";
 import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import UserContext from "./UserContext";
@@ -147,7 +148,7 @@ const Icons = styled(Box)(({ theme }) => ({
   gap: "20px",
   alignItems: "center", // Change alignContent to alignItems
   [theme.breakpoints.up("sm")]: {
-    display: "flex",
+    display: "block",
   },
 }));
 
@@ -175,37 +176,19 @@ const Navbar = ({ login }) => {
     <Slide direction="down" in={true} mountOnEnter unmountOnExit>
       <AppBar
         position="fixed"
-        sx={{
-          background: `linear-gradient(90deg,
-            rgba(70, 130, 180, 1) 0%,  /* Steel Blue */
-            rgba(25, 25, 112, 1) 50%,  /* Midnight Blue */
-            rgba(10, 10, 10, 1) 100%);`,
-          width: "100%",
-          height: "70px", // Increase height
-          transition: "height 0.3s ease-in-out", // Add transition for height
-        }}
+        sx={{ backgroundColor: "#B7E9F7 ", maxWidth: "85.06%" }}
       >
         <StyledToolBar>
-          <img
-            src="/src/assets/logo.png"
-            alt="Your Logo"
-            style={{ height: "40px" }}
-          />
-          <UserImage
-            src="/src/assets/sandyApps-white.png"
-            alt="Your Logo"
-            style={{ height: "60px" }}
-          />
-          <Icons>
+          <Icons style={{ position: "relative", textAlign: "left" }}>
             <Avatar
-              sx={{ width: 40, height: 40 }} // Increase avatar size
+              sx={{ width: 40, height: 40, left: 1520 }} // Increase avatar size
               srcSet={`${Api_EndPoint}/uploads/Images/${userProfilePic}`}
               onClick={() => setOpen(true)}
             />
           </Icons>
-          <UserBox>
+          <UserBox style={{ textAlign: "right" }}>
             <Avatar
-              sx={{ width: 40, height: 40 }} // Increase avatar size
+              sx={{ width: 40, height: 40, left: 1520 }} // Increase avatar size
               srcSet={`${Api_EndPoint}/uploads/Images/${userProfilePic}`}
               onClick={() => setOpen(true)}
             />
@@ -217,6 +200,7 @@ const Navbar = ({ login }) => {
           aria-labelledby="demo-positioned-button"
           open={open}
           onClose={() => setOpen(false)}
+          style={{ margin: 40, width: "200px" }}
           anchorOrigin={{
             vertical: "top",
             horizontal: "right",
@@ -226,8 +210,12 @@ const Navbar = ({ login }) => {
             horizontal: "right",
           }}
         >
-          <MenuItem component={Link} to="/profile">
-            My account
+          <MenuItem
+            component={Link}
+            to="/home"
+            style={{ textAlign: "left", marginRight: 30 }}
+          >
+            My Account
           </MenuItem>
           <MenuItem
             component={Link}
@@ -245,3 +233,5 @@ const Navbar = ({ login }) => {
 };
 
 export default Navbar;
+
+// -------------------
