@@ -57,8 +57,7 @@ const Navbar = ({ login }) => {
           rgba(25, 25, 112, 1) 50%,  /* Midnight Blue */
           rgba(10, 10, 10, 1) 100%);`,
         width: "100%",
-      }}
-    >
+      }}>
       <StyledToolBar>
         <img
           src="/src/assets/logo.png"
@@ -71,13 +70,21 @@ const Navbar = ({ login }) => {
           style={{ height: "60px" }}
         />
         <Icons>
-          <Badge badgeContent={4} color="error">
+          {/* <Badge badgeContent={4} color="error">
             <NotificationsIcon color="white" />
-          </Badge>
-          <Avatar sx={{ width: 30, height: 30 }} srcSet={`${Api_EndPoint}/uploads/Images/${userProfilePic}`} onClick={() => setOpen(true)} />
+          </Badge> */}
+          <Avatar
+            sx={{ width: 30, height: 30 }}
+            srcSet={`${Api_EndPoint}/uploads/Images/${userProfilePic}`}
+            onClick={() => setOpen(true)}
+          />
         </Icons>
         <UserBox>
-        <Avatar sx={{ width: 30, height: 30 }} srcSet={`${Api_EndPoint}/uploads/Images/${userProfilePic}`} onClick={() => setOpen(true)} />
+          <Avatar
+            sx={{ width: 30, height: 30 }}
+            srcSet={`${Api_EndPoint}/uploads/Images/${userProfilePic}`}
+            onClick={() => setOpen(true)}
+          />
           <Typography variant="span">{username}</Typography>
         </UserBox>
       </StyledToolBar>
@@ -93,8 +100,7 @@ const Navbar = ({ login }) => {
         transformOrigin={{
           vertical: "top",
           horizontal: "right",
-        }}
-      >
+        }}>
         <MenuItem component={Link} to="/profile">
           My account
         </MenuItem>
@@ -103,8 +109,7 @@ const Navbar = ({ login }) => {
           to="/"
           onClick={() => {
             login(false);
-          }}
-        >
+          }}>
           Logout
         </MenuItem>
       </Menu>
