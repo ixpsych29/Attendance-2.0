@@ -47,101 +47,87 @@ export default function ProfilePage() {
   };
 
   return (
-    <>
-      <Container component="main" maxWidth="xs" sx={{ color: "text.primary" }}>
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <Typography component="h1" variant="h5" fontWeight="bold">
-            Profile Information
-          </Typography>
-          <ProfilePictureUpload />
-          <Box
-            component="form"
-            noValidate
-            onSubmit={handleSubmit}
-            sx={{ mt: 3 }}
-          >
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm>
-                <TextField
-                  autoComplete="given-name"
-                  disabled
-                  name="name"
-                  fullWidth
+    <div className="max-w-2xl mx-auto mt-8">
+      <h1 className="text-center text-3xl font-bold mb-20">
+        Profile Information
+      </h1>
+      <div className="flex items-center justify-center">
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="flex items-center justify-center space-x-4 mb-4 border border-gray-300 p-24 rounded-md shadow-xl bg-[#DBF3FA]">
+            <div className="w-1/2 border-r border-black pr-4">
+              <ProfilePictureUpload />
+            </div>
+            <div className="w-1/2 pl-4 ">
+              <div className="flex items-center space-x-4 mb-4 justify-end">
+                <label htmlFor="name" className="lable-style">
+                  Name
+                </label>
+                <input
                   id="name"
-                  label="Name"
-                  helperText="You can't change your name"
-                  // autoFocus
-                  inputProps={{ maxLength: 30 }}
+                  type="text"
+                  className="input-style cursor-not-allowed"
                   value={nameUser}
                   onChange={handleValueChange}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
+                  maxLength="30"
                   disabled
-                  fullWidth
-                  helperText="You can't change your email"
+                />
+              </div>
+              <div className="flex items-center space-x-4 mb-4 justify-end">
+                {" "}
+                {/* Changed div to flex */}
+                <label htmlFor="email" className=" lable-style ">
+                  Email
+                </label>
+                <input
                   id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
+                  type="email"
+                  className="input-style cursor-not-allowed"
                   value={email}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
                   disabled
-                  helperText="You can't change your username"
-                  fullWidth
+                />
+              </div>
+              <div className="flex items-center space-x-4 mb-4 justify-end">
+                {" "}
+                {/* Changed div to flex */}
+                <label htmlFor="username" className="lable-style">
+                  Username
+                </label>
+                <input
                   id="username"
-                  label="Username"
-                  name="username"
-                  autoComplete="username"
+                  type="text"
+                  className="input-style cursor-not-allowed"
                   value={username}
+                  disabled
                 />
-              </Grid>
-
-              <Grid item xs={12}>
-                <MuiPhoneNumber
-                  defaultCountry="pk"
-                  fullWidth
-                  label="Phone Number"
-                  value={formData.phoneNo}
-                  onChange={(value) =>
-                    setFormData({ ...formData, phoneNo: value })
-                  }
+              </div>
+              <div className="flex items-center space-x-4 mb-4 justify-end">
+                {" "}
+                {/* Changed div to flex */}
+                <label htmlFor="phoneNo" className="lable-style">
+                  Phone Number
+                </label>
+                <input
                   id="phoneNo"
-                  margin="dense"
-                  variant="outlined"
+                  type="tel"
+                  className="input-style"
+                  value={formData.phoneNo}
+                  onChange={(e) =>
+                    setFormData({ ...formData, phoneNo: e.target.value })
+                  }
                 />
-              </Grid>
-            </Grid>
-
-            <Button
+              </div>
+            </div>
+          </div>
+          <div className="flex justify-center">
+            <button
               type="submit"
-              fullWidth
-              variant="contained"
-              disabled={!(formData.name && formData.phoneNo)}
-              sx={{
-                mt: 3,
-                mb: 2,
-                bgcolor: "#1db0e6",
-                "&:hover": { bgcolor: "#1b1d72" },
-              }}
-            >
+              className="mt-10 px-6 md:px-60 py-2 md border border-transparent rounded-md shadow-xl text-white bg-gradient-to-r from-sky-600 to-cyan-400 hover:bg-[#1b1d72] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              disabled={!(formData.name && formData.phoneNo)}>
               Update Profile
-            </Button>
-          </Box>
-        </Box>
-      </Container>
-    </>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
   );
 }

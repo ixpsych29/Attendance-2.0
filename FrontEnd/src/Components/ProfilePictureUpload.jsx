@@ -81,8 +81,8 @@ const ProfilePictureUpload = () => {
             cursor: "pointer",
             m: 5,
             bgcolor: "grey",
-            width: "100px",
-            height: "100px",
+            width: "200px",
+            height: "200px",
             "&:hover": {
               "& .upload-icon": {
                 display: "block",
