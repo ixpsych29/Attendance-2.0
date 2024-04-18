@@ -1,15 +1,7 @@
-import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
-import axios from "axios";
 import { useContext, useState } from "react";
 import UserContext from "./UserContext";
-import MuiPhoneNumber from "material-ui-phone-number-2";
 import ProfilePictureUpload from "./ProfilePictureUpload";
+import axios from "axios";
 import toast from "react-hot-toast";
 
 export default function ProfilePage() {
@@ -23,7 +15,7 @@ export default function ProfilePage() {
     phoneNo: phNumber,
   });
 
-  //handling Form Data
+  // Handling Form Data
   const handleValueChange = (event) => {
     const inputValue = event.target.value;
 
@@ -35,8 +27,7 @@ export default function ProfilePage() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      //making an APi call
-
+      // Making an API call
       await axios.put(`${Api_EndPoint}/api/users/${username}/update-profile`, {
         phoneNo: formData.phoneNo,
       });
