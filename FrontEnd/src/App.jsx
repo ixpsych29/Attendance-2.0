@@ -10,6 +10,7 @@ import UserDashboard from "./Components/UserDashboard";
 import ProfileParent from "./Components/ProfileParent";
 import "./app.css";
 import ChangePassword from "./Components/ChangePassword";
+
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
   const [role, setRole] = useState("");

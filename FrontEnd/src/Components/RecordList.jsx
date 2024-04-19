@@ -94,11 +94,11 @@ const RecordList = ({ selectedDate, setSelectedDate }) => {
   };
 
   return (
-    <TableContainer component={Paper} sx={{ mt: 0 }}>
+    <TableContainer component={Paper} sx={{ mt: 7, ml: 15, pt: 5 }}>
       <Typography
         variant="h4"
         textAlign="center"
-        sx={{ mb: 3, color: "text.primary", mt: 3 }}
+        sx={{ mb: 3, color: "text.primary" }}
       >
         {role === "admin" ? "Admin Dashboard" : `${username}, Your History`}
       </Typography>

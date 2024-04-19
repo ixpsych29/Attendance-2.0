@@ -77,10 +77,10 @@ function Home({ login }) {
   const isSignUpPage = currentPath === "/signup";
   return (
     <ThemeProvider theme={darkTheme}>
-      <Box className="bg-glassBlue bg-opacity-70 text-primary min-h-screen flex flex-col mt-10 bg-[#DBF3FA]">
+      <Box className="bg-glassBlue bg-opacity-70 text-primary min-h-screen flex flex-col pt-28 bg-[#DBF3FA]">
         {!isLoginPage && !isSignUpPage && (
           <>
-            <Box className="bg-transparent ">
+            <Box className="bg-transparent">
               <Navbar login={login} />
             </Box>
             <Box className="bg-transparent">
