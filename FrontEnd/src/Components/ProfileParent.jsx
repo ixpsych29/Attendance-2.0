@@ -17,8 +17,7 @@ function Copyright(props) {
       color="text.secondary"
       align="center"
       sx={{ color: "text.primary" }}
-      {...props}
-    >
+      {...props}>
       {"Copyright © "}
       <Link color="inherit" href="#">
         SandyApps
@@ -45,6 +44,7 @@ const ProfileParent = () => {
   return (
     <Container component="main" maxWidth="xs" sx={{ color: "text.primary" }}>
       <CssBaseline />
+
       <Box
         sx={{
           marginTop: 8,
@@ -52,9 +52,8 @@ const ProfileParent = () => {
           flexDirection: "column",
           alignItems: "center",
           // gap: "10px",
-        }}
-      >
-        <Button
+        }}>
+        {/* <Button
           variant="outlined"
           fullWidth
           sx={{
@@ -64,11 +63,11 @@ const ProfileParent = () => {
             mb: 2,
             "&:hover": { bgcolor: "#1b1d72", color: "#fff" },
           }}
-          onClick={toggleProfile}
-        >
+          onClick={toggleProfile}>
           Update Profile
-        </Button>
-        {showProfile && <ProfilePage />}
+        </Button> */}
+        {/* {showProfile && <ProfilePage />} */}
+        <ProfilePage />
         <Button
           variant="outlined"
           fullWidth
@@ -80,11 +79,10 @@ const ProfileParent = () => {
             // bgcolor: "#1db0e6",
             "&:hover": { bgcolor: "#1b1d72", color: "#fff" },
           }}
-          onClick={togglePassword}
-        >
+          onClick={togglePassword}>
           Update Password
         </Button>
-        {showPassword && <ChangePassword />}
+        {/* {showPassword && <ChangePassword />} */}
       </Box>
       <Copyright sx={{ mt: 5 }} />
     </Container>

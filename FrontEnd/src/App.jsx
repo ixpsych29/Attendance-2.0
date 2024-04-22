@@ -8,6 +8,7 @@ import { useState } from "react";
 import Nopage from "./Components/Nopage";
 import UserDashboard from "./Components/UserDashboard";
 import ProfileParent from "./Components/ProfileParent";
+import "./app.css";
 
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
@@ -33,21 +34,19 @@ function App() {
           element={<LoginForm login={setAuthenticated} role={setRole} />}
           index
         />
-        <Route path="/signup" element={<SignupForm />} index /> 
+        <Route path="/signup" element={<SignupForm />} index />
         <Route path="/*" element={<Nopage />} index />
         <Route
           path="/home/"
           element={
             <ProtectedRoute element={<Home login={setAuthenticated} />} />
-          }
-        >
+          }>
           {/* Conditionally render dashboards based on role */}
           {role === "user" && <Route index element={<UserDashboard />} />}
           {role === "admin" && <Route index element={<Dashboard />} />}
           <Route
             path="profile"
-            element={<ProtectedRoute element={<ProfileParent />} />}
-          ></Route>
+            element={<ProtectedRoute element={<ProfileParent />} />}></Route>
           {role === "user" && (
             <Route
               path="attendence"
