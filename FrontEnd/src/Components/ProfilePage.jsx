@@ -1,15 +1,7 @@
-import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
-import axios from "axios";
 import { useContext, useState } from "react";
 import UserContext from "./UserContext";
-import MuiPhoneNumber from "material-ui-phone-number-2";
 import ProfilePictureUpload from "./ProfilePictureUpload";
+import axios from "axios";
 import toast from "react-hot-toast";
 
 export default function ProfilePage() {
@@ -23,7 +15,7 @@ export default function ProfilePage() {
     phoneNo: phNumber,
   });
 
-  //handling Form Data
+  // Handling Form Data
   const handleValueChange = (event) => {
     const inputValue = event.target.value;
 
@@ -35,8 +27,7 @@ export default function ProfilePage() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      //making an APi call
-
+      // Making an API call
       await axios.put(`${Api_EndPoint}/api/users/${username}/update-profile`, {
         phoneNo: formData.phoneNo,
       });
@@ -57,10 +48,10 @@ export default function ProfilePage() {
             <div className="w-1/2 border-r border-black pr-4">
               <ProfilePictureUpload />
             </div>
-            <div className="w-1/2 pl-4 ">
+            <div className="w-1/2 pl-16 ">
               <div className="flex items-center space-x-4 mb-4 justify-end">
-                <label htmlFor="name" className="lable-style">
-                  Name
+                <label htmlFor="name" className="label-style">
+                  Name:
                 </label>
                 <input
                   id="name"
@@ -75,8 +66,8 @@ export default function ProfilePage() {
               <div className="flex items-center space-x-4 mb-4 justify-end">
                 {" "}
                 {/* Changed div to flex */}
-                <label htmlFor="email" className=" lable-style ">
-                  Email
+                <label htmlFor="email" className=" label-style ">
+                  Email:
                 </label>
                 <input
                   id="email"
@@ -89,8 +80,8 @@ export default function ProfilePage() {
               <div className="flex items-center space-x-4 mb-4 justify-end">
                 {" "}
                 {/* Changed div to flex */}
-                <label htmlFor="username" className="lable-style">
-                  Username
+                <label htmlFor="username" className="label-style">
+                  Username:
                 </label>
                 <input
                   id="username"
@@ -101,10 +92,8 @@ export default function ProfilePage() {
                 />
               </div>
               <div className="flex items-center space-x-4 mb-4 justify-end">
-                {" "}
-                {/* Changed div to flex */}
-                <label htmlFor="phoneNo" className="lable-style">
-                  Phone Number
+                <label htmlFor="phoneNo" className="label-style">
+                  Phone #
                 </label>
                 <input
                   id="phoneNo"
@@ -121,7 +110,7 @@ export default function ProfilePage() {
           <div className="flex justify-center">
             <button
               type="submit"
-              className="mt-10 px-6 md:px-60 py-2 md border border-transparent rounded-md shadow-xl text-white bg-gradient-to-r from-sky-600 to-cyan-400 hover:bg-[#1b1d72] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              className="mt-10 px-15 md:px-60 py-2 md border rounded-md shadow-xl text-white bg-gradient-to-r from-sky-600 to-cyan-400 hover:from-cyan-400 hover:to-sky-600"
               disabled={!(formData.name && formData.phoneNo)}>
               Update Profile
             </button>
