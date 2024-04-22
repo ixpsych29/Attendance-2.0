@@ -11,6 +11,7 @@ import {
   Slide,
   useTheme,
   useMediaQuery,
+  capitalize,
 } from "@mui/material";
 import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
@@ -56,6 +57,8 @@ const Navbar = ({ login }) => {
   const { username, userProfilePic, Api_EndPoint } = useContext(UserContext);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const capitalizedUserName =
+    username.charAt(0).toUpperCase() + username.slice(1);
 
   return (
     <Slide direction="down" in={true} mountOnEnter unmountOnExit>
@@ -79,8 +82,8 @@ const Navbar = ({ login }) => {
                   onClick={() => setOpen(true)}
                 />
               </Badge>
-              <Typography variant="span" sx={{ color: "white" }}>
-                {username}
+              <Typography variant="span" sx={{ color: "black" }}>
+                {capitalizedUserName}
               </Typography>
             </Icons>
           )}
