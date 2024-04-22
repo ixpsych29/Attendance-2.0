@@ -1,6 +1,344 @@
+// import Button from "@mui/material/Button";
+// import CssBaseline from "@mui/material/CssBaseline";
+// import TextField from "@mui/material/TextField";
+// import Box from "@mui/material/Box";
+// import Typography from "@mui/material/Typography";
+// import Container from "@mui/material/Container";
+// import { IconButton, InputAdornment } from "@mui/material";
+// import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+// import VisibilityIcon from "@mui/icons-material/Visibility";
+// import { useContext, useState } from "react";
+// import toast from "react-hot-toast";
+// import axios from "axios";
+// import UserContext from "./UserContext";
+
+// export default function ChangePassword() {
+//   const { username, Api_EndPoint } = useContext(UserContext);
+
+//   const [showPassword, setShowPassword] = useState(false);
+//   const [errors, setErrors] = useState({});
+//   const [formData, setFormData] = useState({
+//     password: "",
+//     confirmPassword: "",
+//   });
+
+//   //validation of ChnagePasswordForm
+//   const validateForm = () => {
+//     let isValid = true;
+//     const newErrors = {};
+//     const passwordRegex =
+//       /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*()_+=-{}|:;\'\",<.>/?\\`~]).{8,}$/;
+
+//     // Validate password
+//     if (
+//       formData.password.length < 7 ||
+//       formData.password.length > 15 ||
+//       !passwordRegex.test(formData.password)
+//     ) {
+//       newErrors.password = "Enter a valid password between 7 and 15 letters";
+//       toast.error(
+//         "Password must contain at least 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character"
+//       );
+//       isValid = false;
+//     }
+
+//     // Validate confirm password
+//     if (formData.password !== formData.confirmPassword) {
+//       newErrors.confirmPassword = "Passwords do not match";
+//       isValid = false;
+//     }
+
+//     setErrors(newErrors);
+//     return isValid;
+//   };
+
+//   //handleChange Fucntion
+//   const handleChanges = (event) => {
+//     setFormData({ ...formData, [event.target.name]: event.target.value });
+//   };
+
+//   //handleForm Functions
+//   const handleSubmit = async (event) => {
+//     event.preventDefault();
+
+//     if (validateForm()) {
+//       try {
+//         await axios.put(
+//           `${Api_EndPoint}/api/users/${username}/update-profile`,
+//           {
+//             password: formData.password,
+//           }
+//         );
+
+//         toast.success("Password Changed Successfully");
+
+//         //setting the form to empty
+//         setFormData({ password: "", confirmPassword: "" });
+//       } catch (err) {
+//         console.error("Error in Updating Password", err);
+//       }
+//     } else {
+//       //Password is not valid
+//       toast.error("Enter a Valid Password");
+//     }
+//   };
+
+//   return (
+//     <Container component="main" maxWidth="xs">
+//       <CssBaseline />
+//       <Box
+//         sx={{
+//           marginTop: 8,
+//           display: "flex",
+//           flexDirection: "column",
+//           alignItems: "center",
+//         }}
+//       >
+//         <Typography component="h1" variant="h5">
+//           Change Password
+//         </Typography>
+//         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+//           <TextField
+//             margin="normal"
+//             required
+//             inputProps={{ maxLength: 15 }}
+//             fullWidth
+//             name="password"
+//             label="Enter New Password"
+//             type={showPassword ? "text" : "password"}
+//             id="password"
+//             autoComplete="current-password"
+//             value={formData.password}
+//             onChange={handleChanges}
+//             error={errors.password}
+//             helperText={errors.password}
+//             InputProps={{
+//               endAdornment: (
+//                 <InputAdornment position="end">
+//                   <IconButton
+//                     aria-label="toggle password visibility"
+//                     onClick={() => setShowPassword(!showPassword)}
+//                     edge="end"
+//                   >
+//                     {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+//                   </IconButton>
+//                 </InputAdornment>
+//               ),
+//             }}
+//           />
+//           <TextField
+//             margin="normal"
+//             required
+//             inputProps={{ maxLength: 15 }}
+//             fullWidth
+//             name="confirmPassword"
+//             label="Confirm-Password"
+//             type={showPassword ? "text" : "password"}
+//             id="confirmPassword"
+//             autoComplete="confirm-password"
+//             value={formData.confirmPassword}
+//             onChange={handleChanges}
+//             error={!!errors.confirmPassword}
+//             helperText={errors.confirmPassword}
+//             InputProps={{
+//               endAdornment: (
+//                 <InputAdornment position="end">
+//                   <IconButton
+//                     aria-label="toggle password visibility"
+//                     onClick={() => setShowPassword(!showPassword)}
+//                     edge="end"
+//                   >
+//                     {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+//                   </IconButton>
+//                 </InputAdornment>
+//               ),
+//             }}
+//           />
+//           <Button
+//             type="submit"
+//             fullWidth
+//             variant="contained"
+//             sx={{
+//               mt: 3,
+//               mb: 2,
+//               bgcolor: "#1db0e6",
+//               "&:hover": { bgcolor: "#1b1d72" },
+//             }}
+//           >
+//             Change Password
+//           </Button>
+//         </Box>
+//       </Box>
+//     </Container>
+//   );
+// }
+
+// import Button from "@mui/material/Button";
+// import CssBaseline from "@mui/material/CssBaseline";
+// import Box from "@mui/material/Box";
+// import Typography from "@mui/material/Typography";
+// import Container from "@mui/material/Container";
+// import { IconButton, InputAdornment } from "@mui/material";
+// import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+// import VisibilityIcon from "@mui/icons-material/Visibility";
+// import { useContext, useState } from "react";
+// import toast from "react-hot-toast";
+// import axios from "axios";
+// import UserContext from "./UserContext";
+
+// export default function ChangePassword() {
+//   const { username, Api_EndPoint } = useContext(UserContext);
+
+//   const [showPassword, setShowPassword] = useState(false);
+//   const [errors, setErrors] = useState({});
+//   const [formData, setFormData] = useState({
+//     password: "",
+//     confirmPassword: "",
+//   });
+
+//   //validation of ChangePasswordForm
+//   const validateForm = () => {
+//     let isValid = true;
+//     const newErrors = {};
+//     const passwordRegex =
+//       /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*()_+=-{}|:;'"<>.?\\`~]).{8,}$/;
+
+//     // Validate password
+//     if (
+//       formData.password.length < 7 ||
+//       formData.password.length > 15 ||
+//       !passwordRegex.test(formData.password)
+//     ) {
+//       newErrors.password = "Enter a valid password between 7 and 15 characters";
+//       toast.error(
+//         "Password must contain at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character"
+//       );
+//       isValid = false;
+//     }
+
+//     // Validate confirm password
+//     if (formData.password !== formData.confirmPassword) {
+//       newErrors.confirmPassword = "Passwords do not match";
+//       isValid = false;
+//     }
+
+//     setErrors(newErrors);
+//     return isValid;
+//   };
+
+//   //handleChange Function
+//   const handleChanges = (event) => {
+//     setFormData({ ...formData, [event.target.name]: event.target.value });
+//   };
+
+//   //handleForm Function
+//   const handleSubmit = async (event) => {
+//     event.preventDefault();
+
+//     if (validateForm()) {
+//       try {
+//         await axios.put(
+//           `${Api_EndPoint}/api/users/${username}/update-profile`,
+//           {
+//             password: formData.password,
+//           }
+//         );
+
+//         toast.success("Password Changed Successfully");
+
+//         //setting the form to empty
+//         setFormData({ password: "", confirmPassword: "" });
+//       } catch (err) {
+//         console.error("Error in Updating Password", err);
+//       }
+//     } else {
+//       //Password is not valid
+//       toast.error("Enter a Valid Password");
+//     }
+//   };
+
+//   return (
+//     <Container component="main" maxWidth="xs">
+//       <CssBaseline />
+//       <Box
+//         sx={{
+//           marginTop: 8,
+//           display: "flex",
+//           flexDirection: "column",
+//           alignItems: "center",
+//         }}
+//       >
+//         <Typography component="h1" variant="h5">
+//           Change Password
+//         </Typography>
+//         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+//           <div className="mb-6">
+//             <label
+//               htmlFor="password"
+//               className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+//             >
+//               Enter New Password
+//             </label>
+//             <input
+//               type={showPassword ? "text" : "password"}
+//               id="password"
+//               className={`bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 ${
+//                 errors.password ? "border-red-500" : ""
+//               }`}
+//               placeholder="•••••••••"
+//               required
+//               name="password"
+//               value={formData.password}
+//               onChange={handleChanges}
+//             />
+//             {errors.password && (
+//               <p className="text-sm text-red-500">{errors.password}</p>
+//             )}
+//           </div>
+//           <div className="mb-6">
+//             <label
+//               htmlFor="confirmPassword"
+//               className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+//             >
+//               Confirm Password
+//             </label>
+//             <input
+//               type={showPassword ? "text" : "password"}
+//               id="confirmPassword"
+//               className={`bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 ${
+//                 errors.confirmPassword ? "border-red-500" : ""
+//               }`}
+//               placeholder="•••••••••"
+//               required
+//               name="confirmPassword"
+//               value={formData.confirmPassword}
+//               onChange={handleChanges}
+//             />
+//             {errors.confirmPassword && (
+//               <p className="text-sm text-red-500">{errors.confirmPassword}</p>
+//             )}
+//           </div>
+//           <Button
+//             type="submit"
+//             fullWidth
+//             variant="contained"
+//             sx={{
+//               mt: 3,
+//               mb: 2,
+//               bgcolor: "#1db0e6",
+//               "&:hover": { bgcolor: "#1b1d72" },
+//             }}
+//           >
+//             Change Password
+//           </Button>
+//         </Box>
+//       </Box>
+//     </Container>
+//   );
+// }
+
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
@@ -22,16 +360,23 @@ export default function ChangePassword() {
     confirmPassword: "",
   });
 
-  //validation of ChnagePasswordForm
+  //validation of ChangePasswordForm
   const validateForm = () => {
     let isValid = true;
     const newErrors = {};
-    const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*()_+=-{}|:;\'\",<.>/?\\`~]).{8,}$/;
+    const passwordRegex =
+      /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*()_+=-{}|:;'"<>.?\\`~]).{8,}$/;
 
     // Validate password
-    if (formData.password.length < 7 || formData.password.length > 15 || !passwordRegex.test(formData.password)) {
-      newErrors.password = "Enter a valid password between 7 and 15 letters";
-      toast.error("Password must contain at least 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character");
+    if (
+      formData.password.length < 7 ||
+      formData.password.length > 15 ||
+      !passwordRegex.test(formData.password)
+    ) {
+      newErrors.password = "Enter a valid password between 7 and 15 characters";
+      toast.error(
+        "Password must contain at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character"
+      );
       isValid = false;
     }
 
@@ -45,12 +390,12 @@ export default function ChangePassword() {
     return isValid;
   };
 
-  //handleChange Fucntion
+  //handleChange Function
   const handleChanges = (event) => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
   };
 
-  //handleForm Functions
+  //handleForm Function
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -81,81 +426,81 @@ export default function ChangePassword() {
       <CssBaseline />
       <Box
         sx={{
-          marginTop: 8,
+          marginTop: 30,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
+          borderRadius: 8,
+          backdropFilter: "blur(4px)",
+          backgroundColor: "rgba(219, 243, 250)",
+          padding: "20px",
+          boxShadow:
+            "0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08)",
         }}
       >
-        <Typography component="h1" variant="h5">
+        <Typography component="h1" variant="h5" color={"black"}>
           Change Password
         </Typography>
-        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-          <TextField
-            margin="normal"
-            required
-            inputProps={{ maxLength: 15 }}
-            fullWidth
-            name="password"
-            label="Enter New Password"
-            type={showPassword ? "text" : "password"}
-            id="password"
-            autoComplete="current-password"
-            value={formData.password}
-            onChange={handleChanges}
-            error={errors.password}
-            helperText={errors.password}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={() => setShowPassword(!showPassword)}
-                    edge="end"
-                  >
-                    {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-          />
-          <TextField
-            margin="normal"
-            required
-            inputProps={{ maxLength: 15 }}
-            fullWidth
-            name="confirmPassword"
-            label="Confirm-Password"
-            type={showPassword ? "text" : "password"}
-            id="confirmPassword"
-            autoComplete="confirm-password"
-            value={formData.confirmPassword}
-            onChange={handleChanges}
-            error={!!errors.confirmPassword}
-            helperText={errors.confirmPassword}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={() => setShowPassword(!showPassword)}
-                    edge="end"
-                  >
-                    {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-          />
+        <Box
+          component="form"
+          onSubmit={handleSubmit}
+          noValidate
+          sx={{ mt: 4, width: "100%" }}
+        >
+          <div className="mb-6 text-center text-black">
+            <label
+              htmlFor="password"
+              className="block mb-2 text-lg font-semibold text-white-900 dark:text-black-900"
+            >
+              Enter New Password
+            </label>
+            <input
+              type={showPassword ? "text" : "password"}
+              id="password"
+              className={`bg-gray-50 border border-black text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-black dark:placeholder-black dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500 ${
+                errors.password ? "border-red-500" : ""
+              }`}
+              placeholder="•••••••••"
+              required
+              name="password"
+              value={formData.password}
+              onChange={handleChanges}
+            />
+            {errors.password && (
+              <p className="text-sm text-red-500">{errors.password}</p>
+            )}
+          </div>
+          <div className="mb-6 text-center text-black">
+            <label
+              htmlFor="confirmPassword"
+              className="block mb-2 text-lg font-semibold text-white-900 text-black-600"
+            >
+              Confirm Password
+            </label>
+            <input
+              type={showPassword ? "text" : "password"}
+              id="confirmPassword"
+              className={`bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500 ${
+                errors.confirmPassword ? "border-red-500" : ""
+              }`}
+              placeholder="•••••••••"
+              required
+              name="confirmPassword"
+              value={formData.confirmPassword}
+              onChange={handleChanges}
+            />
+            {errors.confirmPassword && (
+              <p className="text-sm text-red-500">{errors.confirmPassword}</p>
+            )}
+          </div>
           <Button
             type="submit"
             fullWidth
             variant="contained"
             sx={{
-              mt: 3,
+              mt: 4,
               mb: 2,
               bgcolor: "#1db0e6",
-              "&:hover": { bgcolor: "#1b1d72" },
             }}
           >
             Change Password
