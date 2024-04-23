@@ -1,13 +1,13 @@
-import { Button } from '@mui/material';
-import CheckIcon from '@mui/icons-material/Check';
-import RefreshIcon from '@mui/icons-material/Refresh';
-import CameraAltIcon from '@mui/icons-material/CameraAlt';
-import { useCallback, useContext, useRef, useState, useEffect } from 'react';
-import axios from 'axios';
-import UserContext from './UserContext';
-import toast from 'react-hot-toast';
-import { useNavigate } from 'react-router-dom';
-import Webcam from 'react-webcam';
+import { Button } from "@mui/material";
+import CheckIcon from "@mui/icons-material/Check";
+import RefreshIcon from "@mui/icons-material/Refresh";
+import CameraAltIcon from "@mui/icons-material/CameraAlt";
+import { useCallback, useContext, useRef, useState, useEffect } from "react";
+import axios from "axios";
+import UserContext from "./UserContext";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import Webcam from "react-webcam";
 
 const PictureCam = () => {
   const navigate = useNavigate();
