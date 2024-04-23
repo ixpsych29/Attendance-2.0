@@ -1,8 +1,8 @@
-import { useContext, useState } from "react";
-import UserContext from "./UserContext";
-import ProfilePictureUpload from "./ProfilePictureUpload";
-import axios from "axios";
-import toast from "react-hot-toast";
+import { useContext, useState } from 'react';
+import UserContext from './UserContext';
+import ProfilePictureUpload from './ProfilePictureUpload';
+import axios from 'axios';
+import toast from 'react-hot-toast';
 
 export default function ProfilePage() {
   const { nameUser, username, Api_EndPoint, email, phNumber } =
@@ -20,7 +20,7 @@ export default function ProfilePage() {
     const inputValue = event.target.value;
 
     // Allow only letters and spaces
-    const filteredValue = inputValue.replace(/[^A-Za-z\s]/g, "");
+    const filteredValue = inputValue.replace(/[^A-Za-z\s]/g, '');
     setFormData({ ...formData, name: filteredValue });
   };
 
@@ -31,9 +31,9 @@ export default function ProfilePage() {
       await axios.put(`${Api_EndPoint}/api/users/${username}/update-profile`, {
         phoneNo: formData.phoneNo,
       });
-      toast.success("Profile Updated");
+      toast.success('Profile Updated');
     } catch (err) {
-      console.log("Error Updating Profile Data", err);
+      console.log('Error Updating Profile Data', err);
     }
   };
 
@@ -67,7 +67,7 @@ export default function ProfilePage() {
                 />
               </div>
               <div className="flex items-center space-x-4 mb-4 justify-end">
-                {" "}
+                {' '}
                 {/* Changed div to flex */}
                 <label htmlFor="email" className=" label-style ">
                   Email:
@@ -81,7 +81,7 @@ export default function ProfilePage() {
                 />
               </div>
               <div className="flex items-center space-x-4 mb-4 justify-end">
-                {" "}
+                {' '}
                 {/* Changed div to flex */}
                 <label htmlFor="username" className="label-style">
                   Username:

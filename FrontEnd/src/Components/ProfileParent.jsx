@@ -86,7 +86,7 @@ const ProfileParent = () => {
         </Button> */}
         {/* {showPassword && <ChangePassword />} */}
       </Box>
-      <Copyright sx={{ mt: 5 }} />
+      <Copyright sx={{ mt: 4, ml: 25 }} />
     </Container>
   );
 };

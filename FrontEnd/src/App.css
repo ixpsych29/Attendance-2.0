@@ -10,8 +10,7 @@
     @apply mr-8 justify-start flex-none w-20;
   }
 
-  .box-shadow {
-    boxShadow: "14px 12px 20px rgba(0, 0, 0, 0.6)"
+  .btn-style {
+    @apply bg-gradient-to-r from-sky-600 to-cyan-400 text-white hover:from-cyan-400 hover:to-sky-600 transition-colors;
   }
-
 }

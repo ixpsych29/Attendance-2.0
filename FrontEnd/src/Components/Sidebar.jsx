@@ -1,3 +1,147 @@
+// import {
+//   Box,
+//   List,
+//   ListItem,
+//   ListItemButton,
+//   ListItemIcon,
+//   ListItemText,
+//   Switch,
+// } from "@mui/material";
+// import HomeIcon from "@mui/icons-material/Home";
+// import PersonIcon from "@mui/icons-material/Person";
+// import TodayIcon from "@mui/icons-material/Today";
+// import ModeNightIcon from "@mui/icons-material/ModeNight";
+
+// import { Link, useLocation } from "react-router-dom";
+// import { useContext } from "react";
+// import UserContext from "./UserContext";
+
+// const Sidebar = ({ mode, setMode }) => {
+//   const { role } = useContext(UserContext);
+
+//   const location = useLocation();
+//   const isActiveLink = (to) => {
+//     return location.pathname === to;
+//   };
+
+//   return (
+//     <Box
+//       p={2}
+//       marginTop={6}
+//       sx={{
+//         display: {
+//           xs: "none",
+//           sm: "none",
+//           md: "block",
+//         },
+//       }}
+//     >
+//       <Box position={"fixed"}>
+//         <List
+//           sx={{
+//             color: "text.primary",
+//           }}
+//         >
+//           {/* Attendance code in side  home start here */}
+
+//           <ListItem disablePadding>
+//             <ListItemButton
+//               component={Link}
+//               to="/home"
+//               sx={{
+//                 background: isActiveLink("/home") ? "#1db0e6" : "inherit",
+//                 color: isActiveLink("/home") ? "#fff" : "inherit",
+//                 borderRadius: 10,
+//                 "&:hover": {
+//                   background: "#1688b3",
+//                   color: "#fff",
+//                 },
+//               }}
+//             >
+//               <ListItemIcon>
+//                 <HomeIcon color="warning" />
+//               </ListItemIcon>
+//               <ListItemText primary="Home" />
+//             </ListItemButton>
+//           </ListItem>
+//           {/* Attendance code in side bar home ends here  */}
+
+//           {/* Attendance code in side start here  */}
+//           {role === "user" && (
+//             <ListItem disablePadding>
+//               <ListItemButton
+//                 component={Link}
+//                 to="/home/attendence"
+//                 sx={{
+//                   backgroundColor: isActiveLink("/home/attendence")
+//                     ? "#1db0e6"
+//                     : "inherit",
+//                   color: isActiveLink("/home/attendence") ? "#fff" : "inherit",
+//                   borderRadius: 10,
+//                   "&:hover": {
+//                     background: "#1688b3",
+//                     color: "#fff",
+//                   },
+//                 }}
+//               >
+//                 <ListItemIcon>
+//                   <TodayIcon color="success" />
+//                 </ListItemIcon>
+//                 <ListItemText primary="Attendence" />
+//               </ListItemButton>
+//             </ListItem>
+//           )}
+//           {/* Attendance code in side  ends here */}
+
+//           {/* Profile section in side bar start here */}
+//           <ListItem disablePadding>
+//             <ListItemButton
+//               component={Link}
+//               to="/home/profile"
+//               sx={{
+//                 backgroundColor: isActiveLink("/home/profile")
+//                   ? "#1db0e6"
+//                   : "inherit",
+//                 color: isActiveLink("/home/profile") ? "#fff" : "inherit",
+//                 borderRadius: 10,
+//                 "&:hover": {
+//                   background: "#1688b3",
+//                   color: "#fff",
+//                 },
+//               }}
+//             >
+//               <ListItemIcon>
+//                 <PersonIcon color="error" />
+//               </ListItemIcon>
+//               <ListItemText primary="Profile" />
+//             </ListItemButton>
+//           </ListItem>
+//           {/* Profile section in side bar end here */}
+
+//           {/* dark mode code start here */}
+//           <ListItem disablePadding>
+//             <ListItemButton>
+//               <ListItemIcon>
+//                 <ModeNightIcon color="black" />
+//               </ListItemIcon>
+//               <Switch
+//                 onChange={() => {
+//                   setMode(mode === "light" ? "dark" : "light");
+//                 }}
+//               ></Switch>
+//             </ListItemButton>
+//           </ListItem>
+//           {/* dark mode code end here */}
+//         </List>
+//       </Box>
+//     </Box>
+//   );
+// };
+
+// export default Sidebar;
+
+// ABOVE THE CODE IS THE ORIGINAL CODE -----
+
 import { Link, useLocation } from "react-router-dom";
 import { useContext, useState } from "react";
 import UserContext from "./UserContext";
@@ -56,9 +200,7 @@ const Sidebar = ({ mode, setMode }) => {
               to="/home"
               aria-label="dashboard"
               className={`relative px-4 py-3 flex items-center space-x-4 rounded-lg text-black ${
-                isActiveLink("/home")
-                  ? "bg-gradient-to-r from-sky-600 to-cyan-400"
-                  : ""
+                isActiveLink("/home") ? "btn-style" : ""
               }`}
             >
               <FaHome
@@ -81,7 +223,7 @@ const Sidebar = ({ mode, setMode }) => {
                 to="/home/attendence"
                 className={`px-4 py-3 flex items-center space-x-4 rounded-md ${
                   isActiveLink("/home/attendence")
-                    ? "bg-gradient-to-r from-sky-600 to-cyan-400 text-white"
+                    ? "btn-style text-white"
                     : " "
                 }`}
               >
@@ -108,9 +250,7 @@ const Sidebar = ({ mode, setMode }) => {
             <Link
               to="/home/profile"
               className={`px-4 py-3 flex items-center space-x-4 rounded-md ${
-                isActiveLink("/home/profile")
-                  ? "bg-gradient-to-r from-sky-600 to-cyan-400 text-white"
-                  : ""
+                isActiveLink("/home/profile") ? "btn-style text-white" : ""
               }`}
             >
               <CgProfile
@@ -134,7 +274,7 @@ const Sidebar = ({ mode, setMode }) => {
               to="/home/update-password" // Directly provide the path to the ChangePassword component
               className={`px-4 py-3 flex items-center space-x-4 rounded-md ${
                 isActiveLink("/home/update-password")
-                  ? "bg-gradient-to-r from-sky-600 to-cyan-400 text-white"
+                  ? "btn-style text-white"
                   : ""
               }`}
             >
