@@ -7,26 +7,26 @@ import {
   Paper,
   TableContainer,
   Typography,
-} from "@mui/material";
-import DatePickerCmp from "./DatePickerCmp";
-import UserContext from "./UserContext";
-import { useContext, useEffect, useState } from "react";
-import axios from "axios";
-import dayjs from "dayjs";
-import DownloadCSVReport from "./DownladReport";
-import AttendanceRecordTable from "./AttendanceRecordTable";
+} from '@mui/material';
+import DatePickerCmp from './DatePickerCmp';
+import UserContext from './UserContext';
+import { useContext, useEffect, useState } from 'react';
+import axios from 'axios';
+import dayjs from 'dayjs';
+import DownloadCSVReport from './DownladReport';
+import AttendanceRecordTable from './AttendanceRecordTable';
 
 const RecordList = ({ selectedDate, setSelectedDate }) => {
   const { username, role, Api_EndPoint } = useContext(UserContext);
   const [attendanceRecord, setAttendanceRecord] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
   const [dateRange, setDateRange] = useState({
-    start: dayjs().startOf("month"),
-    end: dayjs().endOf("day"),
+    start: dayjs().startOf('month'),
+    end: dayjs().endOf('day'),
   });
   const [showPreviousMonth, setShowPreviousMonth] = useState(false);
 
-  const isAdmin = role === "admin";
+  const isAdmin = role === 'admin';
 
   useEffect(() => {
     const fetchAttendanceRecords = async () => {
@@ -43,7 +43,7 @@ const RecordList = ({ selectedDate, setSelectedDate }) => {
         const response = await axios.get(apiUrl);
         setAttendanceRecord(response.data);
       } catch (error) {
-        console.error("Error Fetching Attendance Records", error);
+        console.error('Error Fetching Attendance Records', error);
       }
     };
 
@@ -66,29 +66,29 @@ const RecordList = ({ selectedDate, setSelectedDate }) => {
     try {
       let startDate, endDate;
 
-      if (reportType === "thisMonth") {
-        startDate = dayjs().startOf("month");
-        endDate = dayjs().endOf("day");
-      } else if (reportType === "lastMonth") {
-        startDate = dayjs().subtract(1, "month").startOf("month");
-        endDate = dayjs().subtract(1, "month").endOf("month");
-      } else if (reportType === "last3Months") {
-        startDate = dayjs().subtract(3, "month").startOf("month");
-        endDate = dayjs().subtract(1, "month").endOf("month");
+      if (reportType === 'thisMonth') {
+        startDate = dayjs().startOf('month');
+        endDate = dayjs().endOf('day');
+      } else if (reportType === 'lastMonth') {
+        startDate = dayjs().subtract(1, 'month').startOf('month');
+        endDate = dayjs().subtract(1, 'month').endOf('month');
+      } else if (reportType === 'last3Months') {
+        startDate = dayjs().subtract(3, 'month').startOf('month');
+        endDate = dayjs().subtract(1, 'month').endOf('month');
       }
 
       const apiUrl = `${Api_EndPoint}/api/attendance/report?startDate=${startDate.toISOString()}&endDate=${endDate.toISOString()}`;
       const reportResponse = await axios.get(apiUrl);
       DownloadCSVReport(reportResponse.data, reportType);
     } catch (error) {
-      console.error("Error generating CSV report", error);
+      console.error('Error generating CSV report', error);
     }
   };
   const handleLastMonthClick = () => {
     // Set the date range to last month
     setDateRange({
-      start: dayjs().subtract(1, "month").startOf("month"),
-      end: dayjs().subtract(1, "month").endOf("month"),
+      start: dayjs().subtract(1, 'month').startOf('month'),
+      end: dayjs().subtract(1, 'month').endOf('month'),
     });
     setShowPreviousMonth(true);
   };
@@ -98,21 +98,22 @@ const RecordList = ({ selectedDate, setSelectedDate }) => {
       <Typography
         variant="h4"
         textAlign="center"
-        sx={{ mb: 3, color: "text.primary" }}
+        sx={{ mb: 3, color: 'text.primary' }}
       >
-        {role === "admin" ? "Admin Dashboard" : `${username}, Your History`}
+        {role === 'admin' ? 'Admin Dashboard' : `${username}, Your History`}
       </Typography>
 
       <Divider
         variant="middle"
-        sx={{ mt: 7, mb: 7, borderColor: "primary.main", borderWidth: 2 }}
+        sx={{ mt: 7, mb: 7, borderColor: 'primary.main', borderWidth: 2 }}
       />
       {isAdmin ? (
         <Box>
           <Button
+            className="btn-style"
             variant="contained"
             onClick={handleMenuOpen}
-            sx={{ left: "5%", mr: 1 }}
+            sx={{ left: '7%', mr: 1 }}
           >
             Generate Report
           </Button>
@@ -121,17 +122,17 @@ const RecordList = ({ selectedDate, setSelectedDate }) => {
             open={Boolean(anchorEl)}
             onClose={handleMenuClose}
           >
-            <MenuItem onClick={() => generateCSVReport("thisMonth")}>
+            <MenuItem onClick={() => generateCSVReport('thisMonth')}>
               This Month Report
             </MenuItem>
-            <MenuItem onClick={() => generateCSVReport("lastMonth")}>
+            <MenuItem onClick={() => generateCSVReport('lastMonth')}>
               Last Month Report
             </MenuItem>
-            <MenuItem onClick={() => generateCSVReport("last3Months")}>
+            <MenuItem onClick={() => generateCSVReport('last3Months')}>
               Last 3 Months Report
             </MenuItem>
           </Menu>
-          <DatePickerCmp value={selectedDate} onChange={handleDateChange} />{" "}
+          <DatePickerCmp value={selectedDate} onChange={handleDateChange} />{' '}
         </Box>
       ) : showPreviousMonth ? (
         <Button
@@ -139,24 +140,23 @@ const RecordList = ({ selectedDate, setSelectedDate }) => {
           onClick={() => {
             setShowPreviousMonth(false);
             setDateRange({
-              start: dayjs().startOf("month"),
-              end: dayjs().endOf("day"),
+              start: dayjs().startOf('month'),
+              end: dayjs().endOf('day'),
             });
           }}
-          sx={{ left: "5%", mr: 1 }}
+          sx={{ left: '5%', mr: 1 }}
         >
           This Month Records
         </Button>
       ) : (
         <Button
           variant="contained"
+          className="btn-style"
           onClick={handleLastMonthClick}
           sx={{
-            left: "2%",
+            left: '2%',
             mr: 1,
             marginBottom: 2,
-            bgcolor: "#1db0e6", // Set background color
-            // Set text color to white
           }}
         >
           Previous Month Records

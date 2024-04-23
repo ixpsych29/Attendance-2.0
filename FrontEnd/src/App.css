@@ -9,4 +9,8 @@
   .label-style {
     @apply mr-8 justify-start flex-none w-20;
   }
+
+  .btn-style {
+    @apply bg-gradient-to-r from-sky-600 to-cyan-400 text-white hover:from-cyan-400 hover:to-sky-600 transition-colors;
+  }
 }
