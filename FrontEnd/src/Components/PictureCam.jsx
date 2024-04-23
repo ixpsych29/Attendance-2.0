@@ -52,16 +52,16 @@ const PictureCam = () => {
           picture: imgSrc,
           entranceTime: date.toISOString(),
         });
-        toast.success('Check-in Successful!');
+        toast.success("Check-in Successful!");
         setCheckedIn(true);
       } else {
         await axios.put(`${Api_EndPoint}/api/attendance/${username}`, {
           leavingTime: date,
         });
-        toast.success('Check-out Successful!');
+        toast.success("Check-out Successful!");
         setCheckedIn(false);
       }
-      navigate('/home');
+      navigate("/home");
     } catch (error) {
       console.log(error.response.data.message);
     }
@@ -98,7 +98,7 @@ const PictureCam = () => {
               className="w-32 btn-style"
               onClick={handlePicSubmit}
             >
-              {checkedIn ? <CheckIcon /> : 'Check-in'}
+              {checkedIn ? <CheckIcon /> : "Check-in"}
             </Button>
           </>
         ) : (
@@ -107,7 +107,7 @@ const PictureCam = () => {
             className="w-72 btn-style"
             onClick={capture}
           >
-            {checkedIn ? 'Check-out' : 'Check-in'} &nbsp;
+            {checkedIn ? "Check-out" : "Check-in"} &nbsp;
             <CameraAltIcon />
           </Button>
         )}

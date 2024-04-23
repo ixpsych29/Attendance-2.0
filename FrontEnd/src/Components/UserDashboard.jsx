@@ -1,7 +1,7 @@
-import { Container, CssBaseline } from '@mui/material';
-import RecordList from './RecordList';
-import { useState } from 'react';
-import dayjs from 'dayjs';
+import { Container, CssBaseline } from "@mui/material";
+import RecordList from "./RecordList";
+import { useState } from "react";
+import dayjs from "dayjs";
 
 const UserDashboard = () => {
   const [selectedDate, setSelectedDate] = useState(dayjs());

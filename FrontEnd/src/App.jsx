@@ -41,16 +41,19 @@ function App() {
           path="/home/"
           element={
             <ProtectedRoute element={<Home login={setAuthenticated} />} />
-          }>
+          }
+        >
           {/* Conditionally render dashboards based on role */}
           {role === "user" && <Route index element={<UserDashboard />} />}
           {role === "admin" && <Route index element={<Dashboard />} />}
           <Route
             path="profile"
-            element={<ProtectedRoute element={<ProfileParent />} />}></Route>
+            element={<ProtectedRoute element={<ProfileParent />} />}
+          ></Route>
           <Route
             path="update-password"
-            element={<ProtectedRoute element={<ChangePassword />} />}></Route>
+            element={<ProtectedRoute element={<ChangePassword />} />}
+          ></Route>
 
           {role === "user" && (
             <Route

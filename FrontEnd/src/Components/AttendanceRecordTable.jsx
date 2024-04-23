@@ -105,7 +105,7 @@ function AttendanceRecordTable({ attendanceRecord }) {
                 scope="row"
                 className="px-4 py-2"
               >
-                Didn't Check Out
+                Didn&apos;t Check Out
               </TableCell>
             )}
           </TableRow>
