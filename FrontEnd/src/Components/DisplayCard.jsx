@@ -1,7 +1,7 @@
 const DisplayCard = (props) => {
   return (
     <div className="container mx-9">
-      <div className="relative bg-gradient-to-r from bg-gradient-to-r from-sky-600 to-cyan-400 shadow-md transform hover:scale-105 transition duration-300 ease-in-out rounded-lg overflow-hidden flex justify-center ">
+      <div className="relative shadow-md transform hover:scale-105 transition duration-300 ease-in-out rounded-lg overflow-hidden flex justify-center btn-style ">
         <div className="p-4">
           <h5 className="text-white text-lg font-bold mb-2 flex justify-center">
             {props.title} Employees
