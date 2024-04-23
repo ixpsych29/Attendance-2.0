@@ -5,10 +5,10 @@ import {
   CssBaseline,
   Link,
   Typography,
-} from "@mui/material";
-import ChangePassword from "./ChangePassword";
-import ProfilePage from "./ProfilePage";
-import { useState } from "react";
+} from '@mui/material';
+import ChangePassword from './ChangePassword';
+import ProfilePage from './ProfilePage';
+import { useState } from 'react';
 
 function Copyright(props) {
   return (
@@ -16,14 +16,15 @@ function Copyright(props) {
       variant="body2"
       color="text.secondary"
       align="center"
-      sx={{ color: "text.primary" }}
-      {...props}>
-      {"Copyright © "}
+      sx={{ color: 'text.primary' }}
+      {...props}
+    >
+      {'Copyright © '}
       <Link color="inherit" href="#">
         SandyApps
-      </Link>{" "}
+      </Link>{' '}
       {new Date().getFullYear()}
-      {"."}
+      {'.'}
     </Typography>
   );
 }
@@ -42,17 +43,18 @@ const ProfileParent = () => {
   };
 
   return (
-    <Container component="main" maxWidth="xs" sx={{ color: "text.primary" }}>
+    <Container component="main" maxWidth="xs" sx={{ color: 'text.primary' }}>
       <CssBaseline />
 
       <Box
         sx={{
           marginTop: 8,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
           // gap: "10px",
-        }}>
+        }}
+      >
         {/* <Button
           variant="outlined"
           fullWidth
@@ -68,7 +70,7 @@ const ProfileParent = () => {
         </Button> */}
         {/* {showProfile && <ProfilePage />} */}
         <ProfilePage />
-        <Button
+        {/* <Button
           variant="outlined"
           fullWidth
           sx={{
@@ -81,10 +83,10 @@ const ProfileParent = () => {
           }}
           onClick={togglePassword}>
           Update Password
-        </Button>
+        </Button> */}
         {/* {showPassword && <ChangePassword />} */}
       </Box>
-      <Copyright sx={{ mt: 5 }} />
+      <Copyright sx={{ mt: 4, ml: 25 }} />
     </Container>
   );
 };
