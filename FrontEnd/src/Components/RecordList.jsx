@@ -33,11 +33,15 @@ const RecordList = ({ selectedDate, setSelectedDate }) => {
       try {
         let apiUrl;
         if (isAdmin) {
-          // Fetch attendance records for all users (admin)
           apiUrl = `${Api_EndPoint}/api/attendance/all?date=${selectedDate.toISOString()}`;
         } else {
-          // Fetch attendance records for the current user
-          apiUrl = `${Api_EndPoint}/api/attendance/monthly/${username}?startDate=${dateRange.start.toISOString()}&endDate=${dateRange.end.toISOString()}`;
+          const startDate = showPreviousMonth
+            ? dayjs().subtract(1, "month").startOf("month")
+            : dayjs().startOf("month");
+          const endDate = showPreviousMonth
+            ? dayjs().subtract(1, "month").endOf("month")
+            : dayjs().endOf("day");
+          apiUrl = `${Api_EndPoint}/api/attendance/monthly/${username}?startDate=${startDate.toISOString()}&endDate=${endDate.toISOString()}`;
         }
 
         const response = await axios.get(apiUrl);
@@ -47,9 +51,8 @@ const RecordList = ({ selectedDate, setSelectedDate }) => {
       }
     };
 
-    // Calling the fetchAttendanceRecords Function
     fetchAttendanceRecords();
-  }, [isAdmin, username, selectedDate, dateRange, Api_EndPoint]);
+  }, [isAdmin, username, selectedDate, showPreviousMonth, Api_EndPoint]);
 
   const handleDateChange = (newDate) => {
     setSelectedDate(newDate);
@@ -110,9 +113,10 @@ const RecordList = ({ selectedDate, setSelectedDate }) => {
       {isAdmin ? (
         <Box>
           <Button
+            className="btn-style"
             variant="contained"
             onClick={handleMenuOpen}
-            sx={{ left: "5%", mr: 1 }}
+            sx={{ left: "7%", mr: 1 }}
           >
             Generate Report
           </Button>
@@ -150,13 +154,12 @@ const RecordList = ({ selectedDate, setSelectedDate }) => {
       ) : (
         <Button
           variant="contained"
+          className="btn-style"
           onClick={handleLastMonthClick}
           sx={{
             left: "2%",
             mr: 1,
             marginBottom: 2,
-            bgcolor: "#1db0e6", // Set background color
-            // Set text color to white
           }}
         >
           Previous Month Records

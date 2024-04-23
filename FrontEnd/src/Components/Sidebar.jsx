@@ -56,10 +56,9 @@ const Sidebar = ({ mode, setMode }) => {
               to="/home"
               aria-label="dashboard"
               className={`relative px-4 py-3 flex items-center space-x-4 rounded-lg text-black ${
-                isActiveLink("/home")
-                  ? "bg-gradient-to-r from-sky-600 to-cyan-400"
-                  : ""
-              }`}>
+                isActiveLink("/home") ? "btn-style" : ""
+              }`}
+            >
               <FaHome
                 className={`w-6 h-6 ${
                   isActiveLink("/home") ? "text-white" : "text-white"
@@ -79,7 +78,7 @@ const Sidebar = ({ mode, setMode }) => {
                 to="/home/attendence"
                 className={`px-4 py-3 flex items-center space-x-4 rounded-md ${
                   isActiveLink("/home/attendence")
-                    ? "bg-gradient-to-r from-sky-600 to-cyan-400 text-white"
+                    ? "btn-style text-white"
                     : " "
                 }`}>
                 <FaUserCheck
@@ -104,10 +103,9 @@ const Sidebar = ({ mode, setMode }) => {
             <Link
               to="/home/profile"
               className={`px-4 py-3 flex items-center space-x-4 rounded-md ${
-                isActiveLink("/home/profile")
-                  ? "bg-gradient-to-r from-sky-600 to-cyan-400 text-white"
-                  : ""
-              }`}>
+                isActiveLink("/home/profile") ? "btn-style text-white" : ""
+              }`}
+            >
               <CgProfile
                 className={`w-6 h-6 ${
                   isActiveLink("/home/profile") ? "text-white" : "text-white"
@@ -128,7 +126,7 @@ const Sidebar = ({ mode, setMode }) => {
               to="/home/update-password" // Directly provide the path to the ChangePassword component
               className={`px-4 py-3 flex items-center space-x-4 rounded-md ${
                 isActiveLink("/home/update-password")
-                  ? "bg-gradient-to-r from-sky-600 to-cyan-400 text-white"
+                  ? "btn-style text-white"
                   : ""
               }`}>
               <FaCog

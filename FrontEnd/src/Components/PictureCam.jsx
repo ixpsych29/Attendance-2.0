@@ -52,30 +52,30 @@ const PictureCam = () => {
           picture: imgSrc,
           entranceTime: date.toISOString(),
         });
-        toast.success("Check-in Successful!");
+        toast.success('Check-in Successful!');
         setCheckedIn(true);
       } else {
         await axios.put(`${Api_EndPoint}/api/attendance/${username}`, {
           leavingTime: date,
         });
-        toast.success("Check-out Successful!");
+        toast.success('Check-out Successful!');
         setCheckedIn(false);
       }
-      navigate("/home");
+      navigate('/home');
     } catch (error) {
       console.log(error.response.data.message);
     }
   };
 
   return (
-    <div className="flex flex-col items-center justify-center bg-[#DBF3FA] px-80px py-10 rounded-md border border-white border-opacity-40 backdrop-blur-md ml-20 mb-10">
+    <div className="flex flex-col items-center justify-center bg-[#DBF3FA] px-80 py-10 rounded-md border border-white border-opacity-40 backdrop-blur-md ml-20 mb-10">
       <div className="mt-10 mb-8 ml-1.5 ">
         {imgSrc ? (
           <img src={imgSrc} alt="webcam" className="max-w-full h-auto" />
         ) : (
           <Webcam
-            height={300}
-            width={300}
+            height={500}
+            width={500}
             ref={webcamRef}
             screenshotFormat="image/jpeg"
             screenshotQuality={0.8}
@@ -88,26 +88,26 @@ const PictureCam = () => {
           <>
             <Button
               variant="contained"
-              className="w-32 bg-blue-500 text-white hover:bg-blue-600 transition-colors"
+              className="w-32 btn-style"
               onClick={retake}
             >
               <RefreshIcon />
             </Button>
             <Button
               variant="contained"
-              className="w-32 bg-blue-500 text-white hover:bg-blue-600 transition-colors"
+              className="w-32 btn-style"
               onClick={handlePicSubmit}
             >
-              {checkedIn ? <CheckIcon /> : "Check-in"}
+              {checkedIn ? <CheckIcon /> : 'Check-in'}
             </Button>
           </>
         ) : (
           <Button
             variant="contained"
-            className="w-72 bg-gradient-to-r from-sky-600 to-cyan-400 text-white"
+            className="w-72 btn-style"
             onClick={capture}
           >
-            {checkedIn ? "Check-out" : "Check-in"} &nbsp;
+            {checkedIn ? 'Check-out' : 'Check-in'} &nbsp;
             <CameraAltIcon />
           </Button>
         )}
