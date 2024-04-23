@@ -233,8 +233,8 @@ const PictureCam = () => {
           <img src={imgSrc} alt="webcam" className="max-w-full h-auto" />
         ) : (
           <Webcam
-            height={300}
-            width={300}
+            height={500}
+            width={500}
             ref={webcamRef}
             screenshotFormat="image/jpeg"
             screenshotQuality={0.8}

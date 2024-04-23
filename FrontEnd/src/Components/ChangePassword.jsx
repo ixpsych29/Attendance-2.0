@@ -422,7 +422,11 @@ export default function ChangePassword() {
   };
 
   return (
-    <Container component="main" maxWidth="xs">
+    <Container
+      component="main"
+      maxWidth="xs"
+      sx={{ marginTop: 23, marginLeft: "auto" }}
+    >
       <CssBaseline />
       <Box
         sx={{
@@ -430,13 +434,12 @@ export default function ChangePassword() {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          borderRadius: 8,
+          borderRadius: 2,
           backdropFilter: "blur(4px)",
           backgroundColor: "rgba(219, 243, 250)",
           padding: "20px",
           margin: "12px",
-          boxShadow:
-            "0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08)",
+          boxShadow: "14px 12px 20px rgba(0, 0, 0, 0.6)",
         }}
       >
         <Typography component="h1" variant="h5" color={"black"}>

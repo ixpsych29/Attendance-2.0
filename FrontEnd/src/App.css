@@ -9,4 +9,9 @@
   .label-style {
     @apply mr-8 justify-start flex-none w-20;
   }
+
+  .box-shadow {
+    boxShadow: "14px 12px 20px rgba(0, 0, 0, 0.6)"
+  }
+
 }

@@ -13,9 +13,6 @@ const Dashboard = () => {
   const [selectedDate, setSelectedDate] = useState(dayjs());
   const { Api_EndPoint } = useContext(UserContext);
 
-  // const date = new Date();
-  // console.log(date);
-
   useEffect(() => {
     const fetchRecords = async () => {
       try {
@@ -51,18 +48,11 @@ const Dashboard = () => {
       <CssBaseline />
 
       <Container>
-        <Stack
-          direction="row"
-          justifyContent="center"
-          margin="0 auto"
-          spacing={0}
-          sx={{ mb: 7 }}
-        >
+        <div className="flex justify-between mx-auto mb-9">
           <DisplayCard title="Total" count={totalEmployees} />
           <DisplayCard title="Present" count={presentEmployees} />
           <DisplayCard title="Absent" count={absentEmployees} />
-        </Stack>
-
+        </div>
         <RecordList
           selectedDate={selectedDate}
           setSelectedDate={setSelectedDate}

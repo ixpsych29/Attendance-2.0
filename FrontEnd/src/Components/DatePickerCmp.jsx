@@ -13,7 +13,7 @@ const DatePickerCmp = ({ value, onChange }) => {
         TextFieldComponent={(props) => (
           <TextField {...props} variant="standard" />
         )}
-        sx={{ left: "55%" }}
+        sx={{ left: "60%" }}
       />
     </LocalizationProvider>
   );

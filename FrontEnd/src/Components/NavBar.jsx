@@ -54,7 +54,8 @@ const Navbar = ({ login }) => {
     <Slide direction="down" in={true} mountOnEnter unmountOnExit>
       <AppBar
         position="fixed"
-        sx={{ backgroundColor: "#B7E9F7 ", maxWidth: "85.06%" }}>
+        sx={{ backgroundColor: "#B7E9F7 ", maxWidth: "85.06%" }}
+      >
         <StyledToolBar>
           <Icons style={{ position: "relative", textAlign: "left" }}>
             <Avatar
@@ -85,19 +86,22 @@ const Navbar = ({ login }) => {
           transformOrigin={{
             vertical: "top",
             horizontal: "right",
-          }}>
+          }}
+        >
           <MenuItem
             component={Link}
-            to="/home"
-            style={{ textAlign: "left", marginRight: 30 }}>
+            to="/home/profile"
+            style={{ textAlign: "left", marginRight: 30 }}
+          >
             My Account
           </MenuItem>
           <MenuItem
             component={Link}
-            to="/home/profile"
+            to="/"
             onClick={() => {
               login(false);
-            }}>
+            }}
+          >
             Logout
           </MenuItem>
         </Menu>

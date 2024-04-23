@@ -38,13 +38,16 @@ export default function ProfilePage() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto mt-8">
+    <div className="max-w-2xl mx-auto mt-0">
       <h1 className="text-center text-3xl font-bold mb-20">
         Profile Information
       </h1>
       <div className="flex items-center justify-center">
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="flex items-center justify-center space-x-4 mb-4 border border-gray-300 p-24 rounded-md shadow-xl bg-[#DBF3FA]">
+          <div
+            className="flex items-center justify-center space-x-4 mb-4 border border-gray-300 p-24 rounded-md shadow-2xl  bg-[#DBF3FA]"
+            style={{ boxShadow: "14px 12px 20px rgba(0, 0, 0, 0.6)" }}
+          >
             <div className="w-1/2 border-r border-black pr-4">
               <ProfilePictureUpload />
             </div>
@@ -111,7 +114,8 @@ export default function ProfilePage() {
             <button
               type="submit"
               className="mt-10 px-15 md:px-60 py-2 md border rounded-md shadow-xl text-white bg-gradient-to-r from-sky-600 to-cyan-400 hover:from-cyan-400 hover:to-sky-600"
-              disabled={!(formData.name && formData.phoneNo)}>
+              disabled={!(formData.name && formData.phoneNo)}
+            >
               Update Profile
             </button>
           </div>

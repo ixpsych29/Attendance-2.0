@@ -17,7 +17,8 @@ function Copyright(props) {
       color="text.secondary"
       align="center"
       sx={{ color: "text.primary" }}
-      {...props}>
+      {...props}
+    >
       {"Copyright © "}
       <Link color="inherit" href="#">
         SandyApps
@@ -52,7 +53,8 @@ const ProfileParent = () => {
           flexDirection: "column",
           alignItems: "center",
           // gap: "10px",
-        }}>
+        }}
+      >
         {/* <Button
           variant="outlined"
           fullWidth
@@ -68,7 +70,7 @@ const ProfileParent = () => {
         </Button> */}
         {/* {showProfile && <ProfilePage />} */}
         <ProfilePage />
-        <Button
+        {/* <Button
           variant="outlined"
           fullWidth
           sx={{
@@ -81,7 +83,7 @@ const ProfileParent = () => {
           }}
           onClick={togglePassword}>
           Update Password
-        </Button>
+        </Button> */}
         {/* {showPassword && <ChangePassword />} */}
       </Box>
       <Copyright sx={{ mt: 5 }} />
