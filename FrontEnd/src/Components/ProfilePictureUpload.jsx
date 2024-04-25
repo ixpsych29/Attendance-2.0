@@ -59,7 +59,7 @@ const ProfilePictureUpload = () => {
           headers: {
             "Content-Type": "multipart/form-data",
           },
-        },
+        }
       );
 
       if (response) {
@@ -92,7 +92,8 @@ const ProfilePictureUpload = () => {
           onClick={handleImageClick}
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
-          alt="profile picture">
+          alt="profile picture"
+        >
           {selectedFile ? (
             <img
               src={URL.createObjectURL(selectedFile)}
@@ -136,7 +137,8 @@ const ProfilePictureUpload = () => {
                 justifyContent: "center",
                 margin: "auto",
               }}
-              variant="outlined">
+              variant="outlined"
+            >
               Upload
             </Button>
           </div>
@@ -147,3 +149,135 @@ const ProfilePictureUpload = () => {
 };
 
 export default ProfilePictureUpload;
+
+// const ProfilePictureUpload = () => {
+//   const {
+//     username,
+//     userProfilePic,
+//     setUserProfilePicture,
+//     fetchProfilePicture,
+//     Api_EndPoint,
+//   } = useContext(UserContext);
+
+//   const [isHovered, setIsHovered] = useState(false);
+//   const [file, setFile] = useState(null);
+//   const inputRef = useRef(null);
+
+//   useEffect(() => {
+//     fetchProfilePicture(username);
+//   }, [username, fetchProfilePicture]);
+
+//   const handleImageClick = () => {
+//     inputRef.current.click();
+//   };
+
+//   const handleFileChange = (event) => {
+//     const selectedFile = event.target.files[0];
+//     setFile(selectedFile);
+
+//     const reader = new FileReader();
+//     reader.onloadend = () => {
+//       setUserProfilePicture(reader.result);
+//     };
+//     if (selectedFile) {
+//       reader.readAsDataURL(selectedFile);
+//     }
+//   };
+
+//   const handleUpload = async (e) => {
+//     e.preventDefault();
+//     try {
+//       const formData = new FormData();
+//       formData.append("profilePicture", file);
+
+//       const response = await axios.put(
+//         `${Api_EndPoint}/api/users/${username}/update-picture`,
+//         formData,
+//         {
+//           headers: {
+//             "Content-Type": "multipart/form-data",
+//           },
+//         }
+//       );
+
+//       if (response) {
+//         fetchProfilePicture(username);
+//         toast.success("Profile Picture Updated");
+//         setFile(null);
+//       }
+//     } catch (err) {
+//       console.log("Error Updating Profile Pic", err);
+//     }
+//   };
+
+//   return (
+//     <form onSubmit={handleUpload}>
+//       <label htmlFor="upload-avatar">
+//         <Avatar
+//           sx={{
+//             cursor: "pointer",
+//             m: 5,
+//             bgcolor: "grey",
+//             width: "200px",
+//             height: "200px",
+//             "&:hover": {
+//               "& .upload-icon": {
+//                 display: "block",
+//               },
+//             },
+//           }}
+//           onClick={handleImageClick}
+//           onMouseEnter={() => setIsHovered(true)}
+//           onMouseLeave={() => setIsHovered(false)}
+//           alt="profile picture"
+//         >
+//           {file ? (
+//             <img
+//               src={URL.createObjectURL(file)}
+//               alt="Preview"
+//               style={{ width: "100px", height: "100px" }}
+//             />
+//           ) : userProfilePic ? (
+//             <img
+//               src={`${Api_EndPoint}/uploads/Images/${userProfilePic}`}
+//               alt="ProfilePicture"
+//               style={{ width: "100%", height: "100%" }}
+//             />
+//           ) : (
+//             <>
+//               {isHovered && (
+//                 <CameraAltIcon className="upload-icon" fontSize="large" />
+//               )}
+//             </>
+//           )}
+//         </Avatar>
+
+//         <input
+//           accept="image/*"
+//           id="upload-avatar"
+//           type="file"
+//           ref={inputRef}
+//           style={{ display: "none" }}
+//           onChange={handleFileChange}
+//         />
+//         {file && (
+//           <div>
+//             <Button
+//               type="submit"
+//               sx={{
+//                 display: "flex",
+//                 justifyContent: "center",
+//                 margin: "auto",
+//               }}
+//               variant="outlined"
+//             >
+//               Upload
+//             </Button>
+//           </div>
+//         )}
+//       </label>
+//     </form>
+//   );
+// };
+
+// export default ProfilePictureUpload;

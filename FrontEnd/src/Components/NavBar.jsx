@@ -11,7 +11,7 @@ import {
   Slide,
   useTheme,
   useMediaQuery,
-  capitalize,
+  // capitalize,
 } from "@mui/material";
 import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
@@ -36,21 +36,21 @@ const Icons = styled(Box)(({ theme }) => ({
   },
 }));
 
-const UserBox = styled(Box)(({ theme }) => ({
-  display: "flex",
-  gap: "10px",
-  alignItems: "center",
-  [theme.breakpoints.up("sm")]: {
-    display: "none",
-  },
-}));
+// const UserBox = styled(Box)(({ theme }) => ({
+//   display: "flex",
+//   gap: "10px",
+//   alignItems: "center",
+//   [theme.breakpoints.up("sm")]: {
+//     display: "none",
+//   },
+// }));
 
-const UserImage = styled("img")(({ theme }) => ({
-  display: "none",
-  [theme.breakpoints.up("sm")]: {
-    display: "block",
-  },
-}));
+// const UserImage = styled("img")(({ theme }) => ({
+//   display: "none",
+//   [theme.breakpoints.up("sm")]: {
+//     display: "block",
+//   },
+// }));
 
 const Navbar = ({ login }) => {
   const [open, setOpen] = useState(false);
@@ -76,6 +76,9 @@ const Navbar = ({ login }) => {
             />
           ) : (
             <Icons>
+              <Typography variant="span" sx={{ color: "black" }}>
+                {capitalizedUserName}
+              </Typography>
               <Badge>
                 <Avatar
                   sx={{ width: 40, height: 40 }}
@@ -83,9 +86,6 @@ const Navbar = ({ login }) => {
                   onClick={() => setOpen(true)}
                 />
               </Badge>
-              <Typography variant="span" sx={{ color: "black" }}>
-                {capitalizedUserName}
-              </Typography>
             </Icons>
           )}
         </StyledToolBar>
