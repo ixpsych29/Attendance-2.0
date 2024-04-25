@@ -140,6 +140,7 @@ const RecordList = ({ selectedDate, setSelectedDate }) => {
       ) : showPreviousMonth ? (
         <Button
           variant="contained"
+          className="btn-style"
           onClick={() => {
             setShowPreviousMonth(false);
             setDateRange({

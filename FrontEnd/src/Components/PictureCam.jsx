@@ -1,13 +1,13 @@
-import { Button } from '@mui/material';
-import CheckIcon from '@mui/icons-material/Check';
-import RefreshIcon from '@mui/icons-material/Refresh';
-import CameraAltIcon from '@mui/icons-material/CameraAlt';
-import { useCallback, useContext, useRef, useState, useEffect } from 'react';
-import axios from 'axios';
-import UserContext from './UserContext';
-import toast from 'react-hot-toast';
-import { useNavigate } from 'react-router-dom';
-import Webcam from 'react-webcam';
+import { Button } from "@mui/material";
+import CheckIcon from "@mui/icons-material/Check";
+import RefreshIcon from "@mui/icons-material/Refresh";
+import CameraAltIcon from "@mui/icons-material/CameraAlt";
+import { useCallback, useContext, useRef, useState, useEffect } from "react";
+import axios from "axios";
+import UserContext from "./UserContext";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import Webcam from "react-webcam";
 
 const PictureCam = () => {
   const navigate = useNavigate();
@@ -52,16 +52,16 @@ const PictureCam = () => {
           picture: imgSrc,
           entranceTime: date.toISOString(),
         });
-        toast.success('Check-in Successful!');
+        toast.success("Check-in Successful!");
         setCheckedIn(true);
       } else {
         await axios.put(`${Api_EndPoint}/api/attendance/${username}`, {
           leavingTime: date,
         });
-        toast.success('Check-out Successful!');
+        toast.success("Check-out Successful!");
         setCheckedIn(false);
       }
-      navigate('/home');
+      navigate("/home");
     } catch (error) {
       console.log(error.response.data.message);
     }
@@ -98,7 +98,7 @@ const PictureCam = () => {
               className="w-32 btn-style"
               onClick={handlePicSubmit}
             >
-              {checkedIn ? <CheckIcon /> : 'Check-in'}
+              {checkedIn ? <CheckIcon /> : "Check-in"}
             </Button>
           </>
         ) : (
@@ -107,7 +107,7 @@ const PictureCam = () => {
             className="w-72 btn-style"
             onClick={capture}
           >
-            {checkedIn ? 'Check-out' : 'Check-in'} &nbsp;
+            {checkedIn ? "Check-out" : "Check-in"} &nbsp;
             <CameraAltIcon />
           </Button>
         )}

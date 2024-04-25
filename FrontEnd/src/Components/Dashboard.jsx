@@ -1,4 +1,4 @@
-import { Box, Container, CssBaseline, Stack } from "@mui/material";
+import { Box, Container, CssBaseline } from "@mui/material";
 import DisplayCard from "./DisplayCard";
 import RecordList from "./RecordList";
 import { useContext, useEffect, useState } from "react";

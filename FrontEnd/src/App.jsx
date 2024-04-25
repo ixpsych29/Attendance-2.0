@@ -7,9 +7,9 @@ import SignupForm from "./Components/SignupForm";
 import { useState } from "react";
 import Nopage from "./Components/Nopage";
 import UserDashboard from "./Components/UserDashboard";
-import ProfileParent from "./Components/ProfileParent";
 import "./app.css";
 import ChangePassword from "./Components/ChangePassword";
+import ProfilePage from "./Components/ProfilePage";
 
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
@@ -41,16 +41,19 @@ function App() {
           path="/home/"
           element={
             <ProtectedRoute element={<Home login={setAuthenticated} />} />
-          }>
+          }
+        >
           {/* Conditionally render dashboards based on role */}
           {role === "user" && <Route index element={<UserDashboard />} />}
           {role === "admin" && <Route index element={<Dashboard />} />}
           <Route
             path="profile"
-            element={<ProtectedRoute element={<ProfileParent />} />}></Route>
+            element={<ProtectedRoute element={<ProfilePage />} />}
+          ></Route>
           <Route
             path="update-password"
-            element={<ProtectedRoute element={<ChangePassword />} />}></Route>
+            element={<ProtectedRoute element={<ChangePassword />} />}
+          ></Route>
 
           {role === "user" && (
             <Route
