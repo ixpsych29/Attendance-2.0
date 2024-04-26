@@ -12,6 +12,7 @@ const UserProvider = ({ children }) => {
   const [email, setEmail] = useState("");
   const [nameUser, setNameUser] = useState("");
   const [phNumber, setPhNumber] = useState("");
+  const [toggleMenu, setToggleMenu] = useState(false);
 
   const setNameOfUser = (name) => {
     setNameUser(name);
@@ -43,7 +44,7 @@ const UserProvider = ({ children }) => {
       } else {
         console.error(
           "Error fetching profile picture. Server response:",
-          response.status
+          response.status,
         );
       }
     } catch (error) {
@@ -68,8 +69,9 @@ const UserProvider = ({ children }) => {
         fetchProfilePicture,
         email,
         Api_EndPoint,
-      }}
-    >
+        toggleMenu,
+        setToggleMenu,
+      }}>
       {children}
     </UserContext.Provider>
   );
