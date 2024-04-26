@@ -1,9 +1,10 @@
-import { Box, ThemeProvider, createTheme } from "@mui/material";
+import { Box, ThemeProvider, createTheme, useTheme } from "@mui/material";
 import { useContext, useState } from "react";
 import Navbar from "./NavBar";
 import Sidebar from "./Sidebar";
 import { Outlet, useNavigate } from "react-router-dom";
 import UserContext from "./UserContext";
+import { useMediaQuery } from "@mui/material";
 
 function Home({ login }) {
   const [mode, setMode] = useState("light");
@@ -13,6 +14,8 @@ function Home({ login }) {
     },
   });
 
+  const theme = useTheme();
+
   // eslint-disable-next-line no-unused-vars
   const navigate = useNavigate();
   const currentPath = window.location.pathname;
@@ -20,6 +23,9 @@ function Home({ login }) {
   // Check if the current path is "/login" or "/signup"
   const isLoginPage = currentPath === "/login";
   const isSignUpPage = currentPath === "/signup";
+
+  const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
+  const isMediumOrSmallerScreen = useMediaQuery(theme.breakpoints.down("md"));
 
   const { toggleMenu } = useContext(UserContext);
 
@@ -31,9 +37,11 @@ function Home({ login }) {
             <Box className="bg-transparent">
               <Navbar login={login} />
             </Box>
-            <Box className="bg-transparent">
-              <Sidebar mode={mode} setMode={setMode} />
-            </Box>
+            {(isLargeScreen || (toggleMenu && !isMediumOrSmallerScreen)) && (
+              <Box className="bg-transparent">
+                <Sidebar mode={mode} setMode={setMode} />
+              </Box>
+            )}
           </>
         )}
         <Box flex="1" p={3} ml={4} className="bg-transparent">
