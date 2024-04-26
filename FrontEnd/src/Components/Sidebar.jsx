@@ -57,8 +57,7 @@ const Sidebar = ({ mode, setMode }) => {
               aria-label="dashboard"
               className={`relative px-4 py-3 flex items-center space-x-4 rounded-lg text-black ${
                 isActiveLink("/home") ? "btn-style" : ""
-              }`}
-            >
+              }`}>
               <FaHome
                 className={`w-6 h-6 ${
                   isActiveLink("/home") ? "text-white" : "text-white"
@@ -104,8 +103,7 @@ const Sidebar = ({ mode, setMode }) => {
               to="/home/profile"
               className={`px-4 py-3 flex items-center space-x-4 rounded-md ${
                 isActiveLink("/home/profile") ? "btn-style text-white" : ""
-              }`}
-            >
+              }`}>
               <CgProfile
                 className={`w-6 h-6 ${
                   isActiveLink("/home/profile") ? "text-white" : "text-white"

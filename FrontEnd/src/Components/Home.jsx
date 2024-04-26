@@ -1,8 +1,9 @@
 import { Box, ThemeProvider, createTheme } from "@mui/material";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Navbar from "./NavBar";
 import Sidebar from "./Sidebar";
 import { Outlet, useNavigate } from "react-router-dom";
+import UserContext from "./UserContext";
 
 function Home({ login }) {
   const [mode, setMode] = useState("light");
@@ -19,6 +20,9 @@ function Home({ login }) {
   // Check if the current path is "/login" or "/signup"
   const isLoginPage = currentPath === "/login";
   const isSignUpPage = currentPath === "/signup";
+
+  const { toggleMenu } = useContext(UserContext);
+
   return (
     <ThemeProvider theme={darkTheme}>
       <Box className="bg-glassBlue bg-opacity-70 text-primary min-h-screen flex flex-col pt-20 bg-[#DBF3FA]">

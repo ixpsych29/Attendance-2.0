@@ -1,3 +1,4 @@
+import React, { useState, useContext } from "react";
 import {
   AppBar,
   Toolbar,
@@ -11,11 +12,13 @@ import {
   Slide,
   useTheme,
   useMediaQuery,
-  // capitalize,
+  Button,
 } from "@mui/material";
-import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
+import MenuOpenIcon from "@mui/icons-material/MenuOpen";
+import MenuIcon from "@mui/icons-material/Menu";
 import UserContext from "./UserContext";
+import Sidebar from "./Sidebar"; // Import your Sidebar component
 
 const StyledToolBar = styled(Toolbar)(({ theme }) => ({
   display: "flex",
@@ -36,37 +39,38 @@ const Icons = styled(Box)(({ theme }) => ({
   },
 }));
 
-// const UserBox = styled(Box)(({ theme }) => ({
-//   display: "flex",
-//   gap: "10px",
-//   alignItems: "center",
-//   [theme.breakpoints.up("sm")]: {
-//     display: "none",
-//   },
-// }));
-
-// const UserImage = styled("img")(({ theme }) => ({
-//   display: "none",
-//   [theme.breakpoints.up("sm")]: {
-//     display: "block",
-//   },
-// }));
-
 const Navbar = ({ login }) => {
   const [open, setOpen] = useState(false);
-  const { username, userProfilePic, Api_EndPoint } = useContext(UserContext);
+  const { username, userProfilePic, Api_EndPoint, toggleMenu, setToggleMenu } =
+    useContext(UserContext);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const capitalizedUserName =
     username.charAt(0).toUpperCase() + username.slice(1);
 
+  const toggleSidebar = () => {
+    console.log("Toggling sidebar...");
+    setToggleMenu(!toggleMenu); // Toggle menu button
+  };
+
+  console.log("Rendering Navbar. toggleMenu:", toggleMenu);
+
   return (
     <Slide direction="down" in={true} mountOnEnter unmountOnExit>
       <AppBar
         position="fixed"
-        sx={{ backgroundColor: "#B7E9F7 ", maxWidth: "100%", zIndex: "10" }}>
+        sx={{ backgroundColor: "#B7E9F7", maxWidth: "100%", zIndex: 10 }}>
         <StyledToolBar>
-          <Box sx={{ flexGrow: 1 }}></Box>
+          <Box sx={{ flexGrow: 1 }}>
+            <Button onClick={toggleSidebar}>
+              {toggleMenu ? (
+                <MenuOpenIcon sx={{ display: "flex", alignItems: "center" }} />
+              ) : (
+                <MenuIcon sx={{ display: "flex", alignItems: "center" }} />
+              )}
+            </Button>
+            {toggleMenu && <Sidebar />} {/* Render Sidebar conditionally */}
+          </Box>
           {isSmallScreen ? (
             <Avatar
               sx={{ width: 40, height: 40 }}
