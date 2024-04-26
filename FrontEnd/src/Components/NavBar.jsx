@@ -15,10 +15,10 @@ import {
   Button,
 } from "@mui/material";
 import { Link } from "react-router-dom";
-import MenuOpenIcon from "@mui/icons-material/MenuOpen";
+import CloseIcon from "@mui/icons-material/Close";
 import MenuIcon from "@mui/icons-material/Menu";
 import UserContext from "./UserContext";
-import Sidebar from "./Sidebar"; // Import your Sidebar component
+// import Sidebar from "./Sidebar"; // Import your Sidebar component
 
 const StyledToolBar = styled(Toolbar)(({ theme }) => ({
   display: "flex",
@@ -49,27 +49,28 @@ const Navbar = ({ login }) => {
     username.charAt(0).toUpperCase() + username.slice(1);
 
   const toggleSidebar = () => {
-    console.log("Toggling sidebar...");
+    // console.log("Toggling sidebar...");
     setToggleMenu(!toggleMenu); // Toggle menu button
   };
 
-  console.log("Rendering Navbar. toggleMenu:", toggleMenu);
+  // console.log("Rendering Navbar. toggleMenu:", toggleMenu);
 
   return (
     <Slide direction="down" in={true} mountOnEnter unmountOnExit>
       <AppBar
         position="fixed"
-        sx={{ backgroundColor: "#B7E9F7", maxWidth: "100%", zIndex: 10 }}>
+        sx={{ backgroundColor: "#B7E9F7", maxWidth: "100%", zIndex: 10 }}
+      >
         <StyledToolBar>
           <Box sx={{ flexGrow: 1 }}>
             <Button onClick={toggleSidebar}>
               {toggleMenu ? (
-                <MenuOpenIcon sx={{ display: "flex", alignItems: "center" }} />
+                <CloseIcon sx={{ display: "flex", alignItems: "center" }} />
               ) : (
                 <MenuIcon sx={{ display: "flex", alignItems: "center" }} />
               )}
             </Button>
-            {toggleMenu && <Sidebar />} {/* Render Sidebar conditionally */}
+            {/* {toggleMenu && <Sidebar />} Render Sidebar conditionally */}
           </Box>
           {isSmallScreen ? (
             <Avatar
@@ -105,11 +106,13 @@ const Navbar = ({ login }) => {
           transformOrigin={{
             vertical: "top",
             horizontal: "right",
-          }}>
+          }}
+        >
           <MenuItem
             component={Link}
             to="/home/profile"
-            style={{ textAlign: "left", marginRight: 30 }}>
+            style={{ textAlign: "left", marginRight: 30 }}
+          >
             My Account
           </MenuItem>
           <MenuItem
@@ -117,7 +120,8 @@ const Navbar = ({ login }) => {
             to="/"
             onClick={() => {
               login(false);
-            }}>
+            }}
+          >
             Logout
           </MenuItem>
         </Menu>
