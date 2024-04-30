@@ -42,7 +42,6 @@ function Home({ login }) {
               }>
               <Navbar login={login} />
             </Box>
-
             <Box
               className={
                 isMediumOrSmallerScreen
