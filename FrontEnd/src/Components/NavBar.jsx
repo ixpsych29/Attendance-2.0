@@ -63,13 +63,13 @@ const Navbar = ({ login }) => {
       >
         <StyledToolBar>
           <Box sx={{ flexGrow: 1 }}>
-            <Button onClick={toggleSidebar}>
+            {/* <Button onClick={toggleSidebar}>
               {toggleMenu ? (
                 <CloseIcon sx={{ display: "flex", alignItems: "center" }} />
               ) : (
                 <MenuIcon sx={{ display: "flex", alignItems: "center" }} />
               )}
-            </Button>
+            </Button> */}
             {/* {toggleMenu && <Sidebar />} Render Sidebar conditionally */}
           </Box>
           {isSmallScreen ? (

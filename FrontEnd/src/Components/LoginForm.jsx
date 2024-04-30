@@ -208,10 +208,12 @@ export default function LoginForm({ login, role }) {
             <div className="flex justify-between mt-4">
               <RouterLink
                 to="#"
-                className="text-sm ml-2 hover:text-cyan-600 cursor-pointer hover:-translate-y-1 duration-500 transition-all"
+                className="text-sm ml-2 hover:text-cyan-600 cursor-pointer hover:-translate-y-1 duration-500 transition-all "
+                title="Available Soon"
               >
                 Forgot Password?
               </RouterLink>
+
               <RouterLink
                 to="/signup"
                 className="text-sm ml-2 hover:text-cyan-600 cursor-pointer hover:-translate-y-1 duration-500 transition-all"
