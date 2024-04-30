@@ -173,7 +173,6 @@ export default function ChangePassword() {
           </Button>
         </Box>
       </Box>
-      <ProfilePictureUpload />
     </Container>
   );
 }
