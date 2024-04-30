@@ -10,7 +10,6 @@ import { useContext, useState } from "react";
 import toast from "react-hot-toast";
 import axios from "axios";
 import UserContext from "./UserContext";
-import ProfilePictureUpload from "./ProfilePictureUpload";
 
 export default function ChangePassword() {
   const { username, Api_EndPoint } = useContext(UserContext);

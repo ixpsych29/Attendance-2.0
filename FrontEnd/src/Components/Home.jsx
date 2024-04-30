@@ -37,11 +37,12 @@ function Home({ login }) {
             <Box className="bg-transparent">
               <Navbar login={login} />
             </Box>
-            {(isLargeScreen || (toggleMenu && !isMediumOrSmallerScreen)) && (
+            {/* {(isLargeScreen || (toggleMenu && !isMediumOrSmallerScreen)) && (
               <Box className="bg-transparent">
                 <Sidebar mode={mode} setMode={setMode} />
               </Box>
-            )}
+            )} */}
+            <Sidebar mode={mode} setMode={setMode} />
           </>
         )}
         <Box flex="1" p={3} ml={4} className="bg-transparent">
