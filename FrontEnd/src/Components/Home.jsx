@@ -34,18 +34,29 @@ function Home({ login }) {
       <Box className="bg-glassBlue bg-opacity-70 text-primary min-h-screen flex flex-col pt-20 bg-[#DBF3FA]">
         {!isLoginPage && !isSignUpPage && (
           <>
-            <Box className="bg-transparent">
+            <Box
+              className={
+                isMediumOrSmallerScreen
+                  ? "bg-transparent fixed top-20 left-0 w-full"
+                  : "bg-transparent"
+              }>
               <Navbar login={login} />
             </Box>
-            {/* {(isLargeScreen || (toggleMenu && !isMediumOrSmallerScreen)) && (
-              <Box className="bg-transparent">
-                <Sidebar mode={mode} setMode={setMode} />
-              </Box>
-            )} */}
-            <Sidebar mode={mode} setMode={setMode} />
+            <Box
+              className={
+                isMediumOrSmallerScreen
+                  ? "bg-transparent fixed top-20 left-0 w-full"
+                  : "bg-transparent"
+              }>
+              <Sidebar mode={mode} setMode={setMode} />
+            </Box>
           </>
         )}
-        <Box flex="1" p={3} ml={4} className="bg-transparent">
+        <Box
+          flex="1"
+          p={3}
+          ml={isMediumOrSmallerScreen ? 0 : 4}
+          className="bg-transparent">
           <Box>
             <Outlet />
           </Box>
