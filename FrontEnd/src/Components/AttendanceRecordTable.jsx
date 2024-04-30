@@ -25,8 +25,7 @@ function AttendanceRecordTable({ attendanceRecord }) {
       }}
       size="small"
       aria-label="a dense table"
-      className="w-full border-collapse "
-    >
+      className="w-full border-collapse ">
       <TableHead className="bg-gray-200">
         <TableRow>
           <TableCell align="center" className="px-4 py-2">
@@ -52,8 +51,7 @@ function AttendanceRecordTable({ attendanceRecord }) {
           <TableRow
             key={record._id}
             sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-            className="border-b border-black-200"
-          >
+            className="border-b border-black-200">
             <TableCell align="center" className="px-4 py-2">
               {record.picture ? (
                 <Avatar sx={{ width: 70, height: 70 }}>
@@ -75,8 +73,7 @@ function AttendanceRecordTable({ attendanceRecord }) {
               component="th"
               align="center"
               scope="row"
-              className="px-4 py-2"
-            >
+              className="px-4 py-2">
               {FormatDateTime(record.entranceTime).formattedDate}
             </TableCell>
 
@@ -84,8 +81,7 @@ function AttendanceRecordTable({ attendanceRecord }) {
               component="th"
               align="center"
               scope="row"
-              className="px-4 py-2"
-            >
+              className="px-4 py-2">
               {FormatDateTime(record.entranceTime).formattedTime}
             </TableCell>
 
@@ -94,8 +90,7 @@ function AttendanceRecordTable({ attendanceRecord }) {
                 component="th"
                 align="center"
                 scope="row"
-                className="px-4 py-2"
-              >
+                className="px-4 py-2">
                 {FormatDateTime(record.leavingTime).formattedTime}
               </TableCell>
             ) : (
@@ -103,8 +98,7 @@ function AttendanceRecordTable({ attendanceRecord }) {
                 component="th"
                 align="center"
                 scope="row"
-                className="px-4 py-2"
-              >
+                className="px-4 py-2">
                 Didn&apos;t Check Out
               </TableCell>
             )}

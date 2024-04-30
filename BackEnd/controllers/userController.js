@@ -113,7 +113,7 @@ const updatePicture = async (req, res) => {
       const updateRes = User.findOneAndUpdate(
         { username: userName },
         { profilePicture: fileName },
-        { new: true }
+        { new: true },
       ).then((user) => {
         if (!user) {
           return res.status(404).json({ error: "User not found" });
@@ -140,7 +140,7 @@ const updateProfile = async (req, res) => {
       const newUser = await User.findOneAndUpdate(
         { username: userName },
         { phoneNumber: phoneNo },
-        { new: true }
+        { new: true },
       );
       res.status(200).json(newUser);
     }
@@ -148,7 +148,7 @@ const updateProfile = async (req, res) => {
       const newUser = await User.findOneAndUpdate(
         { username: userName },
         { password: password },
-        { new: true }
+        { new: true },
       );
       res.status(200).json(newUser);
     }

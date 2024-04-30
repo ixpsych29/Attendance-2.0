@@ -57,8 +57,7 @@ const Sidebar = ({ mode, setMode }) => {
               aria-label="dashboard"
               className={`relative px-4 py-3 flex items-center space-x-4 rounded-lg text-black ${
                 isActiveLink("/home") ? "btn-style" : ""
-              }`}
-            >
+              }`}>
               <FaHome
                 className={`w-6 h-6 ${
                   isActiveLink("/home") ? "text-white" : "text-white"
@@ -67,8 +66,7 @@ const Sidebar = ({ mode, setMode }) => {
               <span
                 className={`-mr-1 font-medium ${
                   isActiveLink("/home") ? "text-white" : "text-white"
-                }`}
-              >
+                }`}>
                 Home
               </span>
             </Link>
@@ -81,8 +79,7 @@ const Sidebar = ({ mode, setMode }) => {
                   isActiveLink("/home/attendence")
                     ? "btn-style text-white"
                     : " "
-                }`}
-              >
+                }`}>
                 <FaUserCheck
                   className={`w-6 h-6 ${
                     isActiveLink("/home/attendence")
@@ -95,8 +92,7 @@ const Sidebar = ({ mode, setMode }) => {
                     isActiveLink("/home/attendence")
                       ? "text-white"
                       : "text-white "
-                  }`}
-                >
+                  }`}>
                   Attendance
                 </span>
               </Link>
@@ -107,8 +103,7 @@ const Sidebar = ({ mode, setMode }) => {
               to="/home/profile"
               className={`px-4 py-3 flex items-center space-x-4 rounded-md ${
                 isActiveLink("/home/profile") ? "btn-style text-white" : ""
-              }`}
-            >
+              }`}>
               <CgProfile
                 className={`w-6 h-6 ${
                   isActiveLink("/home/profile") ? "text-white" : "text-white"
@@ -117,8 +112,7 @@ const Sidebar = ({ mode, setMode }) => {
               <span
                 className={`-mr-1 font-medium ${
                   isActiveLink("/home/profile") ? "text-white" : "text-white"
-                }`}
-              >
+                }`}>
                 Profile
               </span>
             </Link>
@@ -132,8 +126,7 @@ const Sidebar = ({ mode, setMode }) => {
                 isActiveLink("/home/update-password")
                   ? "btn-style text-white"
                   : ""
-              }`}
-            >
+              }`}>
               <FaCog
                 className={`w-6 h-6 ${
                   isActiveLink("/home/update-password")
@@ -146,8 +139,7 @@ const Sidebar = ({ mode, setMode }) => {
                   isActiveLink("/home/update-password")
                     ? "text-white"
                     : "text-white"
-                }`}
-              >
+                }`}>
                 Settings
               </span>
             </Link>
@@ -158,8 +150,7 @@ const Sidebar = ({ mode, setMode }) => {
         {/* Dark mode toggle button */}
         <button
           onClick={toggleDarkMode}
-          className="px-4 py-3 flex flex-col items-center rounded-md text-white group transition duration-300 ease-in-out transform hover:scale-110"
-        >
+          className="px-4 py-3 flex flex-col items-center rounded-md text-white group transition duration-300 ease-in-out transform hover:scale-110">
           {/* Adjust the icon based on dark mode state */}
           {darkMode ? (
             <FaMoon className="w-6 h-6 mb-2 space-x-2" />
@@ -175,8 +166,7 @@ const Sidebar = ({ mode, setMode }) => {
             to="/"
             onClick={() => {
               login(false);
-            }}
-          >
+            }}>
             <FaSignOutAlt className="w-6 h-6 mb-2 space-x-2" />
             <span>Logout</span>
           </Link>
