@@ -77,7 +77,7 @@ export default function LoginForm({ login, role }) {
           <p className="text-4xl text-white mt-1">Welcome to Daily TimeSheet</p>
           <div className="flex justify-end  mt-6">
             <a
-              href="#"
+              href="/signup"
               className="hover:bg-gradient-to-r from-cyan-400 to-sky-600 hover:text-white hover:-translate-y-1 transition-all duration-500 bg-white text-cyan-700 mt-4 px-4 py-2 rounded-2xl font-bold mb-2"
             >
               Get Started
@@ -208,10 +208,12 @@ export default function LoginForm({ login, role }) {
             <div className="flex justify-between mt-4">
               <RouterLink
                 to="#"
-                className="text-sm ml-2 hover:text-cyan-600 cursor-pointer hover:-translate-y-1 duration-500 transition-all"
+                className="text-sm ml-2 hover:text-cyan-600 cursor-pointer hover:-translate-y-1 duration-500 transition-all "
+                title="Available Soon"
               >
                 Forgot Password?
               </RouterLink>
+
               <RouterLink
                 to="/signup"
                 className="text-sm ml-2 hover:text-cyan-600 cursor-pointer hover:-translate-y-1 duration-500 transition-all"
