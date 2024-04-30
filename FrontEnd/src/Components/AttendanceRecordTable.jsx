@@ -25,8 +25,7 @@ function AttendanceRecordTable({ attendanceRecord }) {
       }}
       size="small"
       aria-label="a dense table"
-      className="w-full border-collapse "
-    >
+      className="w-full border-collapse ">
       <TableHead className="bg-gray-200">
         <TableRow>
           <TableCell align="center" className="px-4 py-2">
@@ -52,21 +51,33 @@ function AttendanceRecordTable({ attendanceRecord }) {
           <TableRow
             key={record._id}
             sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-            className="border-b border-black-200 "
-          >
-            <TableCell align="center" className="px-4 py-2   ">
-              {record.picture ? (
-                <Avatar sx={{ width: 70, height: 70 }}>
-                  <img
-                    src={record.picture}
-                    alt="Attendance"
-                    style={{ maxWidth: "100px" }}
-                  />
-                </Avatar>
-              ) : (
-                "Not Found"
-              )}
+            className="border-b border-black-200">
+            <TableCell
+              component="th"
+              align="center" // Aligning the content horizontally to the center
+              className="px-4 py-2">
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}>
+                {record.picture ? (
+                  <>
+                    <Avatar sx={{ width: 70, height: 70 }}>
+                      <img
+                        src={record.picture}
+                        alt="Attendance"
+                        style={{ maxWidth: "100px" }}
+                      />
+                    </Avatar>
+                  </>
+                ) : (
+                  "Not Found"
+                )}
+              </div>
             </TableCell>
+
             <TableCell align="center" className="px-4 py-2">
               {record.username}
             </TableCell>
@@ -75,8 +86,7 @@ function AttendanceRecordTable({ attendanceRecord }) {
               component="th"
               align="center"
               scope="row"
-              className="px-4 py-2"
-            >
+              className="px-4 py-2">
               {FormatDateTime(record.entranceTime).formattedDate}
             </TableCell>
 
@@ -84,8 +94,7 @@ function AttendanceRecordTable({ attendanceRecord }) {
               component="th"
               align="center"
               scope="row"
-              className="px-4 py-2"
-            >
+              className="px-4 py-2">
               {FormatDateTime(record.entranceTime).formattedTime}
             </TableCell>
 
@@ -94,8 +103,7 @@ function AttendanceRecordTable({ attendanceRecord }) {
                 component="th"
                 align="center"
                 scope="row"
-                className="px-4 py-2"
-              >
+                className="px-4 py-2">
                 {FormatDateTime(record.leavingTime).formattedTime}
               </TableCell>
             ) : (
@@ -103,8 +111,7 @@ function AttendanceRecordTable({ attendanceRecord }) {
                 component="th"
                 align="center"
                 scope="row"
-                className="px-4 py-2"
-              >
+                className="px-4 py-2">
                 Didn&apos;t Check Out
               </TableCell>
             )}
