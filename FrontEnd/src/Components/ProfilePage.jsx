@@ -54,7 +54,7 @@ export default function ProfilePage() {
           </div>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="w-1/2 pl-16 ">
-              <div className="flex items-center space-x-4 mb-4 justify-center">
+              <div className="flex items-center space-x-4  mb-4 justify-center">
                 <label htmlFor="name" className="label-style">
                   Name:
                 </label>
