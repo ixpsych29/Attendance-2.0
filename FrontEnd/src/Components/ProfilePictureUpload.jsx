@@ -59,7 +59,7 @@ const ProfilePictureUpload = () => {
           headers: {
             "Content-Type": "multipart/form-data",
           },
-        }
+        },
       );
 
       if (response) {
@@ -92,8 +92,7 @@ const ProfilePictureUpload = () => {
           onClick={handleImageClick}
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
-          alt="profile picture"
-        >
+          alt="profile picture">
           {selectedFile ? (
             <img
               src={URL.createObjectURL(selectedFile)}
@@ -137,8 +136,7 @@ const ProfilePictureUpload = () => {
                 justifyContent: "center",
                 margin: "auto",
               }}
-              variant="outlined"
-            >
+              variant="outlined">
               Upload
             </Button>
           </div>

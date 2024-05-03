@@ -36,7 +36,8 @@ export default function ProfilePage() {
       });
       toast.success("Profile Updated");
     } catch (err) {
-      console.log("Error Updating Profile Data", err);
+      console.error("Error Updating Profile Data", err);
+      toast.error("Failed to update profile. Please try again later.");
     }
   };
 
@@ -49,12 +50,12 @@ export default function ProfilePage() {
         <div
           className="flex items-center justify-center space-x-4 mb-4 border border-gray-300 p-24  pl-[-5] rounded-md shadow-2xl  bg-[#DBF3FA] pr-20 "
           style={{ boxShadow: "14px 12px 20px rgba(0, 0, 0, 0.6)" }}>
-          <div className="w-1/2 border-r border-black pr-16  mr-36 ">
+          <div className="w-1/2 border-r border-black pr-2  mr-36 ">
             <ProfilePictureUpload />
           </div>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="w-1/2 pl-16 ">
-              <div className="flex items-center space-x-4  mb-4 justify-center">
+              <div className="flex items-center space-x-4 mb-4 justify-end  ">
                 <label htmlFor="name" className="label-style">
                   Name:
                 </label>
@@ -68,7 +69,8 @@ export default function ProfilePage() {
                   disabled
                 />
               </div>
-              <div className="flex items-center space-x-4 mb-4 justify-center ">
+              <div className="flex items-center space-x-4 mb-4 justify-end ">
+                {" "}
                 {/* Changed div to flex */}
                 <label htmlFor="email" className=" label-style ">
                   Email:
@@ -81,7 +83,7 @@ export default function ProfilePage() {
                   disabled
                 />
               </div>
-              <div className="flex items-center space-x-4 mb-4 justify-center">
+              <div className="flex items-center space-x-4 mb-4 justify-end">
                 {" "}
                 {/* Changed div to flex */}
                 <label htmlFor="username" className="label-style">
@@ -95,7 +97,7 @@ export default function ProfilePage() {
                   disabled
                 />
               </div>
-              <div className="flex items-center space-x-4 mb-4 justify-center">
+              <div className="flex items-center space-x-4 mb-4 justify-end">
                 <label htmlFor="phoneNo" className="label-style">
                   Phone:
                 </label>
@@ -113,10 +115,10 @@ export default function ProfilePage() {
                 />
               </div>
             </div>
-            <div className="flex justify-center -mr-36">
+            <div className="flex justify-center ">
               <button
                 type="submit"
-                className="mt-10  mr-64 px-7 py-2 rounded-md shadow-xl text-white bg-gradient-to-r from-sky-600 to-cyan-400 hover:from-cyan-400 hover:to-sky-600"
+                className="mt-10  mr-52 px-7 py-2 rounded-md shadow-xl text-white bg-gradient-to-r from-sky-600 to-cyan-400 hover:from-cyan-400 hover:to-sky-600"
                 disabled={!(formData.name && formData.phoneNo)}>
                 Update Profile
               </button>

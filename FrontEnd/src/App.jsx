@@ -10,6 +10,7 @@ import UserDashboard from "./Components/UserDashboard";
 import "./app.css";
 import ChangePassword from "./Components/ChangePassword";
 import ProfilePage from "./Components/ProfilePage";
+import TotalEmployee from "./Components/TotalEmployee";
 
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
@@ -41,19 +42,19 @@ function App() {
           path="/home/"
           element={
             <ProtectedRoute element={<Home login={setAuthenticated} />} />
-          }
-        >
+          }>
           {/* Conditionally render dashboards based on role */}
           {role === "user" && <Route index element={<UserDashboard />} />}
           {role === "admin" && <Route index element={<Dashboard />} />}
           <Route
             path="profile"
-            element={<ProtectedRoute element={<ProfilePage />} />}
-          ></Route>
+            element={<ProtectedRoute element={<ProfilePage />} />}></Route>
           <Route
             path="update-password"
-            element={<ProtectedRoute element={<ChangePassword />} />}
-          ></Route>
+            element={<ProtectedRoute element={<ChangePassword />} />}></Route>
+          <Route
+            path="totalemployee"
+            element={<ProtectedRoute element={<TotalEmployee />} />}></Route>
 
           {role === "user" && (
             <Route

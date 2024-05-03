@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import UserContext from "./UserContext";
 import { FaHome, FaUserCheck, FaSignOutAlt } from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
@@ -13,6 +13,7 @@ const Sidebar = ({ mode, setMode }) => {
   const location = useLocation();
   const [darkMode, setDarkMode] = useState(false); // State to track dark mode
   const [showSidebar, setShowSidebar] = useState(true); // State to track sidebar visibility
+  const [userRole, setUserRole] = useState(""); // Initialize userRole state
 
   const isActiveLink = (to) => {
     return location.pathname === to;
@@ -43,6 +44,10 @@ const Sidebar = ({ mode, setMode }) => {
   const toggleSidebar = () => {
     setShowSidebar(!showSidebar);
   };
+
+  useEffect(() => {
+    setUserRole(role); // Update userRole state when role changes
+  }, [role]);
 
   return (
     <div>
@@ -167,6 +172,34 @@ const Sidebar = ({ mode, setMode }) => {
                     Settings
                   </span>
                 </Link>
+              </li>
+              {/* Display total employees */}
+              <li>
+                {userRole === "admin" && (
+                  <Link
+                    to="/home/totalemployee"
+                    className={`px-4 py-3 flex items-center space-x-4 rounded-md ${
+                      isActiveLink("/home/totalemployee")
+                        ? "btn-style text-white"
+                        : ""
+                    }`}>
+                    <CgProfile
+                      className={`w-6 h-6 ${
+                        isActiveLink("/home/totalemployee")
+                          ? "text-white"
+                          : "text-white"
+                      }`}
+                    />
+                    <span
+                      className={`-mr-1 font-medium ${
+                        isActiveLink("/home/totalemployee")
+                          ? "text-white"
+                          : "text-white"
+                      }`}>
+                      Employee
+                    </span>
+                  </Link>
+                )}
               </li>
             </ul>
           </div>
