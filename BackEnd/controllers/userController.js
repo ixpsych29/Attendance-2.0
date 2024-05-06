@@ -6,10 +6,25 @@ const path = require("path");
 //get all Users
 const getUsers = async (req, res) => {
   try {
-    const users = await User.find({ role: "user" }).sort({ created_at: 1 });
+    const users = await User.find({ role: "user" })
+      .sort({ created_at: 1 })
+      .populate("leaveRequests"); // Populate the leaveRequests field
+
     const totalEmployees = users.length;
 
-    res.status(200).json({ totalEmployees, users });
+    // Extract leave request status for each user
+    const usersWithLeaveStatus = users.map((user) => {
+      const leaveStatus = user.leaveRequests.map((request) => request.status);
+      return {
+        _id: user._id,
+        name: user.name,
+        username: user.username,
+        email: user.email,
+        leaveStatus: leaveStatus, // Add leave request status to each user
+      };
+    });
+
+    res.status(200).json({ totalEmployees, users: usersWithLeaveStatus });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -199,6 +214,36 @@ async function UserExist(req, res) {
   }
 }
 
+// Leave request controller
+
+const createLeaveRequest = async (req, res) => {
+  const { userName } = req.params;
+  const { leaveType, startDate, endDate, reason } = req.body;
+
+  try {
+    const user = await User.findOne({ username: userName });
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const newLeaveRequest = {
+      leaveType,
+      startDate,
+      endDate,
+      reason,
+      status: "pending", // Set default status to pending
+    };
+
+    user.leaveRequests.push(newLeaveRequest);
+    await user.save();
+
+    res.status(201).json({ message: "Leave request created successfully" });
+  } catch (error) {
+    console.error("Error creating leave request:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 //exporting modules
 module.exports = {
   getUsers,
@@ -208,6 +253,7 @@ module.exports = {
   updatePicture,
   updateProfile,
   loginUser,
+  createLeaveRequest,
   upload,
   UserExist,
 };

@@ -14,6 +14,7 @@ const Sidebar = ({ mode, setMode }) => {
   const [darkMode, setDarkMode] = useState(false); // State to track dark mode
   const [showSidebar, setShowSidebar] = useState(true); // State to track sidebar visibility
   const [userRole, setUserRole] = useState(""); // Initialize userRole state
+  const isAdmin = role === "admin";
 
   const isActiveLink = (to) => {
     return location.pathname === to;
@@ -147,6 +148,57 @@ const Sidebar = ({ mode, setMode }) => {
                   </span>
                 </Link>
               </li>
+
+              {/* Display Leave Form */}
+              <li>
+                <Link
+                  to="/home/leave"
+                  className={`px-4 py-3 flex items-center space-x-4 rounded-md ${
+                    isActiveLink("/home/leave") ? "btn-style text-white" : ""
+                  }`}>
+                  <CgProfile
+                    className={`w-6 h-6 ${
+                      isActiveLink("/home/leave") ? "text-white" : "text-white"
+                    }`}
+                  />
+                  <span
+                    className={`-mr-1 font-medium ${
+                      isActiveLink("/home/leave") ? "text-white" : "text-white"
+                    }`}>
+                    Leave Form
+                  </span>
+                </Link>
+              </li>
+
+              {/* Display Leave Request */}
+              {isAdmin && (
+                <li>
+                  <Link
+                    to="/home/leaverequest"
+                    className={`px-4 py-3 flex items-center space-x-4 rounded-md ${
+                      isActiveLink("/home/leaverequest")
+                        ? "btn-style text-white"
+                        : ""
+                    }`}>
+                    <CgProfile
+                      className={`w-6 h-6 ${
+                        isActiveLink("/home/leaverequest")
+                          ? "text-white"
+                          : "text-white"
+                      }`}
+                    />
+                    <span
+                      className={`-mr-1 font-medium ${
+                        isActiveLink("/home/leaverequest")
+                          ? "text-white"
+                          : "text-white"
+                      }`}>
+                      Leave Request
+                    </span>
+                  </Link>
+                </li>
+              )}
+
               {/* Settings option */}
               <li>
                 <Link
@@ -172,34 +224,6 @@ const Sidebar = ({ mode, setMode }) => {
                     Settings
                   </span>
                 </Link>
-              </li>
-              {/* Display total employees */}
-              <li>
-                {userRole === "admin" && (
-                  <Link
-                    to="/home/totalemployee"
-                    className={`px-4 py-3 flex items-center space-x-4 rounded-md ${
-                      isActiveLink("/home/totalemployee")
-                        ? "btn-style text-white"
-                        : ""
-                    }`}>
-                    <CgProfile
-                      className={`w-6 h-6 ${
-                        isActiveLink("/home/totalemployee")
-                          ? "text-white"
-                          : "text-white"
-                      }`}
-                    />
-                    <span
-                      className={`-mr-1 font-medium ${
-                        isActiveLink("/home/totalemployee")
-                          ? "text-white"
-                          : "text-white"
-                      }`}>
-                      Employee
-                    </span>
-                  </Link>
-                )}
               </li>
             </ul>
           </div>

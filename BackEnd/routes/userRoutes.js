@@ -7,7 +7,8 @@ const {
   updatePicture,
   updateProfile,
   loginUser,
-  UserExist
+  UserExist,
+  createLeaveRequest,
 } = require("../controllers/userController");
 
 const router = express.Router();
@@ -31,5 +32,8 @@ router.delete("/:userName", deleteUser);
 
 //login user
 router.post("/login", loginUser);
+
+// Create leave request for a user
+router.post("/:userName/leave-request", createLeaveRequest);
 
 module.exports = router;

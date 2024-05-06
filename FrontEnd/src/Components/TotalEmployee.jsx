@@ -19,6 +19,7 @@ import { useContext, useEffect, useState } from "react";
 import UserContext from "./UserContext";
 import toast from "react-hot-toast";
 import axios from "axios";
+import TotalEmployeeRecord from "./TotalEmployeeRecord";
 
 const TotalEmployee = () => {
   const [users, setUsers] = useState([]);
@@ -198,7 +199,7 @@ const TotalEmployee = () => {
         </Modal>
         <Box
           bgcolor="white"
-          paddingBottom={50}
+          paddingBottom={10}
           paddingTop={5}
           boxShadow={3}
           mb={4}>
@@ -219,73 +220,11 @@ const TotalEmployee = () => {
               borderWidth: 2,
             }}
           />
-          <Table
-            stickyHeader
-            sx={{
-              minWidth: 650,
-              mt: 3,
-            }}
-            size="small"
-            aria-label="a dense table"
-            className="w-full border-collapse">
-            <TableHead className="bg-gray-200">
-              <TableRow>
-                <TableCell align="center" className="px-4 py-2">
-                  Name
-                </TableCell>
-                <TableCell align="center" className="px-4 py-2">
-                  User Name
-                </TableCell>
-                <TableCell align="center" className="px-4 py-2">
-                  Email
-                </TableCell>
-                <TableCell align="center" className="px-4 py-2">
-                  Phone Number
-                </TableCell>
-                <TableCell align="center" className="px-4 py-2">
-                  Edit
-                </TableCell>
-                <TableCell align="center" className="px-4 py-2">
-                  Delete
-                </TableCell>
-              </TableRow>
-            </TableHead>
-
-            <TableBody>
-              {users
-                .sort((a, b) => a.name.localeCompare(b.name)) // Sort users alphabetically by name
-                .map((user) => (
-                  <TableRow key={user.id}>
-                    <TableCell align="center" className="px-4 py-2">
-                      {user.name}
-                    </TableCell>
-                    <TableCell align="center" className="px-4 py-2">
-                      {user.username}
-                    </TableCell>
-                    <TableCell align="center" className="px-4 py-2">
-                      {user.email}
-                    </TableCell>
-                    <TableCell align="center" className="px-4 py-2">
-                      {user.phoneNumber}
-                    </TableCell>
-                    <TableCell align="center" className="px-4 py-2">
-                      <IconButton
-                        aria-label="edit"
-                        onClick={() => handleEdit(user)}>
-                        <Edit />
-                      </IconButton>
-                    </TableCell>
-                    <TableCell align="center" className="px-4 py-2">
-                      <IconButton
-                        aria-label="delete"
-                        onClick={() => handleDelete(user)}>
-                        <Delete />
-                      </IconButton>
-                    </TableCell>
-                  </TableRow>
-                ))}
-            </TableBody>
-          </Table>
+          <TotalEmployeeRecord
+            users={users}
+            handleEdit={handleEdit}
+            handleDelete={handleDelete}
+          />
         </Box>
       </Container>
     </Box>
