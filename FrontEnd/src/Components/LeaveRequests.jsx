@@ -19,26 +19,20 @@ const LeaveRequests = () => {
   const { Api_EndPoint, username } = useContext(UserContext);
   const [leaveRequests, setLeaveRequests] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null); // Initialize selectedUser state
+  const [usersWithLeaveStatus, setUsersWithLeaveStatus] = useState([]);
 
   useEffect(() => {
-    // Fetch leave requests data from the backend API
-    const fetchLeaveRequests = async () => {
+    const fetchUsersWithLeaveStatus = async () => {
       try {
-        // Check if selectedUser is not null
-        if (selectedUser) {
-          const response = await axios.put(
-            `${Api_EndPoint}/api/users/${selectedUser.username}/leave-requests`,
-          );
-          setLeaveRequests(response.data.leaveRequests);
-        }
+        const response = await axios.get(`${Api_EndPoint}/api/users`);
+        setUsersWithLeaveStatus(response.data);
       } catch (error) {
-        console.error("Error fetching leave requests:", error);
+        console.error("Error fetching users with leave status:", error);
       }
     };
 
-    fetchLeaveRequests();
-  }, [selectedUser]); // Fetch leave requests when selectedUser changes
-  // Fetch leave requests when selectedUser changes
+    fetchUsersWithLeaveStatus();
+  }, []);
 
   return (
     <Box
@@ -70,16 +64,18 @@ const LeaveRequests = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {leaveRequests.map((request) => (
-              <TableRow key={request._id}>
-                <TableCell>{request.user.name}</TableCell>
-                <TableCell>{request.leaveType}</TableCell>
-                <TableCell>{request.startDate}</TableCell>
-                <TableCell>{request.endDate}</TableCell>
-                <TableCell>{request.status}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
+  {usersWithLeaveStatus.map((user) => (
+    user.leaveStatus.map((status, index) => (
+      <TableRow key={`${user._id}-${index}`}>
+        <TableCell>{user.name}</TableCell>
+        <TableCell>{status.leaveType}</TableCell>
+        <TableCell>{status.startDate}</TableCell>
+        <TableCell>{status.endDate}</TableCell>
+        <TableCell>{status.status}</TableCell>
+      </TableRow>
+    ))
+  ))}
+</TableBody>
         </Table>
       </TableContainer>
     </Box>
