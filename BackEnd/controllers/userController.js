@@ -132,26 +132,26 @@ const updatePicture = async (req, res) => {
 //updating a profile of user
 const updateProfile = async (req, res) => {
   const { userName } = req.params;
-  const { phoneNo, password } = req.body;
+  const { name, username, email, phoneNo, password } = req.body;
 
-  //ADD doc to DB
   try {
-    if (phoneNo) {
-      const newUser = await User.findOneAndUpdate(
-        { username: userName },
-        { phoneNumber: phoneNo },
-        { new: true },
-      );
-      res.status(200).json(newUser);
-    }
-    if (password) {
-      const newUser = await User.findOneAndUpdate(
-        { username: userName },
-        { password: password },
-        { new: true },
-      );
-      res.status(200).json(newUser);
-    }
+    let updateFields = {};
+
+    // Check if each field is provided in the request body and update accordingly
+    if (name) updateFields.name = name;
+    if (username) updateFields.username = username;
+    if (email) updateFields.email = email;
+    if (phoneNo) updateFields.phoneNumber = phoneNo;
+    if (password) updateFields.password = password;
+
+    // Update the user document with the provided fields
+    const newUser = await User.findOneAndUpdate(
+      { username: userName },
+      updateFields,
+      { new: true },
+    );
+
+    res.status(200).json(newUser);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

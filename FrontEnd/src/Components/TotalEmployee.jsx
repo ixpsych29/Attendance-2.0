@@ -15,43 +15,87 @@ import {
   Button,
 } from "@mui/material";
 import { Edit, Delete } from "@mui/icons-material";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import UserContext from "./UserContext";
+import toast from "react-hot-toast";
 import axios from "axios";
 
 const TotalEmployee = () => {
   const [users, setUsers] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
+  const [newName, setNewName] = useState("");
+  const [newUsername, setNewUsername] = useState("");
+  const [newEmail, setNewEmail] = useState("");
+  const [newPhoneNumber, setNewPhoneNumber] = useState("");
+  const { Api_EndPoint } = useContext(UserContext);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const handleEdit = (user) => {
     setSelectedUser(user);
     setIsModalOpen(true);
   };
 
-  // Function to handle closing modal
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setSelectedUser(null);
   };
 
-  // Function to handle updating user profile
-  const handleUpdateProfile = () => {
-    // Implement update logic here
-    // After updating, close the modal
+  const handleUpdateProfile = async () => {
+    try {
+      await axios.put(
+        `${Api_EndPoint}/api/users/${selectedUser.username}/update-profile`,
+        {
+          name: newName,
+          username: newUsername,
+          email: newEmail,
+          phoneNo: newPhoneNumber,
+        },
+      );
+      toast.success("Profile Updated");
+
+      // Fetch updated user data after successful update
+      const response = await axios.get(`${Api_EndPoint}/api/users`);
+      setUsers(response.data.users); // Update the local state with new data
+    } catch (err) {
+      console.error("Error Updating Profile Data", err);
+      toast.error("Failed to update profile. Please try again later.");
+    }
     handleCloseModal();
+  };
+
+  const handleDelete = async (user) => {
+    setSelectedUser(user);
+    setIsDeleteModalOpen(true);
+  };
+
+  const confirmDelete = async () => {
+    try {
+      await axios.delete(
+        `http://localhost:3000/api/users/${selectedUser.username}`,
+      );
+      toast.success("User deleted successfully");
+
+      // Fetch updated user data after successful deletion
+      const response = await axios.get(`${Api_EndPoint}/api/users`);
+      setUsers(response.data.users); // Update the local state with new data
+    } catch (err) {
+      console.error("Error Deleting User", err);
+      toast.error("Failed to delete user. Please try again later.");
+    } finally {
+      setIsDeleteModalOpen(false); // Close the delete confirmation modal
+    }
   };
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/api/users"); // Update URL
-        setUsers(response.data.users); // Assuming response.data has the structure { totalEmployees: ..., users: [...] }
+        const response = await axios.get("http://localhost:3000/api/users");
+        setUsers(response.data.users);
       } catch (error) {
         console.error("Error fetching users: ", error);
       }
     };
-    console.log("user", fetchUsers);
-
     fetchUsers();
   }, []);
 
@@ -59,7 +103,6 @@ const TotalEmployee = () => {
     <Box paddingTop={10} paddingLeft={35}>
       <CssBaseline />
       <Container>
-        {/* Modal for updating user profile */}
         <Modal open={isModalOpen} onClose={handleCloseModal}>
           <Box
             sx={{
@@ -82,29 +125,71 @@ const TotalEmployee = () => {
                   defaultValue={selectedUser.name}
                   fullWidth
                   margin="normal"
+                  onChange={(e) => setNewName(e.target.value)}
                 />
                 <TextField
                   label="Username"
                   defaultValue={selectedUser.username}
                   fullWidth
                   margin="normal"
+                  onChange={(e) => setNewUsername(e.target.value)}
                 />
                 <TextField
                   label="Email"
                   defaultValue={selectedUser.email}
                   fullWidth
                   margin="normal"
+                  onChange={(e) => setNewEmail(e.target.value)}
                 />
                 <TextField
                   label="Phone Number"
                   defaultValue={selectedUser.phoneNumber}
                   fullWidth
                   margin="normal"
+                  onChange={(e) => setNewPhoneNumber(e.target.value)}
                 />
                 <Box mt={2} textAlign="right">
                   <Button onClick={handleCloseModal}>Cancel</Button>
                   <Button variant="contained" onClick={handleUpdateProfile}>
                     Update Profile
+                  </Button>
+                </Box>
+              </Box>
+            )}
+          </Box>
+        </Modal>
+        {/* Delete Confirmation Modal */}
+        <Modal
+          open={isDeleteModalOpen}
+          onClose={() => setIsDeleteModalOpen(false)}>
+          <Box
+            sx={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              width: 400,
+              bgcolor: "background.paper",
+              boxShadow: 24,
+              p: 4,
+            }}>
+            <Typography variant="h6" component="h2" gutterBottom>
+              Confirm Deletion
+            </Typography>
+            {selectedUser && (
+              <Box>
+                <Typography variant="body1" gutterBottom>
+                  Are you sure you want to delete the user: {selectedUser.name}?
+                </Typography>
+                <Box mt={2} textAlign="right">
+                  <Button onClick={() => setIsDeleteModalOpen(false)}>
+                    Cancel
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="error"
+                    onClick={confirmDelete}>
+                    Delete
                   </Button>
                 </Box>
               </Box>
@@ -167,36 +252,38 @@ const TotalEmployee = () => {
             </TableHead>
 
             <TableBody>
-              {users.map((user) => (
-                <TableRow key={user.id}>
-                  <TableCell align="center" className="px-4 py-2">
-                    {user.name}
-                  </TableCell>
-                  <TableCell align="center" className="px-4 py-2">
-                    {user.username}
-                  </TableCell>
-                  <TableCell align="center" className="px-4 py-2">
-                    {user.email}
-                  </TableCell>
-                  <TableCell align="center" className="px-4 py-2">
-                    {user.phoneNumber}
-                  </TableCell>
-                  <TableCell align="center" className="px-4 py-2">
-                    <IconButton
-                      aria-label="edit"
-                      onClick={() => handleEdit(user)}>
-                      {" "}
-                      {/* Pass user object to handleEdit */}
-                      <Edit />
-                    </IconButton>
-                  </TableCell>
-                  <TableCell align="center" className="px-4 py-2">
-                    <IconButton aria-label="delete">
-                      <Delete />
-                    </IconButton>
-                  </TableCell>
-                </TableRow>
-              ))}
+              {users
+                .sort((a, b) => a.name.localeCompare(b.name)) // Sort users alphabetically by name
+                .map((user) => (
+                  <TableRow key={user.id}>
+                    <TableCell align="center" className="px-4 py-2">
+                      {user.name}
+                    </TableCell>
+                    <TableCell align="center" className="px-4 py-2">
+                      {user.username}
+                    </TableCell>
+                    <TableCell align="center" className="px-4 py-2">
+                      {user.email}
+                    </TableCell>
+                    <TableCell align="center" className="px-4 py-2">
+                      {user.phoneNumber}
+                    </TableCell>
+                    <TableCell align="center" className="px-4 py-2">
+                      <IconButton
+                        aria-label="edit"
+                        onClick={() => handleEdit(user)}>
+                        <Edit />
+                      </IconButton>
+                    </TableCell>
+                    <TableCell align="center" className="px-4 py-2">
+                      <IconButton
+                        aria-label="delete"
+                        onClick={() => handleDelete(user)}>
+                        <Delete />
+                      </IconButton>
+                    </TableCell>
+                  </TableRow>
+                ))}
             </TableBody>
           </Table>
         </Box>
