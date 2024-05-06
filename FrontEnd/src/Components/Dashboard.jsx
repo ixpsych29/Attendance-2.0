@@ -5,6 +5,7 @@ import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import dayjs from "dayjs";
 import UserContext from "./UserContext";
+import { Link } from "react-router-dom";
 
 const Dashboard = () => {
   const [totalEmployees, setTotalEmployees] = useState(0);
@@ -49,9 +50,15 @@ const Dashboard = () => {
 
       <Container>
         <div className="flex justify-between mx-auto mb-9">
-          <DisplayCard title="Total" count={totalEmployees} />
-          <DisplayCard title="Present" count={presentEmployees} />
-          <DisplayCard title="Absent" count={absentEmployees} />
+          <Link to="/home/totalemployee" style={{ textDecoration: "none" }}>
+            <DisplayCard title="Total" count={totalEmployees} />
+          </Link>
+          <Link to="/home" style={{ textDecoration: "none" }}>
+            <DisplayCard title="Present" count={presentEmployees} />
+          </Link>
+          <Link to="/home" style={{ textDecoration: "none" }}>
+            <DisplayCard title="Absent" count={absentEmployees} />
+          </Link>
         </div>
         <RecordList
           selectedDate={selectedDate}
