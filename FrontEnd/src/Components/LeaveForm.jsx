@@ -70,27 +70,39 @@ const LeaveForm = () => {
       return;
     }
 
-    if (selectedStartDate < currentDate) {
-      toast.error("Start date cannot be before the current date.");
-      return;
-    }
-    if (selectedEndDate < currentDate) {
-      toast.error("End date cannot be before the current date.");
-      return;
-    }
-
-    if (selectedEndDate < selectedStartDate) {
-      toast.error("End date cannot be before the start date.");
-      return;
-    }
-
     try {
+      // Fetch the user's leave requests to check the time of the last leave request
+      const response = await axios.get(
+        `http://localhost:3000/api/users/${username}`,
+      );
+      const userLeaveRequests = response.data.leaveRequests;
+      if (userLeaveRequests.length > 0) {
+        const lastLeaveRequestTime = new Date(
+          userLeaveRequests[userLeaveRequests.length - 1].createdAt,
+        );
+        // Calculate the time difference between the last leave request and the current time
+        const timeDifferenceInHours =
+          (currentDate - lastLeaveRequestTime) / (1000 * 60 * 60);
+        if (timeDifferenceInHours < 24) {
+          toast.error("You can only request one leave within 24 hours.");
+          return;
+        }
+      }
+
+      // If the user hasn't made a leave request in the last 24 hours, submit the new leave request
       await axios.post(
         `http://localhost:3000/api/users/${username}/leave-request`,
         leaveData,
       );
       toast.success("Leave submitted successfully");
       console.log("Form Submitted");
+      // Clear the form after successful submission
+      setLeaveData({
+        leaveType: "",
+        startDate: "",
+        endDate: "",
+        reason: "",
+      });
     } catch (error) {
       console.error("Error submitting leave request:", error);
       toast.error("Failed to submit leave request");
@@ -127,61 +139,50 @@ const LeaveForm = () => {
             />
           </Grid>
           <Grid item xs={12} md={6} style={{ height: "16px" }} />
-          <Grid item xs={12} md={6}>
-            <FormControl fullWidth error={!!errors.leaveType}>
-              <InputLabel id="leave-type-label">Leave Type</InputLabel>
-              <Select
-                labelId="leave-type-label"
-                id="leave-type"
-                value={leaveData.leaveType}
-                onChange={(e) =>
-                  setLeaveData({ ...leaveData, leaveType: e.target.value })
-                }
-                label="Leave Type">
-                <MenuItem value={"Sick Leave"}>Sick Leave</MenuItem>
-                <MenuItem value={"Vacation"}>Vacation</MenuItem>
-                <MenuItem value={"Personal Leave"}>Personal Leave</MenuItem>
-              </Select>
-            </FormControl>
-            <Typography variant="caption" color="error">
-              {errors.leaveType}
-            </Typography>
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              id="leave-type"
+              label="Leave Type"
+              value={leaveData.leaveType}
+              onChange={(e) =>
+                setLeaveData({ ...leaveData, leaveType: e.target.value })
+              }
+              error={!!errors.leaveType}
+              helperText={errors.leaveType}
+            />
           </Grid>
-
-          <Grid item xs={12} md={6} style={{ height: "16px" }} />
-          <Grid gap={1} style={{ display: "flex" }} sx={{ mt: 2, ml: 2 }}>
-            <Grid item xs={12} md={6}>
-              <TextField
-                id="start-date"
-                label="Start Date"
-                type="date"
-                value={leaveData.startDate}
-                onChange={(e) =>
-                  setLeaveData({ ...leaveData, startDate: e.target.value })
-                }
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                error={!!errors.startDate}
-                helperText={errors.startDate}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <TextField
-                id="end-date"
-                label="End Date"
-                type="date"
-                value={leaveData.endDate}
-                onChange={(e) =>
-                  setLeaveData({ ...leaveData, endDate: e.target.value })
-                }
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                error={!!errors.endDate}
-                helperText={errors.endDate}
-              />
-            </Grid>
+          <Grid item xs={12}>
+            <TextField
+              id="start-date"
+              label="Start Date"
+              type="date"
+              value={leaveData.startDate}
+              onChange={(e) =>
+                setLeaveData({ ...leaveData, startDate: e.target.value })
+              }
+              InputLabelProps={{
+                shrink: true,
+              }}
+              error={!!errors.startDate}
+              helperText={errors.startDate}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              id="end-date"
+              label="End Date"
+              type="date"
+              value={leaveData.endDate}
+              onChange={(e) =>
+                setLeaveData({ ...leaveData, endDate: e.target.value })
+              }
+              InputLabelProps={{
+                shrink: true,
+              }}
+              error={!!errors.endDate}
+              helperText={errors.endDate}
+            />
           </Grid>
           <Grid item xs={12}>
             <TextField

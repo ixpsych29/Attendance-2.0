@@ -9,6 +9,7 @@ const {
   loginUser,
   UserExist,
   createLeaveRequest,
+  updateLeaveRequest,
 } = require("../controllers/userController");
 
 const router = express.Router();
@@ -35,5 +36,9 @@ router.post("/login", loginUser);
 
 // Create leave request for a user
 router.post("/:userName/leave-request", createLeaveRequest);
+
+//  Update Leave request
+
+router.put("/:userName/updateLeaveRequest", updateLeaveRequest);
 
 module.exports = router;

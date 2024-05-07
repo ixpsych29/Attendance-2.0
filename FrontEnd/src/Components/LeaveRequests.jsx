@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import {
   Table,
@@ -11,28 +11,51 @@ import {
   Typography,
   Box,
   Divider,
+  IconButton,
 } from "@mui/material";
-import UserContext from "./UserContext";
+import { CheckCircle, Cancel } from "@mui/icons-material";
 import toast from "react-hot-toast";
 
 const LeaveRequests = () => {
-  const { Api_EndPoint, username } = useContext(UserContext);
-  const [leaveRequests, setLeaveRequests] = useState([]);
-  const [selectedUser, setSelectedUser] = useState(null); // Initialize selectedUser state
-  const [usersWithLeaveStatus, setUsersWithLeaveStatus] = useState([]);
+  const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    const fetchUsersWithLeaveStatus = async () => {
+    const fetchUsers = async () => {
       try {
-        const response = await axios.get(`${Api_EndPoint}/api/users`);
-        setUsersWithLeaveStatus(response.data);
+        const response = await axios.get("http://localhost:3000/api/users");
+        console.log("API Response:", response.data); // Log the response data
+        setUsers(response.data.users);
       } catch (error) {
-        console.error("Error fetching users with leave status:", error);
+        console.error("Error fetching users:", error);
+        toast.error("Error fetching users");
       }
     };
 
-    fetchUsersWithLeaveStatus();
+    fetchUsers();
   }, []);
+
+  const updateLeaveRequest = async (userName, leaveRequestId, newStatus) => {
+    console.log("User Name:", userName);
+    console.log("Leave Request ID:", leaveRequestId);
+    console.log("New Status:", newStatus);
+
+    try {
+      await axios.put(
+        `http://localhost:3000/api/users/${userName}/updateLeaveRequest`,
+        {
+          leaveRequestId,
+          newStatus,
+        },
+      );
+      // Fetch users again to update the UI with the latest data
+      // fetchUsers();
+      toast.success("Leave request updated successfully");
+    } catch (error) {
+      console.error("Error updating leave request:", error);
+      toast.error("Error updating leave request");
+    }
+    console.log("Leave request ID:", leaveRequestId); // Log leaveRequestId
+  };
 
   return (
     <Box
@@ -50,7 +73,12 @@ const LeaveRequests = () => {
       </Typography>
       <Divider
         variant="middle"
-        sx={{ mt: 5, mb: 7, borderColor: "primary.main", borderWidth: 2 }}
+        sx={{
+          mt: 5,
+          mb: 7,
+          borderColor: "primary.main",
+          borderWidth: 2,
+        }}
       />
       <TableContainer component={Paper}>
         <Table>
@@ -61,21 +89,54 @@ const LeaveRequests = () => {
               <TableCell>Start Date</TableCell>
               <TableCell>End Date</TableCell>
               <TableCell>Status</TableCell>
+              <TableCell>Action</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-  {usersWithLeaveStatus.map((user) => (
-    user.leaveStatus.map((status, index) => (
-      <TableRow key={`${user._id}-${index}`}>
-        <TableCell>{user.name}</TableCell>
-        <TableCell>{status.leaveType}</TableCell>
-        <TableCell>{status.startDate}</TableCell>
-        <TableCell>{status.endDate}</TableCell>
-        <TableCell>{status.status}</TableCell>
-      </TableRow>
-    ))
-  ))}
-</TableBody>
+            {users.map((user) =>
+              user.leaveRequests.map((request) => {
+                console.log("Request:", request); // Log the request object
+                console.log("Request ID:", request._id); // Log the _id field
+                return (
+                  <TableRow key={request._id}>
+                    <TableCell>{user.name}</TableCell>
+                    <TableCell>{request.leaveType}</TableCell>
+                    <TableCell>{request.startDate}</TableCell>
+                    <TableCell>{request.endDate}</TableCell>
+                    <TableCell>{request.status}</TableCell>
+                    <TableCell>
+                      {request.status !== "approved" && (
+                        <IconButton
+                          onClick={() =>
+                            updateLeaveRequest(
+                              user.username,
+                              request._id,
+                              "approved",
+                            )
+                          }
+                          color="success">
+                          <CheckCircle />
+                        </IconButton>
+                      )}
+                      {request.status !== "disapproved" && (
+                        <IconButton
+                          onClick={() =>
+                            updateLeaveRequest(
+                              user.username,
+                              request._id,
+                              "disapproved",
+                            )
+                          }
+                          color="error">
+                          <Cancel />
+                        </IconButton>
+                      )}
+                    </TableCell>
+                  </TableRow>
+                );
+              }),
+            )}
+          </TableBody>
         </Table>
       </TableContainer>
     </Box>
