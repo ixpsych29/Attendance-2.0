@@ -19,8 +19,7 @@ import toast from "react-hot-toast";
 const LeaveRequests = () => {
   const [users, setUsers] = useState([]);
 
-  useEffect(() => {
-    const fetchUsers = async () => {
+ const fetchUsers = async () => {
       try {
         const response = await axios.get("http://localhost:3000/api/users");
         console.log("API Response:", response.data); // Log the response data
@@ -30,7 +29,7 @@ const LeaveRequests = () => {
         toast.error("Error fetching users");
       }
     };
-
+  useEffect(() => {
     fetchUsers();
   }, []);
 
@@ -48,7 +47,7 @@ const LeaveRequests = () => {
         },
       );
       // Fetch users again to update the UI with the latest data
-      // fetchUsers();
+      fetchUsers();
       toast.success("Leave request updated successfully");
     } catch (error) {
       console.error("Error updating leave request:", error);
@@ -105,7 +104,7 @@ const LeaveRequests = () => {
                     <TableCell>{request.endDate}</TableCell>
                     <TableCell>{request.status}</TableCell>
                     <TableCell>
-                      {request.status !== "approved" && (
+                      {request.status == "approved" && (
                         <IconButton
                           onClick={() =>
                             updateLeaveRequest(
@@ -118,7 +117,7 @@ const LeaveRequests = () => {
                           <CheckCircle />
                         </IconButton>
                       )}
-                      {request.status !== "disapproved" && (
+                      {request.status == "disapproved" && (
                         <IconButton
                           onClick={() =>
                             updateLeaveRequest(
