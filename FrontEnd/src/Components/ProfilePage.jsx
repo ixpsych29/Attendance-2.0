@@ -36,7 +36,8 @@ export default function ProfilePage() {
       });
       toast.success("Profile Updated");
     } catch (err) {
-      console.log("Error Updating Profile Data", err);
+      console.error("Error Updating Profile Data", err);
+      toast.error("Failed to update profile. Please try again later.");
     }
   };
 
@@ -48,8 +49,7 @@ export default function ProfilePage() {
       <div className="flex items-center justify-center ">
         <div
           className="flex items-center justify-center space-x-4 mb-4 border border-gray-300 p-24  pl-[-5] rounded-md shadow-2xl  bg-[#DBF3FA] pr-20 "
-          style={{ boxShadow: "14px 12px 20px rgba(0, 0, 0, 0.6)" }}
-        >
+          style={{ boxShadow: "14px 12px 20px rgba(0, 0, 0, 0.6)" }}>
           <div className="w-1/2 border-r border-black pr-2  mr-36 ">
             <ProfilePictureUpload />
           </div>
@@ -119,8 +119,7 @@ export default function ProfilePage() {
               <button
                 type="submit"
                 className="mt-10  mr-52 px-7 py-2 rounded-md shadow-xl text-white bg-gradient-to-r from-sky-600 to-cyan-400 hover:from-cyan-400 hover:to-sky-600"
-                disabled={!(formData.name && formData.phoneNo)}
-              >
+                disabled={!(formData.name && formData.phoneNo)}>
                 Update Profile
               </button>
             </div>

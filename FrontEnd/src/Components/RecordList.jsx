@@ -95,15 +95,18 @@ const RecordList = ({ selectedDate, setSelectedDate }) => {
     });
     setShowPreviousMonth(true);
   };
+  const capitalizedUserName =
+    username.charAt(0).toUpperCase() + username.slice(1);
 
   return (
     <TableContainer component={Paper} sx={{ mt: 7, ml: 15, pt: 5 }}>
       <Typography
         variant="h4"
         textAlign="center"
-        sx={{ mb: 3, color: "text.primary" }}
-      >
-        {role === "admin" ? "Admin Dashboard" : `${username}, Your History`}
+        sx={{ mb: 3, color: "text.primary" }}>
+        {role === "admin"
+          ? "Admin Dashboard"
+          : `${capitalizedUserName}, Your History`}
       </Typography>
 
       <Divider
@@ -116,15 +119,13 @@ const RecordList = ({ selectedDate, setSelectedDate }) => {
             className="btn-style"
             variant="contained"
             onClick={handleMenuOpen}
-            sx={{ left: "7%", mr: 1 }}
-          >
+            sx={{ left: "7%", mr: 1 }}>
             Generate Report
           </Button>
           <Menu
             anchorEl={anchorEl}
             open={Boolean(anchorEl)}
-            onClose={handleMenuClose}
-          >
+            onClose={handleMenuClose}>
             <MenuItem onClick={() => generateCSVReport("thisMonth")}>
               This Month Report
             </MenuItem>
@@ -148,8 +149,7 @@ const RecordList = ({ selectedDate, setSelectedDate }) => {
               end: dayjs().endOf("day"),
             });
           }}
-          sx={{ left: "5%", mr: 1 }}
-        >
+          sx={{ left: "5%", mr: 1 }}>
           This Month Records
         </Button>
       ) : (
@@ -161,8 +161,7 @@ const RecordList = ({ selectedDate, setSelectedDate }) => {
             left: "2%",
             mr: 1,
             marginBottom: 2,
-          }}
-        >
+          }}>
           Previous Month Records
         </Button>
       )}
