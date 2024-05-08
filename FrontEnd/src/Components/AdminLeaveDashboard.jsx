@@ -16,7 +16,7 @@ import {
 import { CheckCircle, Cancel } from "@mui/icons-material";
 import toast from "react-hot-toast";
 
-const LeaveRequests = () => {
+const AdminLeaveDashboard = () => {
   const [users, setUsers] = useState([]);
 
   const fetchUsers = async () => {
@@ -103,7 +103,7 @@ const LeaveRequests = () => {
                     <TableCell>{request.startDate}</TableCell>
                     <TableCell>{request.endDate}</TableCell>
                     <TableCell>{request.status}</TableCell>
-
+                    {/* // Inside TableCell component where icons are rendered */}
                     <TableCell>
                       {request.status !== "approved" && (
                         <IconButton
@@ -149,4 +149,4 @@ const LeaveRequests = () => {
   );
 };
 
-export default LeaveRequests;
+export default AdminLeaveDashboard;

@@ -9,7 +9,7 @@ const leaveRequestSchema = new Schema(
     startDate: { type: Date, required: true },
     endDate: { type: Date, required: true },
     reason: { type: String, required: true },
-    leaveCount: { type: Number, default: 24 },
+    leaveDays: { type: Number },
     status: {
       type: String,
       enum: ["pending", "approved", "disapproved"],
@@ -50,6 +50,10 @@ const userModel = new Schema(
       type: String,
       enum: ["user", "admin"],
       default: "user",
+    },
+    leaveCount: {
+      type: Number,
+      default: 24, // Or any default value you desire
     },
     leaveRequests: [leaveRequestSchema], // Embed leaveRequestSchema as a subdocument array
   },

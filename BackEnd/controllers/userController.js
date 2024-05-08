@@ -21,7 +21,7 @@ const getUsers = async (req, res) => {
         endDate: request.endDate.toDateString(),
         reason: request.reason,
         status: request.status,
-        leaveCount: request.leaveCount, // Include leave count
+        leaveDays: request.leaveDays, // Include leave count
       }));
 
       // Add leave count to each user
@@ -44,14 +44,46 @@ const getUsers = async (req, res) => {
   }
 };
 
-//get a single User
+//get a single User with leave details
 const getSingleUser = async (req, res) => {
   const { userName } = req.params;
-  const user = await User.findOne({ username: userName });
-  if (!user) {
-    return res.status(404).json({ error: "No user found" });
+  try {
+    const user = await User.findOne({ username: userName }).populate(
+      "leaveRequests",
+    );
+
+    if (!user) {
+      return res.status(404).json({ error: "No user found" });
+    }
+
+    // Extract leave request details for the user
+    const leaveDetails = user.leaveRequests.map((request) => ({
+      _id: request._id,
+      leaveType: request.leaveType,
+      startDate: request.startDate.toDateString(),
+      endDate: request.endDate.toDateString(),
+      reason: request.reason,
+      status: request.status,
+      leaveDays: request.leaveDays,
+    }));
+    console.log(leaveDetails);
+
+    // Create user object with leave details
+    const userWithLeaveDetails = {
+      _id: user._id,
+      name: user.name,
+      username: user.username,
+      email: user.email,
+      phoneNumber: user.phoneNumber,
+      leaveCount: user.leaveCount,
+      leaveRequests: leaveDetails,
+    };
+
+    res.status(200).json(userWithLeaveDetails);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
-  res.status(200).json(user);
 };
 
 //CREATE a new User
@@ -227,7 +259,7 @@ async function UserExist(req, res) {
   }
 }
 
-// Leave request controller
+// Create Leave request
 
 const createLeaveRequest = async (req, res) => {
   const { userName } = req.params;
@@ -242,7 +274,9 @@ const createLeaveRequest = async (req, res) => {
     // Calculate the number of days in the leave request
     const start = new Date(startDate);
     const end = new Date(endDate);
-    const leaveDays = Math.ceil((end - start) / (1000 * 60 * 60 * 24)); // Convert milliseconds to days
+    console.log(start, end);
+    const leaveDays = Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1; // Convert milliseconds to days
+    console.log(leaveDays);
 
     // Check if the user has enough leave count
     if (user.leaveCount < leaveDays) {
@@ -250,15 +284,17 @@ const createLeaveRequest = async (req, res) => {
     }
 
     // Deduct leave days from the total leave count
+
     user.leaveCount -= leaveDays;
+    console.log(user.leaveCount);
 
     const newLeaveRequest = {
       leaveType,
       startDate,
       endDate,
       reason,
-      status: "approved", // Set default status to approved
-      leaveCount: leaveDays, // Set leave count for this specific request
+      status: "pending", // Set default status to approved
+      leaveDays, // Set leave count for this specific request
     };
 
     user.leaveRequests.push(newLeaveRequest);
@@ -271,6 +307,7 @@ const createLeaveRequest = async (req, res) => {
   }
 };
 
+// update LEave request
 const updateLeaveRequest = async (req, res) => {
   const { userName } = req.params;
   const { leaveRequestId, newStatus } = req.body;

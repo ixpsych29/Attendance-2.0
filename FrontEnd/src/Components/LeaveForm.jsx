@@ -63,31 +63,33 @@ const LeaveForm = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const currentDate = new Date();
+    const selectedStartDate = new Date(leaveData.startDate);
+    const selectedEndDate = new Date(leaveData.endDate);
 
     if (!validateForm()) {
       return;
     }
 
     try {
-      // Fetch the user's leave requests to check for pending requests
+      // Fetch the user's leave requests to check the time of the last leave request
       const response = await axios.get(
         `http://localhost:3000/api/users/${username}`,
       );
       const userLeaveRequests = response.data.leaveRequests;
       if (userLeaveRequests.length > 0) {
-        // Check if there is any pending leave request
-        const pendingRequest = userLeaveRequests.find(
-          (request) => request.status === "pending",
+        const lastLeaveRequestTime = new Date(
+          userLeaveRequests[userLeaveRequests.length - 1].createdAt,
         );
-        if (pendingRequest) {
-          toast.error(
-            "You have another Leave Request pending. Please wait for approval.",
-          );
+        // Calculate the time difference between the last leave request and the current time
+        const timeDifferenceInHours =
+          (currentDate - lastLeaveRequestTime) / (1000 * 60 * 60);
+        if (timeDifferenceInHours < 24) {
+          toast.error("You can only request one leave within 24 hours.");
           return;
         }
       }
 
-      // No pending requests, submit the new leave request
+      // If the user hasn't made a leave request in the last 24 hours, submit the new leave request
       await axios.post(
         `http://localhost:3000/api/users/${username}/leave-request`,
         leaveData,
@@ -137,7 +139,7 @@ const LeaveForm = () => {
             />
           </Grid>
           <Grid item xs={12} md={6} style={{ height: "16px" }} />
-          <Grid item xs={12}>
+          <Grid item xs={12} md={6}>
             <TextField
               fullWidth
               id="leave-type"
@@ -165,8 +167,23 @@ const LeaveForm = () => {
               error={!!errors.startDate}
               helperText={errors.startDate}
             />
+            <TextField
+              id="end-date"
+              label="End Date"
+              type="date"
+              value={leaveData.endDate}
+              onChange={(e) =>
+                setLeaveData({ ...leaveData, endDate: e.target.value })
+              }
+              InputLabelProps={{
+                shrink: true,
+              }}
+              error={!!errors.endDate}
+              helperText={errors.endDate}
+              style={{ marginLeft: "5px" }} // Add margin left of 5px
+            />
           </Grid>
-          <Grid item xs={12}>
+          {/* <Grid item xs={12}>
             <TextField
               id="end-date"
               label="End Date"
@@ -181,7 +198,7 @@ const LeaveForm = () => {
               error={!!errors.endDate}
               helperText={errors.endDate}
             />
-          </Grid>
+          </Grid> */}
           <Grid item xs={12}>
             <TextField
               fullWidth

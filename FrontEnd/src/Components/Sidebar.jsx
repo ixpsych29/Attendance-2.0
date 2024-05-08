@@ -15,6 +15,7 @@ const Sidebar = ({ mode, setMode }) => {
   const [showSidebar, setShowSidebar] = useState(true); // State to track sidebar visibility
   const [userRole, setUserRole] = useState(""); // Initialize userRole state
   const isAdmin = role === "admin";
+  const isUser = role === "user";
 
   const isActiveLink = (to) => {
     return location.pathname === to;
@@ -174,22 +175,50 @@ const Sidebar = ({ mode, setMode }) => {
               {isAdmin && (
                 <li>
                   <Link
-                    to="/home/leaverequest"
+                    to="/home/adminleavedashboard"
                     className={`px-4 py-3 flex items-center space-x-4 rounded-md ${
-                      isActiveLink("/home/leaverequest")
+                      isActiveLink("/home/adminleavedashboard")
                         ? "btn-style text-white"
                         : ""
                     }`}>
                     <CgProfile
                       className={`w-6 h-6 ${
-                        isActiveLink("/home/leaverequest")
+                        isActiveLink("/home/adminleavedashboard")
                           ? "text-white"
                           : "text-white"
                       }`}
                     />
                     <span
                       className={`-mr-1 font-medium ${
-                        isActiveLink("/home/leaverequest")
+                        isActiveLink("/home/adminleavedashboard")
+                          ? "text-white"
+                          : "text-white"
+                      }`}>
+                      Leave Request
+                    </span>
+                  </Link>
+                </li>
+              )}
+              {/* Display Leave Request */}
+              {isUser && (
+                <li>
+                  <Link
+                    to="/home/userleavedashboard"
+                    className={`px-4 py-3 flex items-center space-x-4 rounded-md ${
+                      isActiveLink("/home/userleavedashboard")
+                        ? "btn-style text-white"
+                        : ""
+                    }`}>
+                    <CgProfile
+                      className={`w-6 h-6 ${
+                        isActiveLink("/home/userleavedashboard")
+                          ? "text-white"
+                          : "text-white"
+                      }`}
+                    />
+                    <span
+                      className={`-mr-1 font-medium ${
+                        isActiveLink("/home/userleavedashboard")
                           ? "text-white"
                           : "text-white"
                       }`}>
