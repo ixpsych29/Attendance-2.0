@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import UserContext from "./UserContext";
 import { FaHome, FaUserCheck, FaSignOutAlt } from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
@@ -13,6 +13,8 @@ const Sidebar = ({ mode, setMode }) => {
   const location = useLocation();
   const [darkMode, setDarkMode] = useState(false); // State to track dark mode
   const [showSidebar, setShowSidebar] = useState(true); // State to track sidebar visibility
+  const [userRole, setUserRole] = useState(""); // Initialize userRole state
+  const isAdmin = role === "admin";
 
   const isActiveLink = (to) => {
     return location.pathname === to;
@@ -43,6 +45,10 @@ const Sidebar = ({ mode, setMode }) => {
   const toggleSidebar = () => {
     setShowSidebar(!showSidebar);
   };
+
+  useEffect(() => {
+    setUserRole(role); // Update userRole state when role changes
+  }, [role]);
 
   return (
     <div>
@@ -78,8 +84,7 @@ const Sidebar = ({ mode, setMode }) => {
                   aria-label="dashboard"
                   className={`relative px-4 py-3 flex items-center space-x-4 rounded-lg text-black ${
                     isActiveLink("/home") ? "btn-style" : ""
-                  }`}
-                >
+                  }`}>
                   <FaHome
                     className={`w-6 h-6 ${
                       isActiveLink("/home") ? "text-white" : "text-white"
@@ -88,8 +93,7 @@ const Sidebar = ({ mode, setMode }) => {
                   <span
                     className={`-mr-1 font-medium ${
                       isActiveLink("/home") ? "text-white" : "text-white"
-                    }`}
-                  >
+                    }`}>
                     Home
                   </span>
                 </Link>
@@ -102,8 +106,7 @@ const Sidebar = ({ mode, setMode }) => {
                       isActiveLink("/home/attendence")
                         ? "btn-style text-white"
                         : " "
-                    }`}
-                  >
+                    }`}>
                     <FaUserCheck
                       className={`w-6 h-6 ${
                         isActiveLink("/home/attendence")
@@ -116,8 +119,7 @@ const Sidebar = ({ mode, setMode }) => {
                         isActiveLink("/home/attendence")
                           ? "text-white"
                           : "text-white "
-                      }`}
-                    >
+                      }`}>
                       Attendance
                     </span>
                   </Link>
@@ -128,8 +130,7 @@ const Sidebar = ({ mode, setMode }) => {
                   to="/home/profile"
                   className={`px-4 py-3 flex items-center space-x-4 rounded-md ${
                     isActiveLink("/home/profile") ? "btn-style text-white" : ""
-                  }`}
-                >
+                  }`}>
                   <CgProfile
                     className={`w-6 h-6 ${
                       isActiveLink("/home/profile")
@@ -142,12 +143,62 @@ const Sidebar = ({ mode, setMode }) => {
                       isActiveLink("/home/profile")
                         ? "text-white"
                         : "text-white"
-                    }`}
-                  >
+                    }`}>
                     Profile
                   </span>
                 </Link>
               </li>
+
+              {/* Display Leave Form */}
+              <li>
+                <Link
+                  to="/home/leave"
+                  className={`px-4 py-3 flex items-center space-x-4 rounded-md ${
+                    isActiveLink("/home/leave") ? "btn-style text-white" : ""
+                  }`}>
+                  <CgProfile
+                    className={`w-6 h-6 ${
+                      isActiveLink("/home/leave") ? "text-white" : "text-white"
+                    }`}
+                  />
+                  <span
+                    className={`-mr-1 font-medium ${
+                      isActiveLink("/home/leave") ? "text-white" : "text-white"
+                    }`}>
+                    Leave Form
+                  </span>
+                </Link>
+              </li>
+
+              {/* Display Leave Request */}
+              {isAdmin && (
+                <li>
+                  <Link
+                    to="/home/leaverequest"
+                    className={`px-4 py-3 flex items-center space-x-4 rounded-md ${
+                      isActiveLink("/home/leaverequest")
+                        ? "btn-style text-white"
+                        : ""
+                    }`}>
+                    <CgProfile
+                      className={`w-6 h-6 ${
+                        isActiveLink("/home/leaverequest")
+                          ? "text-white"
+                          : "text-white"
+                      }`}
+                    />
+                    <span
+                      className={`-mr-1 font-medium ${
+                        isActiveLink("/home/leaverequest")
+                          ? "text-white"
+                          : "text-white"
+                      }`}>
+                      Leave Request
+                    </span>
+                  </Link>
+                </li>
+              )}
+
               {/* Settings option */}
               <li>
                 <Link
@@ -156,8 +207,7 @@ const Sidebar = ({ mode, setMode }) => {
                     isActiveLink("/home/update-password")
                       ? "btn-style text-white"
                       : ""
-                  }`}
-                >
+                  }`}>
                   <FaCog
                     className={`w-6 h-6 ${
                       isActiveLink("/home/update-password")
@@ -170,8 +220,7 @@ const Sidebar = ({ mode, setMode }) => {
                       isActiveLink("/home/update-password")
                         ? "text-white"
                         : "text-white"
-                    }`}
-                  >
+                    }`}>
                     Settings
                   </span>
                 </Link>
@@ -182,8 +231,7 @@ const Sidebar = ({ mode, setMode }) => {
             {/* Dark mode toggle button */}
             <button
               onClick={toggleDarkMode}
-              className="px-4 py-3 flex flex-col items-center rounded-md text-white group transition duration-300 ease-in-out transform hover:scale-110"
-            >
+              className="px-4 py-3 flex flex-col items-center rounded-md text-white group transition duration-300 ease-in-out transform hover:scale-110">
               {/* Adjust the icon based on dark mode state */}
               {darkMode ? (
                 <FaMoon className="w-6 h-6 mb-2 space-x-2" />
@@ -199,8 +247,7 @@ const Sidebar = ({ mode, setMode }) => {
                 to="/"
                 onClick={() => {
                   login(false);
-                }}
-              >
+                }}>
                 <FaSignOutAlt className="w-6 h-6 mb-2 space-x-2" />
                 <span>Logout</span>
               </Link>

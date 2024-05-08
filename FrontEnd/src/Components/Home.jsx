@@ -37,8 +37,7 @@ function Home({ login }) {
                 isMediumOrSmallerScreen
                   ? "bg-transparent fixed top-20 left-0 w-full"
                   : "bg-transparent"
-              }
-            >
+              }>
               <Navbar login={login} />
             </Box>
             <Box
@@ -46,8 +45,7 @@ function Home({ login }) {
                 isMediumOrSmallerScreen
                   ? "bg-transparent fixed top-20 left-0 w-full"
                   : "bg-transparent"
-              }
-            >
+              }>
               <Sidebar mode={mode} setMode={setMode} />
             </Box>
           </>
@@ -56,8 +54,7 @@ function Home({ login }) {
           flex="1"
           p={3}
           ml={isMediumOrSmallerScreen ? 0 : 4}
-          className="bg-transparent"
-        >
+          className="bg-transparent">
           <Box>
             <Outlet />
           </Box>
