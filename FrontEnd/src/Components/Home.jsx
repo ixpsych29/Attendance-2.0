@@ -1,9 +1,9 @@
 import { Box, ThemeProvider, createTheme, useTheme } from "@mui/material";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import Navbar from "./NavBar";
 import Sidebar from "./Sidebar";
 import { Outlet, useNavigate } from "react-router-dom";
-import UserContext from "./UserContext";
+// import UserContext from "./UserContext";
 import { useMediaQuery } from "@mui/material";
 
 function Home({ login }) {
@@ -17,7 +17,7 @@ function Home({ login }) {
   const theme = useTheme();
 
   // eslint-disable-next-line no-unused-vars
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const currentPath = window.location.pathname;
 
   // Check if the current path is "/login" or "/signup"
