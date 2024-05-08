@@ -9,6 +9,7 @@ const leaveRequestSchema = new Schema(
     startDate: { type: Date, required: true },
     endDate: { type: Date, required: true },
     reason: { type: String, required: true },
+    leaveCount: { type: Number, default: 24 },
     status: {
       type: String,
       enum: ["pending", "approved", "disapproved"],

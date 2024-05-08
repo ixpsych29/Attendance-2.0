@@ -21,16 +21,20 @@ const getUsers = async (req, res) => {
         endDate: request.endDate.toDateString(),
         reason: request.reason,
         status: request.status,
+        leaveCount: request.leaveCount, // Include leave count
       }));
-      console.log(user.leaveRequests);
-      return {
+
+      // Add leave count to each user
+      const userWithLeaveCount = {
         _id: user._id,
         name: user.name,
         username: user.username,
         email: user.email,
         phoneNumber: user.phoneNumber,
-        leaveRequests: leaveDetails, // Add leave request details to each user
+        leaveRequests: leaveDetails,
       };
+
+      return userWithLeaveCount;
     });
 
     res.status(200).json({ totalEmployees, users: usersWithLeaveDetails });
@@ -235,12 +239,26 @@ const createLeaveRequest = async (req, res) => {
       return res.status(404).json({ error: "User not found" });
     }
 
+    // Calculate the number of days in the leave request
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    const leaveDays = Math.ceil((end - start) / (1000 * 60 * 60 * 24)); // Convert milliseconds to days
+
+    // Check if the user has enough leave count
+    if (user.leaveCount < leaveDays) {
+      return res.status(400).json({ error: "Insufficient leave count" });
+    }
+
+    // Deduct leave days from the total leave count
+    user.leaveCount -= leaveDays;
+
     const newLeaveRequest = {
       leaveType,
       startDate,
       endDate,
       reason,
-      status: "pending", // Set default status to pending
+      status: "approved", // Set default status to approved
+      leaveCount: leaveDays, // Set leave count for this specific request
     };
 
     user.leaveRequests.push(newLeaveRequest);
@@ -252,33 +270,6 @@ const createLeaveRequest = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
-
-// Update leave request for a user by username
-// const updateLeaveRequest = async (req, res) => {
-//   const { userName } = req.params;
-//   const { leaveRequestId, newStatus } = req.body;
-
-//   try {
-//     const user = await User.findOne({ username: userName });
-//     if (!user) {
-//       return res.status(404).json({ error: "User not found" });
-//     }
-
-//     const leaveRequest = user.leaveRequests.id(leaveRequestId);
-//     if (!leaveRequest) {
-//       return res.status(404).json({ error: "Leave request not found" });
-//     }
-
-//     // Update the status of the leave request
-//     leaveRequest.status = newStatus;
-//     await user.save();
-
-//     res.status(200).json({ message: "Leave request updated successfully" });
-//   } catch (error) {
-//     console.error("Error updating leave request:", error);
-//     res.status(500).json({ error: "Internal Server Error" });
-//   }
-// };
 
 const updateLeaveRequest = async (req, res) => {
   const { userName } = req.params;

@@ -19,16 +19,16 @@ import toast from "react-hot-toast";
 const LeaveRequests = () => {
   const [users, setUsers] = useState([]);
 
- const fetchUsers = async () => {
-      try {
-        const response = await axios.get("http://localhost:3000/api/users");
-        console.log("API Response:", response.data); // Log the response data
-        setUsers(response.data.users);
-      } catch (error) {
-        console.error("Error fetching users:", error);
-        toast.error("Error fetching users");
-      }
-    };
+  const fetchUsers = async () => {
+    try {
+      const response = await axios.get("http://localhost:3000/api/users");
+      console.log("API Response:", response.data); // Log the response data
+      setUsers(response.data.users);
+    } catch (error) {
+      console.error("Error fetching users:", error);
+      toast.error("Error fetching users");
+    }
+  };
   useEffect(() => {
     fetchUsers();
   }, []);
@@ -103,21 +103,9 @@ const LeaveRequests = () => {
                     <TableCell>{request.startDate}</TableCell>
                     <TableCell>{request.endDate}</TableCell>
                     <TableCell>{request.status}</TableCell>
+
                     <TableCell>
-                      {request.status == "approved" && (
-                        <IconButton
-                          onClick={() =>
-                            updateLeaveRequest(
-                              user.username,
-                              request._id,
-                              "approved",
-                            )
-                          }
-                          color="success">
-                          <CheckCircle />
-                        </IconButton>
-                      )}
-                      {request.status == "disapproved" && (
+                      {request.status !== "approved" && (
                         <IconButton
                           onClick={() =>
                             updateLeaveRequest(
@@ -130,6 +118,25 @@ const LeaveRequests = () => {
                           <Cancel />
                         </IconButton>
                       )}
+                      {request.status !== "disapproved" && (
+                        <IconButton
+                          onClick={() =>
+                            updateLeaveRequest(
+                              user.username,
+                              request._id,
+                              "approved",
+                            )
+                          }
+                          color="success">
+                          <CheckCircle />
+                        </IconButton>
+                      )}
+                      {request.status !== "approved" &&
+                        request.status !== "disapproved" && (
+                          <div>
+                            {/* Render nothing when status is neither approved nor disapproved */}
+                          </div>
+                        )}
                     </TableCell>
                   </TableRow>
                 );

@@ -63,33 +63,31 @@ const LeaveForm = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const currentDate = new Date();
-    const selectedStartDate = new Date(leaveData.startDate);
-    const selectedEndDate = new Date(leaveData.endDate);
 
     if (!validateForm()) {
       return;
     }
 
     try {
-      // Fetch the user's leave requests to check the time of the last leave request
+      // Fetch the user's leave requests to check for pending requests
       const response = await axios.get(
         `http://localhost:3000/api/users/${username}`,
       );
       const userLeaveRequests = response.data.leaveRequests;
       if (userLeaveRequests.length > 0) {
-        const lastLeaveRequestTime = new Date(
-          userLeaveRequests[userLeaveRequests.length - 1].createdAt,
+        // Check if there is any pending leave request
+        const pendingRequest = userLeaveRequests.find(
+          (request) => request.status === "pending",
         );
-        // Calculate the time difference between the last leave request and the current time
-        const timeDifferenceInHours =
-          (currentDate - lastLeaveRequestTime) / (1000 * 60 * 60);
-        if (timeDifferenceInHours < 24) {
-          toast.error("You can only request one leave within 24 hours.");
+        if (pendingRequest) {
+          toast.error(
+            "You have another Leave Request pending. Please wait for approval.",
+          );
           return;
         }
       }
 
-      // If the user hasn't made a leave request in the last 24 hours, submit the new leave request
+      // No pending requests, submit the new leave request
       await axios.post(
         `http://localhost:3000/api/users/${username}/leave-request`,
         leaveData,
