@@ -29,6 +29,7 @@ const getUsers = async (req, res) => {
       const userWithLeaveCount = {
         _id: user._id,
         name: user.name,
+        dob: user.dob,
         username: user.username,
         email: user.email,
         phoneNumber: user.phoneNumber,
@@ -76,7 +77,9 @@ const getSingleUser = async (req, res) => {
       _id: user._id,
       name: user.name,
       username: user.username,
+      dob: user.dob,
       email: user.email,
+      profilePicture: user.profilePicture,
       phoneNumber: user.phoneNumber,
       leaveCount: user.leaveCount,
       unpaidLeaves: user.unpaidLeaves,

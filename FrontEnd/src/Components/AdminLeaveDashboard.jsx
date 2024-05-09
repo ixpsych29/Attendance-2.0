@@ -137,7 +137,10 @@ const AdminLeaveDashboard = () => {
                     <TableCell>{request.leaveSubject}</TableCell>
                     <TableCell>{request.startDate}</TableCell>
                     <TableCell>{request.endDate}</TableCell>
-                    <TableCell>{user.unpaidLeaves}</TableCell>
+                    <TableCell>
+                      <div className="ml-14">{user.unpaidLeaves}</div>
+                    </TableCell>
+
                     <TableCell>{request.status}</TableCell>
                     {/* // Inside TableCell component where icons are rendered */}
                     <TableCell>

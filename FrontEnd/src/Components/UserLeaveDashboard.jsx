@@ -12,7 +12,6 @@ import {
   Box,
   Divider,
 } from "@mui/material";
-import { CheckCircle, Cancel } from "@mui/icons-material";
 import toast from "react-hot-toast";
 import UserContext from "./UserContext";
 import DisplayCard from "./DisplayCard";
@@ -24,9 +23,12 @@ const UserLeaveDashboard = () => {
 
   const fetchUser = async () => {
     try {
+      // http://localhost:3000/api/users
+      // http://localhost:3000/api/users/${username}
       const response = await axios.get(
-        `http://localhost:3000/api/users/${username}`,
+        ` http://localhost:3000/api/users/${username}`,
       );
+      console.log("API Response:", response); // Log the response data
       setUser(response.data.leaveRequests);
       setLeave({
         leaveCount: response.data.leaveCount,
@@ -37,15 +39,38 @@ const UserLeaveDashboard = () => {
       toast.error("Error fetching users");
     }
   };
-
   useEffect(() => {
     fetchUser();
   }, []);
 
   return (
     <>
-      {/* Remaining leaves and unpaid leaves display */}
-      {/* Leave requests table */}
+      <div className="flex justify-center">
+        <div className="container ml-48 px-96 cursor-pointer">
+          <div className="relative shadow-md transform hover:scale-105 transition duration-300 ease-in-out rounded-lg overflow-hidden flex justify-center btn-style ">
+            <div className="p-4">
+              <h5 className="text-white text-lg font-bold mb-2 flex justify-center">
+                Your Remaining Leaves
+              </h5>
+              <h4 className="text-white text-3xl font-bold flex justify-center">
+                {leave.leaveCount}
+              </h4>
+            </div>
+          </div>
+        </div>
+        <div className="container ml-48 px-96 cursor-pointer">
+          <div className="relative shadow-md transform hover:scale-105 transition duration-300 ease-in-out rounded-lg overflow-hidden flex justify-center btn-style ">
+            <div className="p-4">
+              <h5 className="text-white text-lg font-bold mb-2 flex justify-center">
+                Your Unpaid Leaves
+              </h5>
+              <h4 className="text-white text-3xl font-bold flex justify-center">
+                {leave.unpaidLeaves}
+              </h4>
+            </div>
+          </div>
+        </div>
+      </div>
       <Box
         bgcolor="white"
         paddingBottom={3}
@@ -117,22 +142,18 @@ const UserLeaveDashboard = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {user.map((user) => (
-                <TableRow key={user.id}>
-                  <TableCell>{user.leaveType}</TableCell>
-                  <TableCell>{user.startDate}</TableCell>
-                  <TableCell>{user.endDate}</TableCell>
-                  <TableCell>
-                    {user.status === "approved" ? (
-                      <CheckCircle style={{ color: "green" }} />
-                    ) : (
-                      <Cancel style={{ color: "red" }} />
-                    )}
-                  </TableCell>
-                  <TableCell>{user.reason}</TableCell>
-                  <TableCell>{user.leaveDays}</TableCell>
-                </TableRow>
-              ))}
+              {user.map((user) => {
+                return (
+                  <TableRow>
+                    <TableCell>{user.leaveType}</TableCell>
+                    <TableCell>{user.startDate}</TableCell>
+                    <TableCell>{user.endDate}</TableCell>
+                    <TableCell>{user.status}</TableCell>
+                    <TableCell>{user.reason}</TableCell>
+                    <TableCell>{user.leaveDays}</TableCell>
+                  </TableRow>
+                );
+              })}
             </TableBody>
           </Table>
         </TableContainer>
