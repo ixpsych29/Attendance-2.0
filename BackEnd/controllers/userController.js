@@ -17,6 +17,7 @@ const getUsers = async (req, res) => {
       const leaveDetails = user.leaveRequests.map((request) => ({
         _id: request._id,
         leaveType: request.leaveType,
+        leaveSubject: request.leaveSubject,
         startDate: request.startDate.toDateString(),
         endDate: request.endDate.toDateString(),
         reason: request.reason,
@@ -31,6 +32,7 @@ const getUsers = async (req, res) => {
         username: user.username,
         email: user.email,
         phoneNumber: user.phoneNumber,
+        unpaidLeaves: user.unpaidLeaves,
         leaveRequests: leaveDetails,
       };
 
@@ -60,6 +62,7 @@ const getSingleUser = async (req, res) => {
     const leaveDetails = user.leaveRequests.map((request) => ({
       _id: request._id,
       leaveType: request.leaveType,
+      leaveSubject: request.leaveSubject,
       startDate: request.startDate.toDateString(),
       endDate: request.endDate.toDateString(),
       reason: request.reason,
@@ -76,6 +79,7 @@ const getSingleUser = async (req, res) => {
       email: user.email,
       phoneNumber: user.phoneNumber,
       leaveCount: user.leaveCount,
+      unpaidLeaves: user.unpaidLeaves,
       leaveRequests: leaveDetails,
     };
 
@@ -192,7 +196,7 @@ const updatePicture = async (req, res) => {
 //updating a profile of user
 const updateProfile = async (req, res) => {
   const { userName } = req.params;
-  const { name, username, email, phoneNo, password } = req.body;
+  const { name, username, email, dob, phoneNo, password } = req.body;
 
   try {
     let updateFields = {};
@@ -200,6 +204,7 @@ const updateProfile = async (req, res) => {
     // Check if each field is provided in the request body and update accordingly
     if (name) updateFields.name = name;
     if (username) updateFields.username = username;
+    if (dob) updateFields.dob = dob;
     if (email) updateFields.email = email;
     if (phoneNo) updateFields.phoneNumber = phoneNo;
     if (password) updateFields.password = password;
@@ -263,7 +268,7 @@ async function UserExist(req, res) {
 
 const createLeaveRequest = async (req, res) => {
   const { userName } = req.params;
-  const { leaveType, startDate, endDate, reason } = req.body;
+  const { leaveType, leaveSubject, startDate, endDate, reason } = req.body;
 
   try {
     const user = await User.findOne({ username: userName });
@@ -274,28 +279,29 @@ const createLeaveRequest = async (req, res) => {
     // Calculate the number of days in the leave request
     const start = new Date(startDate);
     const end = new Date(endDate);
-    console.log(start, end);
-    const leaveDays = Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1; // Convert milliseconds to days
-    console.log(leaveDays);
-
-    // Check if the user has enough leave count
-    if (user.leaveCount < leaveDays) {
-      return res.status(400).json({ error: "Insufficient leave count" });
-    }
-
-    // Deduct leave days from the total leave count
-
-    user.leaveCount -= leaveDays;
-    console.log(user.leaveCount);
+    const leaveDays = Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1;
 
     const newLeaveRequest = {
       leaveType,
+      leaveSubject,
       startDate,
       endDate,
       reason,
-      status: "pending", // Set default status to approved
-      leaveDays, // Set leave count for this specific request
+      status: "pending",
+      leaveDays,
     };
+
+    if (leaveType === "paid") {
+      // Check if the user has enough leave count for paid leave
+      if (user.leaveCount < leaveDays) {
+        return res.status(400).json({ error: "Insufficient leave balance" });
+      }
+
+      // Deduct leave days from total leave count only after approval
+      newLeaveRequest.deducted = false;
+    } else if (leaveType === "unpaid") {
+      user.unpaidLeaves += leaveDays; // Increase unpaid leave count
+    }
 
     user.leaveRequests.push(newLeaveRequest);
     await user.save();
@@ -312,29 +318,35 @@ const updateLeaveRequest = async (req, res) => {
   const { userName } = req.params;
   const { leaveRequestId, newStatus } = req.body;
 
-  console.log("Received request to update leave request for user:", userName);
-  console.log("Leave request ID:", leaveRequestId);
-  console.log("New status:", newStatus);
-  console.log("Request body:", req.body);
-
   try {
     const user = await User.findOne({ username: userName });
     if (!user) {
-      console.log("User not found");
       return res.status(404).json({ error: "User not found" });
     }
 
     const leaveRequest = user.leaveRequests.id(leaveRequestId);
     if (!leaveRequest) {
-      console.log("Leave request not found");
       return res.status(404).json({ error: "Leave request not found" });
     }
 
     // Update the status of the leave request
     leaveRequest.status = newStatus;
+
+    if (newStatus === "approved") {
+      // Deduct leave count only when the leave request is approved
+      const leaveDays = leaveRequest.leaveDays;
+      if (leaveRequest.leaveType === "paid") {
+        if (user.leaveCount < leaveDays) {
+          return res.status(400).json({ error: "Insufficient leave balance" });
+        }
+        user.leaveCount -= leaveDays;
+      } else if (leaveRequest.leaveType === "unpaid") {
+        user.unpaidLeaves -= leaveDays;
+      }
+    }
+
     await user.save();
 
-    console.log("Leave request updated successfully");
     res.status(200).json({ message: "Leave request updated successfully" });
   } catch (error) {
     console.error("Error updating leave request:", error);

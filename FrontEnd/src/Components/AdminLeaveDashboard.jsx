@@ -83,12 +83,46 @@ const AdminLeaveDashboard = () => {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>User</TableCell>
-              <TableCell>Leave Type</TableCell>
-              <TableCell>Start Date</TableCell>
-              <TableCell>End Date</TableCell>
-              <TableCell>Status</TableCell>
-              <TableCell>Action</TableCell>
+              <TableCell>
+                <Typography variant="subtitle1">
+                  <b>User</b>
+                </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography variant="subtitle1">
+                  <b>Leave Type</b>
+                </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography variant="subtitle1">
+                  <b>Leave Subject</b>
+                </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography variant="subtitle1">
+                  <b>Start Date</b>
+                </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography variant="subtitle1">
+                  <b>End Date</b>
+                </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography variant="subtitle1">
+                  <b>Unpaid Leaves</b>
+                </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography variant="subtitle1">
+                  <b>Status</b>
+                </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography variant="subtitle1">
+                  <b>Action</b>
+                </Typography>
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -100,8 +134,10 @@ const AdminLeaveDashboard = () => {
                   <TableRow key={request._id}>
                     <TableCell>{user.name}</TableCell>
                     <TableCell>{request.leaveType}</TableCell>
+                    <TableCell>{request.leaveSubject}</TableCell>
                     <TableCell>{request.startDate}</TableCell>
                     <TableCell>{request.endDate}</TableCell>
+                    <TableCell>{user.unpaidLeaves}</TableCell>
                     <TableCell>{request.status}</TableCell>
                     {/* // Inside TableCell component where icons are rendered */}
                     <TableCell>

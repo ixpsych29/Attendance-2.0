@@ -30,7 +30,10 @@ const UserLeaveDashboard = () => {
       );
       console.log("API Response:", response); // Log the response data
       setUser(response.data.leaveRequests);
-      setLeave(response.data.leaveCount);
+      setLeave({
+        leaveCount: response.data.leaveCount,
+        unpaidLeaves: response.data.unpaidLeaves,
+      });
     } catch (error) {
       console.error("Error fetching users:", error);
       toast.error("Error fetching users");
@@ -42,15 +45,29 @@ const UserLeaveDashboard = () => {
 
   return (
     <>
-      <div className="container ml-48 px-96 cursor-pointer">
-        <div className="relative shadow-md transform hover:scale-105 transition duration-300 ease-in-out rounded-lg overflow-hidden flex justify-center btn-style ">
-          <div className="p-4">
-            <h5 className="text-white text-lg font-bold mb-2 flex justify-center">
-              Your Remaining Leaves
-            </h5>
-            <h4 className="text-white text-3xl font-bold flex justify-center">
-              {leave}
-            </h4>
+      <div className="flex justify-center">
+        <div className="container ml-48 px-96 cursor-pointer">
+          <div className="relative shadow-md transform hover:scale-105 transition duration-300 ease-in-out rounded-lg overflow-hidden flex justify-center btn-style ">
+            <div className="p-4">
+              <h5 className="text-white text-lg font-bold mb-2 flex justify-center">
+                Your Remaining Leaves
+              </h5>
+              <h4 className="text-white text-3xl font-bold flex justify-center">
+                {leave.leaveCount}
+              </h4>
+            </div>
+          </div>
+        </div>
+        <div className="container ml-48 px-96 cursor-pointer">
+          <div className="relative shadow-md transform hover:scale-105 transition duration-300 ease-in-out rounded-lg overflow-hidden flex justify-center btn-style ">
+            <div className="p-4">
+              <h5 className="text-white text-lg font-bold mb-2 flex justify-center">
+                Your Unpaid Leaves
+              </h5>
+              <h4 className="text-white text-3xl font-bold flex justify-center">
+                {leave.unpaidLeaves}
+              </h4>
+            </div>
           </div>
         </div>
       </div>
