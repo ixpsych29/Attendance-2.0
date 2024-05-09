@@ -19,12 +19,14 @@ const LeaveForm = () => {
   const { username, email } = useContext(UserContext);
   const [leaveData, setLeaveData] = useState({
     leaveType: "",
+    leaveSubject: "",
     startDate: "",
     endDate: "",
     reason: "",
   });
   const [errors, setErrors] = useState({
     leaveType: "",
+    leaveSubject: "",
     startDate: "",
     endDate: "",
     reason: "",
@@ -34,6 +36,7 @@ const LeaveForm = () => {
     let valid = true;
     const newErrors = {
       leaveType: "",
+      leaveSubject: "",
       startDate: "",
       endDate: "",
       reason: "",
@@ -43,6 +46,11 @@ const LeaveForm = () => {
       newErrors.leaveType = "Leave type is required";
       valid = false;
     }
+    if (!leaveData.leaveSubject) {
+      newErrors.leaveSubject = "Leave Subject is required";
+      valid = false;
+    }
+
     if (!leaveData.startDate) {
       newErrors.startDate = "Start date is required";
       valid = false;
@@ -50,7 +58,11 @@ const LeaveForm = () => {
     if (!leaveData.endDate) {
       newErrors.endDate = "End date is required";
       valid = false;
+    } else if (new Date(leaveData.endDate) < new Date(leaveData.startDate)) {
+      newErrors.endDate = "End date cannot be before start date";
+      valid = false;
     }
+
     if (!leaveData.reason) {
       newErrors.reason = "Reason is required";
       valid = false;
@@ -99,6 +111,7 @@ const LeaveForm = () => {
       // Clear the form after successful submission
       setLeaveData({
         leaveType: "",
+        leaveSubject: "",
         startDate: "",
         endDate: "",
         reason: "",
@@ -139,21 +152,40 @@ const LeaveForm = () => {
             />
           </Grid>
           <Grid item xs={12} md={6} style={{ height: "16px" }} />
-          <Grid item xs={12}>
+          <Grid item xs={12} md={6}>
+            <FormControl fullWidth variant="outlined">
+              <InputLabel htmlFor="leave-type">Leave Type</InputLabel>
+              <Select
+                id="leave-type"
+                value={leaveData.leaveType}
+                onChange={(e) =>
+                  setLeaveData({ ...leaveData, leaveType: e.target.value })
+                }
+                label="Leave Type">
+                <MenuItem value="Paid">Paid Leave</MenuItem>
+                <MenuItem value="Unpaid">Unpaid Leave</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+
+          {/* <Grid item xs={12} md={6} style={{ height: "16px" }} /> */}
+          <Grid item xs={12} md={6}>
             <TextField
               fullWidth
-              id="leave-type"
-              label="Leave Type"
-              value={leaveData.leaveType}
+              id="leave-subject"
+              label="Leave Subject"
+              value={leaveData.leaveSubject}
               onChange={(e) =>
-                setLeaveData({ ...leaveData, leaveType: e.target.value })
+                setLeaveData({ ...leaveData, leaveSubject: e.target.value })
               }
-              error={!!errors.leaveType}
-              helperText={errors.leaveType}
+              error={!!errors.leaveSubject}
+              helperText={errors.leaveSubject}
             />
           </Grid>
-          <Grid item xs={12}>
+          {/* <Grid item xs={12} md={6} style={{ height: "16px" }} /> */}
+          <Grid item xs={12} md={6}>
             <TextField
+              fullWidth
               id="start-date"
               label="Start Date"
               type="date"
@@ -168,8 +200,9 @@ const LeaveForm = () => {
               helperText={errors.startDate}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={12} md={6}>
             <TextField
+              fullWidth
               id="end-date"
               label="End Date"
               type="date"

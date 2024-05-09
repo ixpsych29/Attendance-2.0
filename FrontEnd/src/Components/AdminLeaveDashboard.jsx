@@ -16,19 +16,19 @@ import {
 import { CheckCircle, Cancel } from "@mui/icons-material";
 import toast from "react-hot-toast";
 
-const LeaveRequests = () => {
+const AdminLeaveDashboard = () => {
   const [users, setUsers] = useState([]);
 
- const fetchUsers = async () => {
-      try {
-        const response = await axios.get("http://localhost:3000/api/users");
-        console.log("API Response:", response.data); // Log the response data
-        setUsers(response.data.users);
-      } catch (error) {
-        console.error("Error fetching users:", error);
-        toast.error("Error fetching users");
-      }
-    };
+  const fetchUsers = async () => {
+    try {
+      const response = await axios.get("http://localhost:3000/api/users");
+      console.log("API Response:", response.data); // Log the response data
+      setUsers(response.data.users);
+    } catch (error) {
+      console.error("Error fetching users:", error);
+      toast.error("Error fetching users");
+    }
+  };
   useEffect(() => {
     fetchUsers();
   }, []);
@@ -83,12 +83,46 @@ const LeaveRequests = () => {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>User</TableCell>
-              <TableCell>Leave Type</TableCell>
-              <TableCell>Start Date</TableCell>
-              <TableCell>End Date</TableCell>
-              <TableCell>Status</TableCell>
-              <TableCell>Action</TableCell>
+              <TableCell>
+                <Typography variant="subtitle1">
+                  <b>User</b>
+                </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography variant="subtitle1">
+                  <b>Leave Type</b>
+                </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography variant="subtitle1">
+                  <b>Leave Subject</b>
+                </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography variant="subtitle1">
+                  <b>Start Date</b>
+                </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography variant="subtitle1">
+                  <b>End Date</b>
+                </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography variant="subtitle1">
+                  <b>Unpaid Leaves</b>
+                </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography variant="subtitle1">
+                  <b>Status</b>
+                </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography variant="subtitle1">
+                  <b>Action</b>
+                </Typography>
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -100,24 +134,14 @@ const LeaveRequests = () => {
                   <TableRow key={request._id}>
                     <TableCell>{user.name}</TableCell>
                     <TableCell>{request.leaveType}</TableCell>
+                    <TableCell>{request.leaveSubject}</TableCell>
                     <TableCell>{request.startDate}</TableCell>
                     <TableCell>{request.endDate}</TableCell>
+                    <TableCell>{user.unpaidLeaves}</TableCell>
                     <TableCell>{request.status}</TableCell>
+                    {/* // Inside TableCell component where icons are rendered */}
                     <TableCell>
-                      {request.status == "approved" && (
-                        <IconButton
-                          onClick={() =>
-                            updateLeaveRequest(
-                              user.username,
-                              request._id,
-                              "approved",
-                            )
-                          }
-                          color="success">
-                          <CheckCircle />
-                        </IconButton>
-                      )}
-                      {request.status == "disapproved" && (
+                      {request.status !== "approved" && (
                         <IconButton
                           onClick={() =>
                             updateLeaveRequest(
@@ -130,6 +154,25 @@ const LeaveRequests = () => {
                           <Cancel />
                         </IconButton>
                       )}
+                      {request.status !== "disapproved" && (
+                        <IconButton
+                          onClick={() =>
+                            updateLeaveRequest(
+                              user.username,
+                              request._id,
+                              "approved",
+                            )
+                          }
+                          color="success">
+                          <CheckCircle />
+                        </IconButton>
+                      )}
+                      {request.status !== "approved" &&
+                        request.status !== "disapproved" && (
+                          <div>
+                            {/* Render nothing when status is neither approved nor disapproved */}
+                          </div>
+                        )}
                     </TableCell>
                   </TableRow>
                 );
@@ -142,4 +185,4 @@ const LeaveRequests = () => {
   );
 };
 
-export default LeaveRequests;
+export default AdminLeaveDashboard;

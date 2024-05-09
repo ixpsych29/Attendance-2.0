@@ -13,6 +13,7 @@ export default function ProfilePage() {
     email: email,
     username: username,
     phoneNo: phNumber,
+    dob: "",
   });
 
   // Handling Form Data
@@ -30,9 +31,10 @@ export default function ProfilePage() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      // Making an API call
+      // Making an API call to update both phone number and date of birth
       await axios.put(`${Api_EndPoint}/api/users/${username}/update-profile`, {
         phoneNo: formData.phoneNo,
+        dob: formData.dob,
       });
       toast.success("Profile Updated");
     } catch (err) {
@@ -97,6 +99,24 @@ export default function ProfilePage() {
                   disabled
                 />
               </div>
+              <div className="flex items-center space-x-4 mb-4 justify-end">
+                <label htmlFor="dob" className="label-style">
+                  DOB:
+                </label>
+                <input
+                  id="dob"
+                  type="date"
+                  className="input-style"
+                  value={formData.dob}
+                  onChange={(e) =>
+                    setFormData((prevFormData) => ({
+                      ...prevFormData,
+                      dob: e.target.value,
+                    }))
+                  }
+                />
+              </div>
+
               <div className="flex items-center space-x-4 mb-4 justify-end">
                 <label htmlFor="phoneNo" className="label-style">
                   Phone:
