@@ -291,7 +291,7 @@ const createLeaveRequest = async (req, res) => {
       leaveDays,
     };
 
-    if (leaveType === "paid") {
+    if (leaveType === "Paid") {
       // Check if the user has enough leave count for paid leave
       if (user.leaveCount < leaveDays) {
         return res.status(400).json({ error: "Insufficient leave balance" });
@@ -299,7 +299,7 @@ const createLeaveRequest = async (req, res) => {
 
       // Deduct leave days from total leave count only after approval
       newLeaveRequest.deducted = false;
-    } else if (leaveType === "unpaid") {
+    } else if (leaveType === "Unpaid") {
       user.unpaidLeaves += leaveDays; // Increase unpaid leave count
     }
 
@@ -340,7 +340,7 @@ const updateLeaveRequest = async (req, res) => {
           return res.status(400).json({ error: "Insufficient leave balance" });
         }
         user.leaveCount -= leaveDays;
-      } else if (leaveRequest.leaveType === "unpaid") {
+      } else if (leaveRequest.leaveType === "Unpaid") {
         user.unpaidLeaves -= leaveDays;
       }
     }

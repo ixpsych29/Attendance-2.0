@@ -45,7 +45,7 @@ const UserLeaveDashboard = () => {
 
   return (
     <>
-      <div className="flex justify-center">
+      <div className="flex ">
         <div className="container ml-48 px-96 cursor-pointer">
           <div className="relative shadow-md transform hover:scale-105 transition duration-300 ease-in-out rounded-lg overflow-hidden flex justify-center btn-style ">
             <div className="p-4">
