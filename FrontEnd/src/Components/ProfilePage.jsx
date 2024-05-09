@@ -5,7 +5,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 
 export default function ProfilePage() {
-  const { nameUser, username, Api_EndPoint, email, phNumber } =
+  const { nameUser, username, Api_EndPoint, email, phNumber, dob } =
     useContext(UserContext);
 
   const [formData, setFormData] = useState({
@@ -13,8 +13,9 @@ export default function ProfilePage() {
     email: email,
     username: username,
     phoneNo: phNumber,
-    dob: "",
+    dob: dob,
   });
+  console.log(formData, "hweheh");
 
   // Handling Form Data
   const handleValueChange = (event) => {
@@ -42,9 +43,17 @@ export default function ProfilePage() {
       toast.error("Failed to update profile. Please try again later.");
     }
   };
+  function formatDate(dateString) {
+    // Check if dateString is not empty or null
+    if (dateString) {
+      // Split the dateString at 'T' and take the first part
+      return dateString.split("T")[0];
+    }
+    return ""; // Or return any default value you prefer if dateString is empty or null
+  }
 
   return (
-    <div className="max-w-2xl mx-auto mt-0">
+    <div className="max-w-2.5xl mx-auto mt-0">
       <h1 className="text-center text-3xl font-bold mb-20">
         Profile Information
       </h1>
@@ -52,11 +61,11 @@ export default function ProfilePage() {
         <div
           className="flex items-center justify-center space-x-4 mb-4 border border-gray-300 p-24  pl-[-5] rounded-md shadow-2xl  bg-[#DBF3FA] pr-20 "
           style={{ boxShadow: "14px 12px 20px rgba(0, 0, 0, 0.6)" }}>
-          <div className="w-1/2 border-r border-black pr-2  mr-36 ">
+          <div className="w-1/2 border-r border-black mr-44 pr-10">
             <ProfilePictureUpload />
           </div>
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="w-1/2 pl-16 ">
+            <div className="w-1/2 ml-12 ">
               <div className="flex items-center space-x-4 mb-4 justify-end  ">
                 <label htmlFor="name" className="label-style">
                   Name:
@@ -103,20 +112,22 @@ export default function ProfilePage() {
                 <label htmlFor="dob" className="label-style">
                   DOB:
                 </label>
-                <input
-                  id="dob"
-                  type="date"
-                  className="input-style"
-                  value={formData.dob}
-                  onChange={(e) =>
-                    setFormData((prevFormData) => ({
-                      ...prevFormData,
-                      dob: e.target.value,
-                    }))
-                  }
-                />
+                <div className="flex items-center">
+                  <input
+                    id="dob"
+                    type="date"
+                    style={{ width: "210px" }}
+                    className="input-style "
+                    value={formatDate(formData.dob)}
+                    onChange={(e) =>
+                      setFormData((prevFormData) => ({
+                        ...prevFormData,
+                        dob: e.target.value,
+                      }))
+                    }
+                  />
+                </div>
               </div>
-
               <div className="flex items-center space-x-4 mb-4 justify-end">
                 <label htmlFor="phoneNo" className="label-style">
                   Phone:
@@ -138,7 +149,7 @@ export default function ProfilePage() {
             <div className="flex justify-center ">
               <button
                 type="submit"
-                className="mt-10  mr-52 px-7 py-2 rounded-md shadow-xl text-white bg-gradient-to-r from-sky-600 to-cyan-400 hover:from-cyan-400 hover:to-sky-600"
+                className="mt-10  mr-48 px-7 py-2 rounded-md shadow-xl text-white bg-gradient-to-r from-sky-600 to-cyan-400 hover:from-cyan-400 hover:to-sky-600"
                 disabled={!(formData.name && formData.phoneNo)}>
                 Update Profile
               </button>
