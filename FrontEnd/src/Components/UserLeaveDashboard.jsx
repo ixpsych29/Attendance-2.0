@@ -45,10 +45,10 @@ const UserLeaveDashboard = () => {
 
   return (
     <>
-      <div className="flex justify-center">
-        <div className="container ml-48 px-96 cursor-pointer">
+      <div className="flex justify-between">
+        <div className="container ml-96  cursor-pointer">
           <div className="relative shadow-md transform hover:scale-105 transition duration-300 ease-in-out rounded-lg overflow-hidden flex justify-center btn-style ">
-            <div className="p-4">
+            <div className="p-7">
               <h5 className="text-white text-lg font-bold mb-2 flex justify-center">
                 Your Remaining Leaves
               </h5>
@@ -58,9 +58,9 @@ const UserLeaveDashboard = () => {
             </div>
           </div>
         </div>
-        <div className="container ml-48 px-96 cursor-pointer">
+        <div className="container ml-36  cursor-pointer">
           <div className="relative shadow-md transform hover:scale-105 transition duration-300 ease-in-out rounded-lg overflow-hidden flex justify-center btn-style ">
-            <div className="p-4">
+            <div className="p-7">
               <h5 className="text-white text-lg font-bold mb-2 flex justify-center">
                 Your Unpaid Leaves
               </h5>
