@@ -46,7 +46,7 @@ const UserLeaveDashboard = () => {
   return (
     <>
       <div className="flex justify-between">
-        <div className="container ml-96  cursor-pointer">
+        <div className="container ml-80  cursor-pointer">
           <div className="relative shadow-md transform hover:scale-105 transition duration-300 ease-in-out rounded-lg overflow-hidden flex justify-center btn-style ">
             <div className="p-7">
               <h5 className="text-white text-lg font-bold mb-2 flex justify-center">
@@ -58,7 +58,7 @@ const UserLeaveDashboard = () => {
             </div>
           </div>
         </div>
-        <div className="container ml-36  cursor-pointer">
+        <div className="container ml-32  cursor-pointer">
           <div className="relative shadow-md transform hover:scale-105 transition duration-300 ease-in-out rounded-lg overflow-hidden flex justify-center btn-style ">
             <div className="p-7">
               <h5 className="text-white text-lg font-bold mb-2 flex justify-center">
@@ -72,7 +72,7 @@ const UserLeaveDashboard = () => {
         </div>
       </div>
       <Box
-        bgcolor="white"
+        className=" items-center justify-center space-x-4 mb-4 border border-gray-300 p-24  pl-[-5] rounded-md shadow-2xl  bg-[#DBF3FA] pr-20"
         paddingBottom={3}
         boxShadow={3}
         mb={4}
@@ -94,7 +94,7 @@ const UserLeaveDashboard = () => {
           }}
         />
         <TableContainer component={Paper}>
-          <Table>
+          <Table className="bg-[#DBF3FA]">
             <TableHead>
               <TableRow>
                 <TableCell>
@@ -150,7 +150,9 @@ const UserLeaveDashboard = () => {
                     <TableCell>{user.endDate}</TableCell>
                     <TableCell>{user.status}</TableCell>
                     <TableCell>{user.reason}</TableCell>
-                    <TableCell>{user.leaveDays}</TableCell>
+                    <TableCell>
+                      <div className="ml-6">{user.leaveDays}</div>
+                    </TableCell>
                   </TableRow>
                 );
               })}

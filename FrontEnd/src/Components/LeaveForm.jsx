@@ -124,14 +124,14 @@ const LeaveForm = () => {
 
   return (
     <Box
-      bgcolor="white"
+      className=" items-center justify-center space-x-4 mb-4 border border-gray-300 p-24  pl-[-5] rounded-md shadow-2xl  bg-[#DBF3FA] pr-20"
       paddingBottom={3}
       boxShadow={3}
       mb={4}
       p={5}
       borderRadius={4}
       ml={70}
-      mt={15}
+      mt={10}
       width={"40%"}>
       <Typography variant="h4" component="h2" gutterBottom textAlign="center">
         Leave Application

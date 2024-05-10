@@ -37,7 +37,7 @@ const userModel = new Schema(
     },
     dob: {
       type: Date,
-      required: true,
+      default: null,
     },
     email: {
       type: String,
