@@ -6,7 +6,11 @@ import { CgProfile } from "react-icons/cg";
 import { FaMoon } from "react-icons/fa";
 import { FaSun } from "react-icons/fa6";
 import { FaCog } from "react-icons/fa";
-import { RiArrowLeftDoubleLine } from "react-icons/ri";
+import {
+  RiArrowLeftDoubleLine,
+  RiArrowUpDoubleLine,
+  RiArrowDownDoubleLine,
+} from "react-icons/ri";
 
 const Sidebar = ({ mode, setMode }) => {
   const { role } = useContext(UserContext);
@@ -16,6 +20,7 @@ const Sidebar = ({ mode, setMode }) => {
   const [userRole, setUserRole] = useState(""); // Initialize userRole state
   const isAdmin = role === "admin";
   const isUser = role === "user";
+  const [showLeavesSubMenu, setShowLeavesSubMenu] = useState(false);
 
   const isActiveLink = (to) => {
     return location.pathname === to;
@@ -45,6 +50,10 @@ const Sidebar = ({ mode, setMode }) => {
 
   const toggleSidebar = () => {
     setShowSidebar(!showSidebar);
+  };
+
+  const toggleLeavesSubMenu = () => {
+    setShowLeavesSubMenu(!showLeavesSubMenu);
   };
 
   useEffect(() => {
@@ -149,85 +158,6 @@ const Sidebar = ({ mode, setMode }) => {
                   </span>
                 </Link>
               </li>
-
-              {/* Display Leave Form */}
-              <li>
-                <Link
-                  to="/home/leave"
-                  className={`px-4 py-3 flex items-center space-x-4 rounded-md ${
-                    isActiveLink("/home/leave") ? "btn-style text-white" : ""
-                  }`}>
-                  <CgProfile
-                    className={`w-6 h-6 ${
-                      isActiveLink("/home/leave") ? "text-white" : "text-white"
-                    }`}
-                  />
-                  <span
-                    className={`-mr-1 font-medium ${
-                      isActiveLink("/home/leave") ? "text-white" : "text-white"
-                    }`}>
-                    Leave Form
-                  </span>
-                </Link>
-              </li>
-
-              {/* Display Leave Request */}
-              {isAdmin && (
-                <li>
-                  <Link
-                    to="/home/adminleavedashboard"
-                    className={`px-4 py-3 flex items-center space-x-4 rounded-md ${
-                      isActiveLink("/home/adminleavedashboard")
-                        ? "btn-style text-white"
-                        : ""
-                    }`}>
-                    <CgProfile
-                      className={`w-6 h-6 ${
-                        isActiveLink("/home/adminleavedashboard")
-                          ? "text-white"
-                          : "text-white"
-                      }`}
-                    />
-                    <span
-                      className={`-mr-1 font-medium ${
-                        isActiveLink("/home/adminleavedashboard")
-                          ? "text-white"
-                          : "text-white"
-                      }`}>
-                      Leave Request
-                    </span>
-                  </Link>
-                </li>
-              )}
-              {/* Display Leave Request */}
-              {isUser && (
-                <li>
-                  <Link
-                    to="/home/userleavedashboard"
-                    className={`px-4 py-3 flex items-center space-x-4 rounded-md ${
-                      isActiveLink("/home/userleavedashboard")
-                        ? "btn-style text-white"
-                        : ""
-                    }`}>
-                    <CgProfile
-                      className={`w-6 h-6 ${
-                        isActiveLink("/home/userleavedashboard")
-                          ? "text-white"
-                          : "text-white"
-                      }`}
-                    />
-                    <span
-                      className={`-mr-1 font-medium ${
-                        isActiveLink("/home/userleavedashboard")
-                          ? "text-white"
-                          : "text-white"
-                      }`}>
-                      Leave Request
-                    </span>
-                  </Link>
-                </li>
-              )}
-
               {/* Settings option */}
               <li>
                 <Link
@@ -254,6 +184,112 @@ const Sidebar = ({ mode, setMode }) => {
                   </span>
                 </Link>
               </li>
+
+              <li>
+                <div
+                  className={`px-4 py-3 flex items-center space-x-4 rounded-md cursor-pointer ${
+                    showLeavesSubMenu ? "btn-style text-white" : ""
+                  }`}
+                  onClick={toggleLeavesSubMenu}>
+                  <CgProfile
+                    className={`w-6 h-6 ${
+                      showLeavesSubMenu ? "text-white" : "text-white"
+                    }`}
+                  />
+                  <span
+                    className={`-mr-1 font-medium  ${
+                      showLeavesSubMenu ? "text-white" : "text-white"
+                    }`}>
+                    Leaves
+                  </span>
+                  {showLeavesSubMenu && (
+                    <RiArrowDownDoubleLine className="text-white" />
+                  )}
+                </div>
+                {showLeavesSubMenu && (
+                  <ul className="space-y-2 tracking-wide">
+                    <li>
+                      <Link
+                        to="/home/leave"
+                        className={`px-4 py-3 flex items-center space-x-4 rounded-md ${
+                          isActiveLink("/home/leave")
+                            ? "btn-style text-white"
+                            : ""
+                        }`}>
+                        <CgProfile
+                          className={`w-6 h-6 ${
+                            isActiveLink("/home/leave")
+                              ? "text-white"
+                              : "text-white"
+                          }`}
+                        />
+                        <span
+                          className={`-mr-1 font-medium ${
+                            isActiveLink("/home/leave")
+                              ? "text-white"
+                              : "text-white"
+                          }`}>
+                          Leave Form
+                        </span>
+                      </Link>
+                    </li>
+                    {isUser && (
+                      <li>
+                        <Link
+                          to="/home/userleavedashboard"
+                          className={`px-4 py-3 flex items-center space-x-4 rounded-md ${
+                            isActiveLink("/home/userleavedashboard")
+                              ? "btn-style text-white"
+                              : ""
+                          }`}>
+                          <CgProfile
+                            className={`w-6 h-6 ${
+                              isActiveLink("/home/userleavedashboard")
+                                ? "text-white"
+                                : "text-white"
+                            }`}
+                          />
+                          <span
+                            className={`-mr-1 font-medium ${
+                              isActiveLink("/home/userleavedashboard")
+                                ? "text-white"
+                                : "text-white"
+                            }`}>
+                            Leave Request
+                          </span>
+                        </Link>
+                      </li>
+                    )}
+                    {isAdmin && (
+                      <li>
+                        <Link
+                          to="/home/adminleavedashboard"
+                          className={`px-4 py-3 flex items-center space-x-4 rounded-md ${
+                            isActiveLink("/home/adminleavedashboard")
+                              ? "btn-style text-white"
+                              : ""
+                          }`}>
+                          <CgProfile
+                            className={`w-6 h-6 ${
+                              isActiveLink("/home/adminleavedashboard")
+                                ? "text-white"
+                                : "text-white"
+                            }`}
+                          />
+                          <span
+                            className={`-mr-1 font-medium ${
+                              isActiveLink("/home/adminleavedashboard")
+                                ? "text-white"
+                                : "text-white"
+                            }`}>
+                            Leave Request
+                          </span>
+                        </Link>
+                      </li>
+                    )}
+                  </ul>
+                )}
+              </li>
             </ul>
           </div>
           <div className="px-6 -mx-6 pt-4 flex justify-between items-center border-t mb-0.1 ">
@@ -261,7 +297,6 @@ const Sidebar = ({ mode, setMode }) => {
             <button
               onClick={toggleDarkMode}
               className="px-4 py-3 flex flex-col items-center rounded-md text-white group transition duration-300 ease-in-out transform hover:scale-110">
-              {/* Adjust the icon based on dark mode state */}
               {darkMode ? (
                 <FaMoon className="w-6 h-6 mb-2 space-x-2" />
               ) : (
@@ -269,7 +304,6 @@ const Sidebar = ({ mode, setMode }) => {
               )}
               <span>Dark Mode</span>
             </button>
-
             {/* Logout button */}
             <button className="px-4 py-3 flex flex-col items-center rounded-md text-white group transition duration-300 ease-in-out transform hover:scale-110">
               <Link

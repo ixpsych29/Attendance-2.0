@@ -58,7 +58,7 @@ const AdminLeaveDashboard = () => {
 
   return (
     <Box
-      bgcolor="white"
+      className=" items-center justify-center space-x-4 mb-4 border border-gray-300 p-24  pl-[-5] rounded-md shadow-2xl  bg-[#DBF3FA] pr-20"
       paddingBottom={3}
       boxShadow={3}
       mb={4}
@@ -80,7 +80,7 @@ const AdminLeaveDashboard = () => {
         }}
       />
       <TableContainer component={Paper}>
-        <Table>
+        <Table className="bg-[#DBF3FA] ">
           <TableHead>
             <TableRow>
               <TableCell>
@@ -140,9 +140,7 @@ const AdminLeaveDashboard = () => {
                     <TableCell>
                       <div className="ml-14">{user.unpaidLeaves}</div>
                     </TableCell>
-
                     <TableCell>{request.status}</TableCell>
-                    {/* // Inside TableCell component where icons are rendered */}
                     <TableCell>
                       {request.status !== "approved" && (
                         <IconButton

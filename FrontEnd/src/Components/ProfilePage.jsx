@@ -15,7 +15,10 @@ export default function ProfilePage() {
     phoneNo: phNumber,
     dob: dob,
   });
-  console.log(formData, "hweheh");
+  const [formErrors, setFormErrors] = useState({
+    name: false,
+    phoneNo: false,
+  });
 
   // Handling Form Data
   const handleValueChange = (event) => {
@@ -31,6 +34,22 @@ export default function ProfilePage() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    // Check for empty fields
+    const errors = {};
+    if (!formData.name.trim()) {
+      errors.name = true;
+    }
+    if (!formData.phoneNo.trim()) {
+      errors.phoneNo = true;
+    }
+    setFormErrors(errors);
+
+    // If any field is empty, prevent form submission
+    if (Object.keys(errors).length > 0) {
+      return;
+    }
+
     try {
       // Making an API call to update both phone number and date of birth
       await axios.put(`${Api_EndPoint}/api/users/${username}/update-profile`, {
@@ -43,6 +62,7 @@ export default function ProfilePage() {
       toast.error("Failed to update profile. Please try again later.");
     }
   };
+
   function formatDate(dateString) {
     // Check if dateString is not empty or null
     if (dateString) {
@@ -73,12 +93,19 @@ export default function ProfilePage() {
                 <input
                   id="name"
                   type="text"
-                  className="input-style cursor-not-allowed"
-                  value={nameUser}
+                  className={`input-style ${
+                    formErrors.name ? "border-red-500" : ""
+                  }`}
+                  value={formData.name}
                   onChange={handleValueChange}
                   maxLength="30"
                   disabled
                 />
+                {formErrors.name && (
+                  <span className="text-red-500 block mt-1">
+                    Please fill this field
+                  </span>
+                )}
               </div>
               <div className="flex items-center space-x-4 mb-4 justify-end ">
                 {" "}
@@ -132,25 +159,33 @@ export default function ProfilePage() {
                 <label htmlFor="phoneNo" className="label-style">
                   Phone:
                 </label>
-                <input
-                  id="phoneNo"
-                  type="tel"
-                  className="input-style"
-                  value={formData.phoneNo}
-                  onChange={(e) =>
-                    setFormData((prevFormData) => ({
-                      ...prevFormData,
-                      phoneNo: e.target.value,
-                    }))
-                  }
-                />
+                <div>
+                  <input
+                    id="phoneNo"
+                    type="tel"
+                    className={`input-style ${
+                      formErrors.phoneNo ? "border-red-500" : ""
+                    }`}
+                    value={formData.phoneNo}
+                    onChange={(e) =>
+                      setFormData((prevFormData) => ({
+                        ...prevFormData,
+                        phoneNo: e.target.value,
+                      }))
+                    }
+                  />
+                  {formErrors.phoneNo && (
+                    <span className="text-red-500 mt-1">
+                      Please fill this field
+                    </span>
+                  )}
+                </div>
               </div>
             </div>
             <div className="flex justify-center ">
               <button
                 type="submit"
-                className="mt-10  mr-48 px-7 py-2 rounded-md shadow-xl text-white bg-gradient-to-r from-sky-600 to-cyan-400 hover:from-cyan-400 hover:to-sky-600"
-                disabled={!(formData.name && formData.phoneNo)}>
+                className="mt-10  mr-48 px-7 py-2 rounded-md shadow-xl text-white bg-gradient-to-r from-sky-600 to-cyan-400 hover:from-cyan-400 hover:to-sky-600">
                 Update Profile
               </button>
             </div>
