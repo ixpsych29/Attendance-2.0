@@ -14,6 +14,11 @@ const port = process.env.PORT || 3000;
 //middleware
 app.use(express.json());
 
+// //Working for Live Server
+// const _dirname = path.dirname("");
+// const buildpath = path.join(_dirname, "../FrontEnd/dist");
+// app.use(express.static(buildpath));
+
 // Serve static files from the 'Images' directory within 'uploads'
 app.use(
   "/uploads/Images",
