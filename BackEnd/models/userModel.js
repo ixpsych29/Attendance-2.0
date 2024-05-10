@@ -8,7 +8,7 @@ const leaveRequestSchema = new Schema(
     leaveSubject: { type: String, required: true },
     leaveType: {
       type: String,
-      enum: ["Paid", "Unpaid"],
+      enum: ["paid", "unpaid"],
       required: true,
     },
     startDate: { type: Date, required: true },

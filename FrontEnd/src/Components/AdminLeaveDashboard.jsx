@@ -12,32 +12,32 @@ import {
   Box,
   Divider,
   IconButton,
+  Modal,
+  TextField,
 } from "@mui/material";
-import { CheckCircle, Cancel } from "@mui/icons-material";
+import { CheckCircle, Cancel, Visibility, Close } from "@mui/icons-material";
 import toast from "react-hot-toast";
 
 const AdminLeaveDashboard = () => {
   const [users, setUsers] = useState([]);
+  const [reasonModalOpen, setReasonModalOpen] = useState(false);
+  const [selectedRequest, setSelectedRequest] = useState(null);
 
   const fetchUsers = async () => {
     try {
       const response = await axios.get("http://localhost:3000/api/users");
-      console.log("API Response:", response.data); // Log the response data
       setUsers(response.data.users);
     } catch (error) {
       console.error("Error fetching users:", error);
       toast.error("Error fetching users");
     }
   };
+
   useEffect(() => {
     fetchUsers();
   }, []);
 
   const updateLeaveRequest = async (userName, leaveRequestId, newStatus) => {
-    console.log("User Name:", userName);
-    console.log("Leave Request ID:", leaveRequestId);
-    console.log("New Status:", newStatus);
-
     try {
       await axios.put(
         `http://localhost:3000/api/users/${userName}/updateLeaveRequest`,
@@ -46,14 +46,24 @@ const AdminLeaveDashboard = () => {
           newStatus,
         },
       );
-      // Fetch users again to update the UI with the latest data
       fetchUsers();
       toast.success("Leave request updated successfully");
     } catch (error) {
       console.error("Error updating leave request:", error);
       toast.error("Error updating leave request");
     }
-    console.log("Leave request ID:", leaveRequestId); // Log leaveRequestId
+  };
+
+  const openReasonModal = (request) => {
+    setSelectedRequest(request);
+    setReasonModalOpen(true);
+    setReason(request.reason || ""); // Set the reason in the state
+  };
+
+  const closeReasonModal = () => {
+    setSelectedRequest(null);
+    setReasonModalOpen(false);
+    setReason(""); // Reset the reason
   };
 
   return (
@@ -72,12 +82,7 @@ const AdminLeaveDashboard = () => {
       </Typography>
       <Divider
         variant="middle"
-        sx={{
-          mt: 5,
-          mb: 7,
-          borderColor: "primary.main",
-          borderWidth: 2,
-        }}
+        sx={{ mt: 5, mb: 7, borderColor: "primary.main", borderWidth: 2 }}
       />
       <TableContainer component={Paper}>
         <Table className="bg-[#DBF3FA] ">
@@ -128,8 +133,6 @@ const AdminLeaveDashboard = () => {
           <TableBody>
             {users.map((user) =>
               user.leaveRequests.map((request) => {
-                console.log("Request:", request); // Log the request object
-                console.log("Request ID:", request._id); // Log the _id field
                 return (
                   <TableRow key={request._id}>
                     <TableCell>{user.name}</TableCell>
@@ -141,7 +144,7 @@ const AdminLeaveDashboard = () => {
                       <div className="ml-14">{user.unpaidLeaves}</div>
                     </TableCell>
                     <TableCell>{request.status}</TableCell>
-                    <TableCell>
+                    {/* <TableCell>
                       {request.status !== "approved" && (
                         <IconButton
                           onClick={() =>
@@ -170,10 +173,15 @@ const AdminLeaveDashboard = () => {
                       )}
                       {request.status !== "approved" &&
                         request.status !== "disapproved" && (
-                          <div>
-                            {/* Render nothing when status is neither approved nor disapproved */}
-                          </div>
+                          <IconButton onClick={() => openReasonModal(request)}>
+                            <Visibility />
+                          </IconButton>
                         )}
+                    </TableCell> */}
+                    <TableCell>
+                      <IconButton>
+                        <Visibility />
+                      </IconButton>
                     </TableCell>
                   </TableRow>
                 );
@@ -182,6 +190,56 @@ const AdminLeaveDashboard = () => {
           </TableBody>
         </Table>
       </TableContainer>
+
+      {/* Reason Modal */}
+      <Modal open={reasonModalOpen} onClose={closeReasonModal}>
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: 400,
+            bgcolor: "background.paper",
+            boxShadow: 24,
+            p: 4,
+            borderRadius: 4,
+          }}>
+          <Typography variant="h5" gutterBottom>
+            Reason for Leave Request
+          </Typography>
+          <Typography variant="body1" gutterBottom>
+            {selectedRequest && selectedRequest.reason}
+          </Typography>
+          <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 2 }}>
+            <IconButton
+              onClick={() =>
+                updateLeaveRequest(
+                  selectedRequest.user.username,
+                  selectedRequest._id,
+                  "disapproved",
+                )
+              }
+              color="error">
+              <Cancel />
+            </IconButton>
+            <IconButton
+              onClick={() =>
+                updateLeaveRequest(
+                  selectedRequest.user.username,
+                  selectedRequest._id,
+                  "approved",
+                )
+              }
+              color="success">
+              <CheckCircle />
+            </IconButton>
+            <IconButton onClick={closeReasonModal}>
+              <Close />
+            </IconButton>
+          </Box>
+        </Box>
+      </Modal>
     </Box>
   );
 };
