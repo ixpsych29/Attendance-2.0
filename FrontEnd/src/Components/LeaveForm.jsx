@@ -162,8 +162,8 @@ const LeaveForm = () => {
                   setLeaveData({ ...leaveData, leaveType: e.target.value })
                 }
                 label="Leave Type">
-                <MenuItem value="Paid">Paid Leave</MenuItem>
-                <MenuItem value="Unpaid">Unpaid Leave</MenuItem>
+                <MenuItem value="paid">Paid Leave</MenuItem>
+                <MenuItem value="unpaid">Unpaid Leave</MenuItem>
               </Select>
             </FormControl>
           </Grid>
