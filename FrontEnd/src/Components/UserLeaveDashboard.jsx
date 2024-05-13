@@ -11,15 +11,22 @@ import {
   Typography,
   Box,
   Divider,
+  TextField,
+  Modal,
+  IconButton,
 } from "@mui/material";
 import toast from "react-hot-toast";
 import UserContext from "./UserContext";
 import DisplayCard from "./DisplayCard";
+import CloseIcon from "@mui/icons-material/Close";
+import { Visibility } from "@mui/icons-material";
 
 const UserLeaveDashboard = () => {
   const { username } = useContext(UserContext);
   const [user, setUser] = useState([]);
   const [leave, setLeave] = useState(0);
+  const [reasonModalOpen, setReasonModalOpen] = useState(false); // State for managing modal open/close
+  const [selectedReasonRequest, setSelectedReasonRequest] = useState(null); // State for storing the selected leave request
 
   const fetchUser = async () => {
     try {
@@ -43,8 +50,71 @@ const UserLeaveDashboard = () => {
     fetchUser();
   }, []);
 
+  // Function to open the modal and set the selected request
+  const handleReasonOpenModal = (request) => {
+    setSelectedReasonRequest(request);
+    setReasonModalOpen(true);
+  };
+
+  // Function to close the modal
+  const handleReasonCloseModal = () => {
+    setSelectedReasonRequest(null);
+    setReasonModalOpen(false);
+  };
+
   return (
     <>
+      {/* Reason Modal */}
+      <Modal open={reasonModalOpen} onClose={handleReasonCloseModal}>
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: 400, // Adjust the width as needed
+            bgcolor: "white",
+            p: 4,
+            borderRadius: 4, // Add some border radius for a rounded look
+          }}>
+          {/* Close button */}
+          <IconButton
+            sx={{
+              position: "absolute",
+              top: 3,
+              right: 18,
+            }}
+            onClick={handleReasonCloseModal}>
+            <CloseIcon />
+          </IconButton>
+
+          {/* Modal Content */}
+          {/* Display selected request details */}
+          {selectedReasonRequest && (
+            <>
+              <Typography
+                variant="h5"
+                gutterBottom
+                sx={{ textAlign: "center", marginBottom: 4 }}>
+                Leave Request Details
+              </Typography>
+              {/* Additional input (text field) */}
+              <TextField
+                fullWidth
+                label="Reason"
+                variant="outlined"
+                multiline // Enable multiline
+                rows={4} // Set the number of rows to show initially
+                value={
+                  selectedReasonRequest ? selectedReasonRequest.reason : ""
+                }
+                disabled={!selectedReasonRequest} // Disable the field if no request is selected
+              />
+            </>
+          )}
+        </Box>
+      </Modal>
+
       <div className="flex justify-between">
         <div className="container ml-80  cursor-pointer">
           <div className="relative shadow-md transform hover:scale-105 transition duration-300 ease-in-out rounded-lg overflow-hidden flex justify-center btn-style ">
@@ -122,14 +192,14 @@ const UserLeaveDashboard = () => {
                   <Typography
                     variant="subtitle1"
                     style={{ fontWeight: "bold" }}>
-                    Status
+                    Reason
                   </Typography>
                 </TableCell>
                 <TableCell>
                   <Typography
                     variant="subtitle1"
                     style={{ fontWeight: "bold" }}>
-                    Reason
+                    Status
                   </Typography>
                 </TableCell>
                 <TableCell>
@@ -148,8 +218,14 @@ const UserLeaveDashboard = () => {
                     <TableCell>{user.leaveType}</TableCell>
                     <TableCell>{user.startDate}</TableCell>
                     <TableCell>{user.endDate}</TableCell>
+                    <TableCell>
+                      <div className="ml-3">
+                        <IconButton onClick={() => handleReasonOpenModal(user)}>
+                          <Visibility />
+                        </IconButton>
+                      </div>
+                    </TableCell>
                     <TableCell>{user.status}</TableCell>
-                    <TableCell>{user.reason}</TableCell>
                     <TableCell>
                       <div className="ml-6">{user.leaveDays}</div>
                     </TableCell>
