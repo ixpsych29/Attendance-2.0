@@ -198,7 +198,7 @@ const TotalEmployee = () => {
           </Box>
         </Modal>
         <Box
-          bgcolor="white"
+          bgcolor="#DBF3FA"
           paddingBottom={10}
           paddingTop={5}
           boxShadow={3}
