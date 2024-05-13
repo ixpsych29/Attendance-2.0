@@ -4,13 +4,13 @@ import UserContext from "./UserContext";
 import { FaHome, FaUserCheck, FaSignOutAlt } from "react-icons/fa";
 import { CiCalendarDate } from "react-icons/ci";
 import { CgProfile } from "react-icons/cg";
-import { FaMoon } from "react-icons/fa";
+import { FaMoon, FaChartBar, FaPenSquare } from "react-icons/fa";
 import { FaSun } from "react-icons/fa6";
 import { FaCog } from "react-icons/fa";
 import {
   RiArrowLeftDoubleLine,
   RiArrowUpDoubleLine,
-  RiArrowDownDoubleLine,
+  RiArrowRightSLine,
 } from "react-icons/ri";
 
 const Sidebar = ({ mode, setMode }) => {
@@ -58,12 +58,14 @@ const Sidebar = ({ mode, setMode }) => {
   };
 
   useEffect(() => {
-    // Collapse leaves submenu when location changes and leaves tab is not active
-    if (!isActiveLink("/home/leave")) {
+    if (
+      !isActiveLink("/home/leave") &&
+      !isActiveLink("/home/userleavedashboard") &&
+      !isActiveLink("/home/adminleavedashboard")
+    ) {
       setShowLeavesSubMenu(false);
     }
   }, [location]);
-
   return (
     <div>
       {showSidebar ? (
@@ -195,7 +197,7 @@ const Sidebar = ({ mode, setMode }) => {
                     showLeavesSubMenu ? "btn-style text-white" : ""
                   }`}
                   onClick={toggleLeavesSubMenu}>
-                  <CgProfile
+                  <CiCalendarDate
                     className={`w-6 h-6 ${
                       showLeavesSubMenu ? "text-white" : "text-white"
                     }`}
@@ -206,10 +208,13 @@ const Sidebar = ({ mode, setMode }) => {
                     }`}>
                     Leaves
                   </span>
-                  {showLeavesSubMenu && (
-                    <RiArrowDownDoubleLine className="text-white" />
-                  )}
+                  <RiArrowRightSLine
+                    className={`text-white ${
+                      showLeavesSubMenu ? "rotate-90" : ""
+                    }`}
+                  />
                 </div>
+
                 {showLeavesSubMenu && (
                   <ul className="space-y-2 tracking-wide">
                     <li>
@@ -220,7 +225,7 @@ const Sidebar = ({ mode, setMode }) => {
                             ? "btn-style text-white"
                             : ""
                         }`}>
-                        <CgProfile
+                        <FaPenSquare
                           className={`w-6 h-6 ${
                             isActiveLink("/home/leave")
                               ? "text-white"
@@ -246,7 +251,7 @@ const Sidebar = ({ mode, setMode }) => {
                               ? "btn-style text-white"
                               : ""
                           }`}>
-                          <CgProfile
+                          <FaChartBar
                             className={`w-6 h-6 ${
                               isActiveLink("/home/userleavedashboard")
                                 ? "text-white"
@@ -264,6 +269,7 @@ const Sidebar = ({ mode, setMode }) => {
                         </Link>
                       </li>
                     )}
+
                     {isAdmin && (
                       <li>
                         <Link
@@ -273,7 +279,7 @@ const Sidebar = ({ mode, setMode }) => {
                               ? "btn-style text-white"
                               : ""
                           }`}>
-                          <CgProfile
+                          <FaChartBar
                             className={`w-6 h-6 ${
                               isActiveLink("/home/adminleavedashboard")
                                 ? "text-white"

@@ -20,24 +20,42 @@ const TotalEmployeeRecord = ({ users, handleEdit, handleDelete }) => {
       size="small"
       aria-label="a dense table"
       className="w-full border-collapse">
-      <TableHead className="bg-gray-200">
+      <TableHead>
         <TableRow>
-          <TableCell align="center" className="px-4 py-2">
+          <TableCell
+            align="center"
+            className="px-4 py-2 "
+            style={{ backgroundColor: "#DBF3FA", color: "black" }}>
             Name
           </TableCell>
-          <TableCell align="center" className="px-4 py-2">
+          <TableCell
+            align="center"
+            className="px-4 py-2"
+            style={{ backgroundColor: "#DBF3FA", color: "black" }}>
             User Name
           </TableCell>
-          <TableCell align="center" className="px-4 py-2">
+          <TableCell
+            align="center"
+            className="px-4 py-2"
+            style={{ backgroundColor: "#DBF3FA", color: "black" }}>
             Email
           </TableCell>
-          <TableCell align="center" className="px-4 py-2">
+          <TableCell
+            align="center"
+            className="px-4 py-2"
+            style={{ backgroundColor: "#DBF3FA", color: "black" }}>
             Phone Number
           </TableCell>
-          <TableCell align="center" className="px-4 py-2">
+          <TableCell
+            align="center"
+            className="px-4 py-2"
+            style={{ backgroundColor: "#DBF3FA", color: "black" }}>
             Edit
           </TableCell>
-          <TableCell align="center" className="px-4 py-2">
+          <TableCell
+            align="center"
+            className="px-4 py-2"
+            style={{ backgroundColor: "#DBF3FA", color: "black" }}>
             Delete
           </TableCell>
         </TableRow>
