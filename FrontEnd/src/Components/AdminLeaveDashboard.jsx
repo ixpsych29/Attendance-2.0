@@ -23,6 +23,7 @@ const AdminLeaveDashboard = () => {
   const [users, setUsers] = useState([]);
   const [modalOpen, setModalOpen] = useState(false); // State for managing modal open/close
   const [selectedRequest, setSelectedRequest] = useState(null); // State for storing the selected leave request
+  const [selectedUser, setSelectedUser] = useState(null);
 
   const fetchUsers = async () => {
     try {
@@ -63,6 +64,11 @@ const AdminLeaveDashboard = () => {
 
   // Function to open the modal and set the selected request
   const handleOpenModal = (request) => {
+    // Find the user associated with the selected request
+    const user = users.find((user) =>
+      user.leaveRequests.some((req) => req._id === request._id),
+    );
+    setSelectedUser(user);
     setSelectedRequest(request);
     setModalOpen(true);
   };
@@ -90,14 +96,18 @@ const AdminLeaveDashboard = () => {
           }}>
           {/* Close button */}
           <IconButton
-            sx={{ position: "absolute", top: 3, right: 18 }}
+            sx={{
+              position: "absolute",
+              top: 3,
+              right: 18,
+            }}
             onClick={handleCloseModal}>
             <CloseIcon />
           </IconButton>
 
           {/* Modal Content */}
           {/* Display selected request details */}
-          {selectedRequest && (
+          {selectedRequest && selectedUser && (
             <>
               <Typography
                 variant="h5"
@@ -115,34 +125,30 @@ const AdminLeaveDashboard = () => {
                 value={selectedRequest ? selectedRequest.reason : ""}
                 disabled={!selectedRequest} // Disable the field if no request is selected
               />
-              {/* <Box sx={{ textAlign: "center", marginTop: 2 }}>
-                {selectedRequest.status !== "approved" && (
-                  <IconButton
-                    onClick={() =>
-                      updateLeaveRequest(
-                        selectedRequest.user.username, // Access user data from selected request
-                        selectedRequest._id,
-                        "disapproved",
-                      )
-                    }
-                    color="error">
-                    <Cancel />
-                  </IconButton>
-                )}
-                {selectedRequest.status !== "disapproved" && (
-                  <IconButton
-                    onClick={() =>
-                      updateLeaveRequest(
-                        selectedRequest.user.username, // Access user data from selected request
-                        selectedRequest._id,
-                        "approved",
-                      )
-                    }
-                    color="success">
-                    <CheckCircle />
-                  </IconButton>
-                )}
-              </Box> */}
+              <Box sx={{ textAlign: "center", marginTop: 2 }}>
+                <IconButton
+                  onClick={() =>
+                    updateLeaveRequest(
+                      selectedUser.username, // Access username from the selected user
+                      selectedRequest._id,
+                      "disapproved",
+                    )
+                  }
+                  color="error">
+                  <Cancel />
+                </IconButton>
+                <IconButton
+                  onClick={() =>
+                    updateLeaveRequest(
+                      selectedUser.username, // Access username from the selected user
+                      selectedRequest._id,
+                      "approved",
+                    )
+                  }
+                  color="success">
+                  <CheckCircle />
+                </IconButton>
+              </Box>
             </>
           )}
         </Box>
@@ -204,11 +210,11 @@ const AdminLeaveDashboard = () => {
                     <b>Leaves</b>
                   </Typography>
                 </TableCell>
-                <TableCell>
+                {/* <TableCell>
                   <Typography variant="subtitle1">
                     <b>Status</b>
                   </Typography>
-                </TableCell>
+                </TableCell> */}
                 <TableCell>
                   <Typography variant="subtitle1">
                     <b>Reason</b>
@@ -216,7 +222,7 @@ const AdminLeaveDashboard = () => {
                 </TableCell>
                 <TableCell>
                   <Typography variant="subtitle1">
-                    <b>Action</b>
+                    <b>Status</b>
                   </Typography>
                 </TableCell>
               </TableRow>
@@ -236,8 +242,7 @@ const AdminLeaveDashboard = () => {
                       <TableCell>
                         <div className="ml-5">{request.leaveDays}</div>
                       </TableCell>
-                      <TableCell>{request.status}</TableCell>
-
+                      {/* <TableCell>{request.status}</TableCell> */}
                       <TableCell>
                         <div className="ml-3">
                           <IconButton onClick={() => handleOpenModal(request)}>
