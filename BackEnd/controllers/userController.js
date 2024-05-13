@@ -316,7 +316,7 @@ const createLeaveRequest = async (req, res) => {
   }
 };
 
-// update LEave request
+// update Leave request
 const updateLeaveRequest = async (req, res) => {
   const { userName } = req.params;
   const { leaveRequestId, newStatus } = req.body;

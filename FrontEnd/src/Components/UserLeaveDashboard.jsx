@@ -30,12 +30,10 @@ const UserLeaveDashboard = () => {
 
   const fetchUser = async () => {
     try {
-      // http://localhost:3000/api/users
-      // http://localhost:3000/api/users/${username}
       const response = await axios.get(
         ` http://localhost:3000/api/users/${username}`,
       );
-      console.log("API Response:", response); // Log the response data
+
       setUser(response.data.leaveRequests);
       setLeave({
         leaveCount: response.data.leaveCount,
@@ -192,14 +190,14 @@ const UserLeaveDashboard = () => {
                   <Typography
                     variant="subtitle1"
                     style={{ fontWeight: "bold" }}>
-                    Reason
+                    Status
                   </Typography>
                 </TableCell>
                 <TableCell>
                   <Typography
                     variant="subtitle1"
                     style={{ fontWeight: "bold" }}>
-                    Status
+                    Reason
                   </Typography>
                 </TableCell>
                 <TableCell>

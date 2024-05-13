@@ -2,6 +2,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useContext, useState, useEffect } from "react";
 import UserContext from "./UserContext";
 import { FaHome, FaUserCheck, FaSignOutAlt } from "react-icons/fa";
+import { CiCalendarDate } from "react-icons/ci";
 import { CgProfile } from "react-icons/cg";
 import { FaMoon } from "react-icons/fa";
 import { FaSun } from "react-icons/fa6";
@@ -57,8 +58,11 @@ const Sidebar = ({ mode, setMode }) => {
   };
 
   useEffect(() => {
-    setUserRole(role); // Update userRole state when role changes
-  }, [role]);
+    // Collapse leaves submenu when location changes and leaves tab is not active
+    if (!isActiveLink("/home/leave")) {
+      setShowLeavesSubMenu(false);
+    }
+  }, [location]);
 
   return (
     <div>

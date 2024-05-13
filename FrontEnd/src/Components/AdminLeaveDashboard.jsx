@@ -251,37 +251,19 @@ const AdminLeaveDashboard = () => {
                         </div>
                       </TableCell>
                       <TableCell>
-                        {request.status !== "approved" && (
-                          <IconButton
-                            onClick={() =>
-                              updateLeaveRequest(
-                                user.username,
-                                request._id,
-                                "disapproved",
-                              )
-                            }
-                            color="error">
-                            <Cancel />
+                        {request.status === "approved" && (
+                          <IconButton color="success">
+                            <CheckCircle />
                           </IconButton>
                         )}
-                        {request.status !== "disapproved" && (
-                          <IconButton
-                            onClick={() =>
-                              updateLeaveRequest(
-                                user.username,
-                                request._id,
-                                "approved",
-                              )
-                            }
-                            color="success">
-                            <CheckCircle />
+                        {request.status === "disapproved" && (
+                          <IconButton color="error">
+                            <Cancel />
                           </IconButton>
                         )}
                         {request.status !== "approved" &&
                           request.status !== "disapproved" && (
-                            <div>
-                              {/* Render nothing when status is neither approved nor disapproved */}
-                            </div>
+                            <div>Pending</div>
                           )}
                       </TableCell>
                     </TableRow>
