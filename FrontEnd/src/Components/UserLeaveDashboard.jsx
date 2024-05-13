@@ -19,7 +19,12 @@ import toast from "react-hot-toast";
 import UserContext from "./UserContext";
 import DisplayCard from "./DisplayCard";
 import CloseIcon from "@mui/icons-material/Close";
-import { Visibility } from "@mui/icons-material";
+import {
+  Visibility,
+  CheckCircle,
+  Cancel,
+  QueryBuilder,
+} from "@mui/icons-material";
 
 const UserLeaveDashboard = () => {
   const { username } = useContext(UserContext);
@@ -190,7 +195,7 @@ const UserLeaveDashboard = () => {
                   <Typography
                     variant="subtitle1"
                     style={{ fontWeight: "bold" }}>
-                    Status
+                    Leaves
                   </Typography>
                 </TableCell>
                 <TableCell>
@@ -204,7 +209,7 @@ const UserLeaveDashboard = () => {
                   <Typography
                     variant="subtitle1"
                     style={{ fontWeight: "bold" }}>
-                    Leaves
+                    Status
                   </Typography>
                 </TableCell>
               </TableRow>
@@ -217,15 +222,27 @@ const UserLeaveDashboard = () => {
                     <TableCell>{user.startDate}</TableCell>
                     <TableCell>{user.endDate}</TableCell>
                     <TableCell>
+                      <div className="ml-6">{user.leaveDays}</div>
+                    </TableCell>
+                    <TableCell>
                       <div className="ml-3">
                         <IconButton onClick={() => handleReasonOpenModal(user)}>
                           <Visibility />
                         </IconButton>
                       </div>
                     </TableCell>
-                    <TableCell>{user.status}</TableCell>
                     <TableCell>
-                      <div className="ml-6">{user.leaveDays}</div>
+                      <div className="ml-4">
+                        {user.status === "approved" && (
+                          <CheckCircle color="success" />
+                        )}
+                        {user.status === "disapproved" && (
+                          <Cancel color="error" />
+                        )}
+                        {user.status === "pending" && (
+                          <QueryBuilder color="warning" />
+                        )}
+                      </div>
                     </TableCell>
                   </TableRow>
                 );
