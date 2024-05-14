@@ -19,6 +19,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { CheckCircle, Cancel, Visibility } from "@mui/icons-material";
 import toast from "react-hot-toast";
+import CommentsModal from "./CommentsModal"; // Importing the CommentsModal component
 
 const AdminLeaveDashboard = () => {
   const [users, setUsers] = useState([]);
@@ -291,76 +292,11 @@ const AdminLeaveDashboard = () => {
         </Box>
       </Modal>
       {/* Comments Modal */}
-      <Modal open={commentsModalOpen} onClose={handleCloseAllModals}>
-        <Box
-          sx={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            width: 400,
-            bgcolor: "white",
-            p: 4,
-            borderRadius: 4,
-          }}>
-          <IconButton
-            sx={{
-              position: "absolute",
-              top: 3,
-              right: 18,
-            }}
-            onClick={handleCloseAllModals}>
-            <CloseIcon />
-          </IconButton>
-
-          {selectedRequest && (
-            <>
-              <Typography
-                variant="h5"
-                gutterBottom
-                sx={{ textAlign: "center", marginBottom: 4 }}>
-                Comments Details
-              </Typography>
-
-              {/* Conditional rendering based on approval or disapproval */}
-              {selectedRequest.approvalComments &&
-                !selectedRequest.disapprovalReason && (
-                  <TextField
-                    fullWidth
-                    label="Approval Comments"
-                    variant="outlined"
-                    multiline
-                    rows={4}
-                    value={selectedRequest.approvalComments}
-                    disabled
-                  />
-                )}
-
-              {selectedRequest.disapprovalReason &&
-                !selectedRequest.approvalComments && (
-                  <TextField
-                    fullWidth
-                    label="Disapproval Reason"
-                    variant="outlined"
-                    multiline
-                    rows={4}
-                    value={selectedRequest.disapprovalReason}
-                    disabled
-                    sx={{ marginTop: 2 }}
-                  />
-                )}
-
-              {/* Default empty comment */}
-              {selectedRequest.approvalComments === undefined &&
-                selectedRequest.disapprovalReason === undefined && (
-                  <Typography variant="body1" color="textSecondary">
-                    No comments available.
-                  </Typography>
-                )}
-            </>
-          )}
-        </Box>
-      </Modal>
+      <CommentsModal
+        isOpen={commentsModalOpen}
+        handleClose={() => setCommentsModalOpen(false)}
+        request={selectedRequest}
+      />
 
       <Box
         className="items-center justify-center space-x-4 mb-4 border border-gray-300 p-24 pl-[-5] rounded-md shadow-2xl bg-[#DBF3FA] pr-20"
