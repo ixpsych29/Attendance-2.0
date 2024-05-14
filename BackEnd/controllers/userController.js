@@ -32,6 +32,7 @@ const getUsers = async (req, res) => {
         dob: user.dob,
         username: user.username,
         email: user.email,
+        status: user.status,
         phoneNumber: user.phoneNumber,
         unpaidLeaves: user.unpaidLeaves,
         leaveRequests: leaveDetails,
@@ -79,6 +80,7 @@ const getSingleUser = async (req, res) => {
       username: user.username,
       dob: user.dob,
       email: user.email,
+      status: user.status,
       profilePicture: user.profilePicture,
       phoneNumber: user.phoneNumber,
       leaveCount: user.leaveCount,
@@ -97,16 +99,24 @@ const getSingleUser = async (req, res) => {
 const createUser = async (req, res) => {
   const { name, username, email, password } = req.body;
 
-  //ADD doc to DB
   try {
+    // Log the incoming request body
+    console.log("Request Body:", req.body);
+
     const newUser = await User.create({
       name,
       username,
       email,
       password,
+      status: "pending", // Set status to pending_approval
     });
+
+    // Log the newly created user
+    console.log("New User:", newUser);
+
     res.status(200).json(newUser);
   } catch (error) {
+    console.error("Error creating user:", error);
     res.status(400).json({ error: error.message });
   }
 };
@@ -199,7 +209,7 @@ const updatePicture = async (req, res) => {
 //updating a profile of user
 const updateProfile = async (req, res) => {
   const { userName } = req.params;
-  const { name, username, email, dob, phoneNo, password } = req.body;
+  const { name, username, email, dob, phoneNo, password, status } = req.body;
 
   try {
     let updateFields = {};
@@ -211,6 +221,7 @@ const updateProfile = async (req, res) => {
     if (email) updateFields.email = email;
     if (phoneNo) updateFields.phoneNumber = phoneNo;
     if (password) updateFields.password = password;
+    if (status) updateFields.status = status; // Update the status field
 
     // Update the user document with the provided fields
     const newUser = await User.findOneAndUpdate(
@@ -235,6 +246,19 @@ const loginUser = async (req, res) => {
     if (!user) {
       return res.status(401).json({ message: "Invalid Credentials" });
     }
+    if (user.role === "admin") {
+      return res
+        .status(200)
+        .json({ message: "Admin Login successful", role: "admin" });
+    }
+
+    // Check if the user is approved
+    if (user.status !== "approved") {
+      return res
+        .status(401)
+        .json({ message: "User is pending approval", userStatus: user.status });
+    }
+
     // Check user role
     if (user.role === "admin") {
       return res

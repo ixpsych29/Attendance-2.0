@@ -190,7 +190,35 @@ const Sidebar = ({ mode, setMode }) => {
                   </span>
                 </Link>
               </li>
-
+              <li>
+                {isAdmin && (
+                  <li>
+                    <Link
+                      to="/home/signupapproval"
+                      className={`px-4 py-3 flex items-center space-x-4 rounded-md ${
+                        isActiveLink("/home/signupapproval")
+                          ? "btn-style text-white"
+                          : ""
+                      }`}>
+                      <FaChartBar
+                        className={`w-6 h-6 ${
+                          isActiveLink("/home/signupapproval")
+                            ? "text-white"
+                            : "text-white"
+                        }`}
+                      />
+                      <span
+                        className={`-mr-1 font-medium ${
+                          isActiveLink("/home/signupapproval")
+                            ? "text-white"
+                            : "text-white"
+                        }`}>
+                        Signup Approval
+                      </span>
+                    </Link>
+                  </li>
+                )}
+              </li>
               <li>
                 <div
                   className={`px-4 py-3 flex items-center space-x-4 rounded-md cursor-pointer ${
