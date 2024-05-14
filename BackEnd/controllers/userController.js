@@ -23,6 +23,8 @@ const getUsers = async (req, res) => {
         reason: request.reason,
         status: request.status,
         leaveDays: request.leaveDays, // Include leave count
+        approvalComments: request.approvalComments,
+        disapprovalReason: request.disapprovalReason,
       }));
 
       // Add leave count to each user
@@ -61,17 +63,33 @@ const getSingleUser = async (req, res) => {
     }
 
     // Extract leave request details for the user
-    const leaveDetails = user.leaveRequests.map((request) => ({
-      _id: request._id,
-      leaveType: request.leaveType,
-      leaveSubject: request.leaveSubject,
-      startDate: request.startDate.toDateString(),
-      endDate: request.endDate.toDateString(),
-      reason: request.reason,
-      status: request.status,
-      leaveDays: request.leaveDays,
-    }));
-    console.log(leaveDetails);
+    const leaveDetails = user.leaveRequests.map((request) => {
+      const {
+        _id,
+        leaveType,
+        leaveSubject,
+        startDate,
+        endDate,
+        reason,
+        status,
+        leaveDays,
+      } = request;
+      // Check if approvalComments and disapprovalReason exist, provide default values if they don't
+      const approvalComments = request.approvalComments || "";
+      const disapprovalReason = request.disapprovalReason || "";
+      return {
+        _id,
+        leaveType,
+        leaveSubject,
+        startDate: startDate.toDateString(),
+        endDate: endDate.toDateString(),
+        reason,
+        status,
+        leaveDays,
+        approvalComments,
+        disapprovalReason,
+      };
+    });
 
     // Create user object with leave details
     const userWithLeaveDetails = {
@@ -292,10 +310,17 @@ async function UserExist(req, res) {
 }
 
 // Create Leave request
-
 const createLeaveRequest = async (req, res) => {
   const { userName } = req.params;
-  const { leaveType, leaveSubject, startDate, endDate, reason } = req.body;
+  const {
+    leaveType,
+    leaveSubject,
+    startDate,
+    endDate,
+    reason,
+    disapprovalReason,
+    approvalComments,
+  } = req.body; // Include disapprovalReason and approvalComments from req.body
 
   try {
     const user = await User.findOne({ username: userName });
@@ -316,6 +341,8 @@ const createLeaveRequest = async (req, res) => {
       reason,
       status: "pending",
       leaveDays,
+      disapprovalReason,
+      approvalComments,
     };
 
     if (leaveType === "paid") {
@@ -343,7 +370,8 @@ const createLeaveRequest = async (req, res) => {
 // update Leave request
 const updateLeaveRequest = async (req, res) => {
   const { userName } = req.params;
-  const { leaveRequestId, newStatus } = req.body;
+  const { leaveRequestId, newStatus, disapprovalReason, approvalComments } =
+    req.body;
 
   try {
     const user = await User.findOne({ username: userName });
@@ -356,20 +384,14 @@ const updateLeaveRequest = async (req, res) => {
       return res.status(404).json({ error: "Leave request not found" });
     }
 
-    // Update the status of the leave request
+    // Update the status and handle comments
     leaveRequest.status = newStatus;
-
-    if (newStatus === "approved") {
-      // Deduct leave count only when the leave request is approved
-      const leaveDays = leaveRequest.leaveDays;
-      if (leaveRequest.leaveType === "paid") {
-        if (user.leaveCount < leaveDays) {
-          return res.status(400).json({ error: "Insufficient leave balance" });
-        }
-        user.leaveCount -= leaveDays;
-      } else if (leaveRequest.leaveType === "unpaid") {
-        user.unpaidLeaves -= leaveDays;
-      }
+    if (newStatus === "disapproved") {
+      leaveRequest.disapprovalReason = disapprovalReason;
+      leaveRequest.approvalComments = ""; // Clear approval comments if disapproved
+    } else if (newStatus === "approved") {
+      leaveRequest.approvalComments = approvalComments;
+      leaveRequest.disapprovalReason = ""; // Clear disapproval reason if approved
     }
 
     await user.save();

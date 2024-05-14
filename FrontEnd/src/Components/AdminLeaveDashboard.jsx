@@ -16,55 +16,90 @@ import {
   TextField,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { CheckCircle, Cancel, Visibility } from "@mui/icons-material";
 import toast from "react-hot-toast";
 
 const AdminLeaveDashboard = () => {
   const [users, setUsers] = useState([]);
-  const [modalOpen, setModalOpen] = useState(false); // State for managing modal open/close
-  const [selectedRequest, setSelectedRequest] = useState(null); // State for storing the selected leave request
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedRequest, setSelectedRequest] = useState(null);
   const [selectedUser, setSelectedUser] = useState(null);
+  const [approveModalOpen, setApproveModalOpen] = useState(false);
+  const [approveComments, setApproveComments] = useState("");
+  const [disapproveModalOpen, setDisapproveModalOpen] = useState(false);
+  const [disapproveReason, setDisapproveReason] = useState("");
+  const [commentsModalOpen, setCommentsModalOpen] = useState(false);
+
+  const handleApproveModalOpen = () => {
+    setApproveModalOpen(true);
+  };
+
+  const handleCloseApproveModal = () => {
+    setApproveModalOpen(false);
+    setApproveComments("");
+  };
+
+  const handleDisapproveModalOpen = () => {
+    setDisapproveModalOpen(true);
+  };
+
+  const handleCloseDisapproveModal = () => {
+    setDisapproveModalOpen(false);
+    setDisapproveReason("");
+  };
+
+  const handleCloseAllModals = () => {
+    setApproveModalOpen(false);
+    setDisapproveModalOpen(false);
+    setModalOpen(false);
+    setCommentsModalOpen(false);
+    setApproveComments("");
+    setDisapproveReason("");
+  };
 
   const fetchUsers = async () => {
     try {
       const response = await axios.get("http://localhost:3000/api/users");
-      console.log("API Response:", response.data); // Log the response data
+      console.log("API Response:", response.data);
       setUsers(response.data.users);
     } catch (error) {
       console.error("Error fetching users:", error);
       toast.error("Error fetching users");
     }
   };
+
   useEffect(() => {
     fetchUsers();
   }, []);
 
-  const updateLeaveRequest = async (userName, leaveRequestId, newStatus) => {
-    console.log("User Name:", userName);
-    console.log("Leave Request ID:", leaveRequestId);
-    console.log("New Status:", newStatus);
-
+  const updateLeaveRequest = async (
+    userName,
+    leaveRequestId,
+    newStatus,
+    approveComments,
+    disapprovalReason,
+  ) => {
     try {
       await axios.put(
         `http://localhost:3000/api/users/${userName}/updateLeaveRequest`,
         {
           leaveRequestId,
           newStatus,
+          disapprovalReason: disapprovalReason,
+          approvalComments: approveComments,
         },
       );
-      // Fetch users again to update the UI with the latest data
       fetchUsers();
       toast.success("Leave request updated successfully");
+      handleCloseAllModals();
     } catch (error) {
       console.error("Error updating leave request:", error);
       toast.error("Error updating leave request");
     }
-    console.log("Leave request ID:", leaveRequestId); // Log leaveRequestId
   };
 
-  // Function to open the modal and set the selected request
   const handleOpenModal = (request) => {
-    // Find the user associated with the selected request
     const user = users.find((user) =>
       user.leaveRequests.some((req) => req._id === request._id),
     );
@@ -73,14 +108,136 @@ const AdminLeaveDashboard = () => {
     setModalOpen(true);
   };
 
-  // Function to close the modal
   const handleCloseModal = () => {
     setSelectedRequest(null);
     setModalOpen(false);
   };
 
+  const handleOpenCommentsModal = (request) => {
+    const user = users.find((user) =>
+      user.leaveRequests.some((req) => req._id === request._id),
+    );
+    setSelectedUser(user);
+    setSelectedRequest(request);
+    setCommentsModalOpen(true);
+  };
+
   return (
     <>
+      {/* Approve Modal */}
+      <Modal open={approveModalOpen} onClose={handleCloseApproveModal}>
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: 400,
+            bgcolor: "white",
+            p: 4,
+            borderRadius: 4,
+          }}>
+          <IconButton
+            sx={{
+              position: "absolute",
+              top: 3,
+              left: 3,
+              zIndex: 1,
+            }}
+            onClick={handleCloseApproveModal}>
+            <ArrowBackIcon />
+          </IconButton>
+
+          <Typography
+            variant="h5"
+            gutterBottom
+            sx={{ textAlign: "center", marginBottom: 4 }}>
+            Approve Modal Content
+          </Typography>
+          <TextField
+            fullWidth
+            label="Approve Reason"
+            variant="outlined"
+            multiline
+            rows={4}
+            value={approveComments}
+            onChange={(e) => setApproveComments(e.target.value)}
+            sx={{ marginBottom: 2 }}
+          />
+
+          <IconButton
+            onClick={() =>
+              updateLeaveRequest(
+                selectedUser.username,
+                selectedRequest._id,
+                "approved",
+                approveComments,
+                "",
+              )
+            }
+            color="success"
+            sx={{ display: "block", margin: "auto" }}>
+            <CheckCircle />
+          </IconButton>
+        </Box>
+      </Modal>
+      {/* Disapprove Modal */}
+      <Modal open={disapproveModalOpen} onClose={handleCloseDisapproveModal}>
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: 400,
+            bgcolor: "white",
+            p: 4,
+            borderRadius: 4,
+          }}>
+          <IconButton
+            sx={{
+              position: "absolute",
+              top: 3,
+              left: 3,
+              zIndex: 1,
+            }}
+            onClick={handleCloseDisapproveModal}>
+            <ArrowBackIcon />
+          </IconButton>
+
+          <Typography
+            variant="h5"
+            gutterBottom
+            sx={{ textAlign: "center", marginBottom: 4 }}>
+            Disapprove Modal Content
+          </Typography>
+          <TextField
+            fullWidth
+            label="Disapprove Reason"
+            variant="outlined"
+            multiline
+            rows={4}
+            value={disapproveReason}
+            onChange={(e) => setDisapproveReason(e.target.value)}
+            sx={{ marginBottom: 2 }}
+          />
+
+          <IconButton
+            onClick={() =>
+              updateLeaveRequest(
+                selectedUser.username,
+                selectedRequest._id,
+                "disapproved",
+                "",
+                disapproveReason,
+              )
+            }
+            color="error"
+            sx={{ display: "block", margin: "auto" }}>
+            <Cancel />
+          </IconButton>
+        </Box>
+      </Modal>
       {/* Reason Modal */}
       <Modal open={modalOpen} onClose={handleCloseModal}>
         <Box
@@ -89,12 +246,11 @@ const AdminLeaveDashboard = () => {
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
-            width: 400, // Adjust the width as needed
+            width: 400,
             bgcolor: "white",
             p: 4,
-            borderRadius: 4, // Add some border radius for a rounded look
+            borderRadius: 4,
           }}>
-          {/* Close button */}
           <IconButton
             sx={{
               position: "absolute",
@@ -105,8 +261,6 @@ const AdminLeaveDashboard = () => {
             <CloseIcon />
           </IconButton>
 
-          {/* Modal Content */}
-          {/* Display selected request details */}
           {selectedRequest && selectedUser && (
             <>
               <Typography
@@ -115,37 +269,20 @@ const AdminLeaveDashboard = () => {
                 sx={{ textAlign: "center", marginBottom: 4 }}>
                 Leave Request Details
               </Typography>
-              {/* Additional input (text field) */}
               <TextField
                 fullWidth
                 label="Reason"
                 variant="outlined"
-                multiline // Enable multiline
-                rows={4} // Set the number of rows to show initially
+                multiline
+                rows={4}
                 value={selectedRequest ? selectedRequest.reason : ""}
-                disabled={!selectedRequest} // Disable the field if no request is selected
+                disabled={!selectedRequest}
               />
               <Box sx={{ textAlign: "center", marginTop: 2 }}>
-                <IconButton
-                  onClick={() =>
-                    updateLeaveRequest(
-                      selectedUser.username, // Access username from the selected user
-                      selectedRequest._id,
-                      "disapproved",
-                    )
-                  }
-                  color="error">
+                <IconButton onClick={handleDisapproveModalOpen} color="error">
                   <Cancel />
                 </IconButton>
-                <IconButton
-                  onClick={() =>
-                    updateLeaveRequest(
-                      selectedUser.username, // Access username from the selected user
-                      selectedRequest._id,
-                      "approved",
-                    )
-                  }
-                  color="success">
+                <IconButton onClick={handleApproveModalOpen} color="success">
                   <CheckCircle />
                 </IconButton>
               </Box>
@@ -153,9 +290,80 @@ const AdminLeaveDashboard = () => {
           )}
         </Box>
       </Modal>
+      {/* Comments Modal */}
+      <Modal open={commentsModalOpen} onClose={handleCloseAllModals}>
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: 400,
+            bgcolor: "white",
+            p: 4,
+            borderRadius: 4,
+          }}>
+          <IconButton
+            sx={{
+              position: "absolute",
+              top: 3,
+              right: 18,
+            }}
+            onClick={handleCloseAllModals}>
+            <CloseIcon />
+          </IconButton>
+
+          {selectedRequest && (
+            <>
+              <Typography
+                variant="h5"
+                gutterBottom
+                sx={{ textAlign: "center", marginBottom: 4 }}>
+                Comments Details
+              </Typography>
+
+              {/* Conditional rendering based on approval or disapproval */}
+              {selectedRequest.approvalComments &&
+                !selectedRequest.disapprovalReason && (
+                  <TextField
+                    fullWidth
+                    label="Approval Comments"
+                    variant="outlined"
+                    multiline
+                    rows={4}
+                    value={selectedRequest.approvalComments}
+                    disabled
+                  />
+                )}
+
+              {selectedRequest.disapprovalReason &&
+                !selectedRequest.approvalComments && (
+                  <TextField
+                    fullWidth
+                    label="Disapproval Reason"
+                    variant="outlined"
+                    multiline
+                    rows={4}
+                    value={selectedRequest.disapprovalReason}
+                    disabled
+                    sx={{ marginTop: 2 }}
+                  />
+                )}
+
+              {/* Default empty comment */}
+              {selectedRequest.approvalComments === undefined &&
+                selectedRequest.disapprovalReason === undefined && (
+                  <Typography variant="body1" color="textSecondary">
+                    No comments available.
+                  </Typography>
+                )}
+            </>
+          )}
+        </Box>
+      </Modal>
 
       <Box
-        className=" items-center justify-center space-x-4 mb-4 border border-gray-300 p-24  pl-[-5] rounded-md shadow-2xl  bg-[#DBF3FA] pr-20"
+        className="items-center justify-center space-x-4 mb-4 border border-gray-300 p-24 pl-[-5] rounded-md shadow-2xl bg-[#DBF3FA] pr-20"
         paddingBottom={3}
         boxShadow={3}
         mb={4}
@@ -210,11 +418,6 @@ const AdminLeaveDashboard = () => {
                     <b>Leaves</b>
                   </Typography>
                 </TableCell>
-                {/* <TableCell>
-                  <Typography variant="subtitle1">
-                    <b>Status</b>
-                  </Typography>
-                </TableCell> */}
                 <TableCell>
                   <Typography variant="subtitle1">
                     <b>Reason</b>
@@ -225,13 +428,18 @@ const AdminLeaveDashboard = () => {
                     <b>Status</b>
                   </Typography>
                 </TableCell>
+                <TableCell>
+                  <Typography variant="subtitle1">
+                    <b>Comments</b>
+                  </Typography>
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {users.map((user) =>
                 user.leaveRequests.map((request) => {
-                  console.log("Request:", request); // Log the request object
-                  console.log("Request ID:", request._id); // Log the _id field
+                  console.log("Request:", request);
+                  console.log("Request ID:", request._id);
                   return (
                     <TableRow key={request._id}>
                       <TableCell>{user.name}</TableCell>
@@ -242,7 +450,6 @@ const AdminLeaveDashboard = () => {
                       <TableCell>
                         <div className="ml-5">{request.leaveDays}</div>
                       </TableCell>
-                      {/* <TableCell>{request.status}</TableCell> */}
                       <TableCell>
                         <div className="ml-3">
                           <IconButton onClick={() => handleOpenModal(request)}>
@@ -265,6 +472,14 @@ const AdminLeaveDashboard = () => {
                           request.status !== "disapproved" && (
                             <div>Pending</div>
                           )}
+                      </TableCell>
+                      <TableCell>
+                        <div className="ml-3">
+                          <IconButton
+                            onClick={() => handleOpenCommentsModal(request)}>
+                            <Visibility />
+                          </IconButton>
+                        </div>
                       </TableCell>
                     </TableRow>
                   );

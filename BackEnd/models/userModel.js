@@ -20,6 +20,8 @@ const leaveRequestSchema = new Schema(
       enum: ["pending", "approved", "disapproved"],
       default: "pending",
     },
+    disapprovalReason: { type: String },
+    approvalComments: { type: String },
   },
   { timestamps: true },
 );
