@@ -1,7 +1,7 @@
 const User = require("../models/userModel");
 const multer = require("multer");
 const path = require("path");
-// const mongoose = require("mongoose");
+const jwt = require("jsonwebtoken");
 
 //get all Users
 const getUsers = async (req, res) => {
@@ -264,10 +264,22 @@ const loginUser = async (req, res) => {
     if (!user) {
       return res.status(401).json({ message: "Invalid Credentials" });
     }
+
+    const token = jwt.sign(
+      { userId: user._id, username: user.username, role: user.role },
+      process.env.JWT_SECRET_KEY,
+      { expiresIn: "1h" },
+    );
+
+    // cookie storage
+    res.cookie("authToken-b", token, {
+      maxAge: 60 * 60 * 1000,
+    });
+
     if (user.role === "admin") {
       return res
         .status(200)
-        .json({ message: "Admin Login successful", role: "admin" });
+        .json({ message: "Admin Login successful", role: "admin", token });
     }
 
     // Check if the user is approved
@@ -281,11 +293,11 @@ const loginUser = async (req, res) => {
     if (user.role === "admin") {
       return res
         .status(200)
-        .json({ message: "Admin Login successful", role: "admin" });
+        .json({ message: "Admin Login successful", role: "admin", token });
     } else {
       return res
         .status(200)
-        .json({ message: "User Login successful", role: "user" });
+        .json({ message: "User Login successful", role: "user", token });
     }
   } catch (error) {
     console.error("Error during login:", error);

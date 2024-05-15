@@ -17,7 +17,7 @@ function Attendence() {
     const checkIfCheckedIn = async () => {
       try {
         const response = await axios.get(
-          `${Api_EndPoint}/api/attendance/${username}`
+          `${Api_EndPoint}/api/attendance/${username}`,
         );
         if (response.data && response.data.leavingTime != null) {
           setAttendanceMarked(true);
@@ -45,8 +45,7 @@ function Attendence() {
         alignItems: "center",
         background: "linear-gradient(#0, #0, #0)",
         padding: "30px",
-      }}
-    >
+      }}>
       <CssBaseline />
       <Container>
         {attendanceMarked ? redirectToDashboard() : <PictureCam />}

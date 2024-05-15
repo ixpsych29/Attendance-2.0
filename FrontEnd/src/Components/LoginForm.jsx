@@ -44,6 +44,12 @@ export default function LoginForm({ login, role }) {
           console.log("pending check", response.data);
           toast.error("Please wait, your request has been sent for approval.");
         }
+
+        console.log(response);
+        // Store JWT token in a cookie
+        const token = response.data.token;
+        document.cookie = `authToken=${token}; max-age=${60 * 60}; path=/`;
+
         setUserName(formData.username);
         login(true);
         role(response.data.role);

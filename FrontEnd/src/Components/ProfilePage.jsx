@@ -20,11 +20,8 @@ export default function ProfilePage() {
     phoneNo: false,
   });
 
-  // Handling Form Data
   const handleValueChange = (event) => {
     const inputValue = event.target.value;
-
-    // Allow only letters and spaces
     const filteredValue = inputValue.replace(/[^A-Za-z\s]/g, "");
     setFormData((prevFormData) => ({
       ...prevFormData,
@@ -34,8 +31,6 @@ export default function ProfilePage() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-    // Check for empty fields
     const errors = {};
     if (!formData.name.trim()) {
       errors.name = true;
@@ -45,13 +40,11 @@ export default function ProfilePage() {
     }
     setFormErrors(errors);
 
-    // If any field is empty, prevent form submission
     if (Object.keys(errors).length > 0) {
       return;
     }
 
     try {
-      // Making an API call to update both phone number and date of birth
       await axios.put(`${Api_EndPoint}/api/users/${username}/update-profile`, {
         phoneNo: formData.phoneNo,
         dob: formData.dob,
@@ -64,12 +57,10 @@ export default function ProfilePage() {
   };
 
   function formatDate(dateString) {
-    // Check if dateString is not empty or null
     if (dateString) {
-      // Split the dateString at 'T' and take the first part
       return dateString.split("T")[0];
     }
-    return ""; // Or return any default value you prefer if dateString is empty or null
+    return "";
   }
 
   return (
@@ -79,14 +70,14 @@ export default function ProfilePage() {
       </h1>
       <div className="flex items-center justify-center ">
         <div
-          className="flex items-center justify-center space-x-4 mb-4 border border-gray-300 p-24  pl-[-5] rounded-md shadow-2xl  bg-[#DBF3FA] pr-20 "
+          className="flex flex-col lg:flex-row items-center justify-center space-x-4 mb-4 border border-gray-300 p-24 pl-[-5] rounded-md shadow-2xl bg-[#DBF3FA] pr-20 "
           style={{ boxShadow: "14px 12px 20px rgba(0, 0, 0, 0.6)" }}>
-          <div className="w-1/2 border-r border-black mr-44 pr-10">
+          <div className="w-full lg:w-1/2 border-b lg:border-b-0 lg:border-r border-black lg:mr-44 pr-10 mb-4 lg:mb-0">
             <ProfilePictureUpload />
           </div>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="w-1/2 ml-12 ">
-              <div className="flex items-center space-x-4 mb-4 justify-end  ">
+          <form onSubmit={handleSubmit} className="space-y-4 w-full lg:w-1/2">
+            <div className="ml-0 lg:ml-12 ">
+              <div className="flex items-center space-x-4 mb-4 justify-end ">
                 <label htmlFor="name" className="label-style">
                   Name:
                 </label>
@@ -108,8 +99,6 @@ export default function ProfilePage() {
                 )}
               </div>
               <div className="flex items-center space-x-4 mb-4 justify-end ">
-                {" "}
-                {/* Changed div to flex */}
                 <label htmlFor="email" className=" label-style ">
                   Email:
                 </label>
@@ -122,8 +111,6 @@ export default function ProfilePage() {
                 />
               </div>
               <div className="flex items-center space-x-4 mb-4 justify-end">
-                {" "}
-                {/* Changed div to flex */}
                 <label htmlFor="username" className="label-style">
                   Username:
                 </label>
@@ -185,7 +172,7 @@ export default function ProfilePage() {
             <div className="flex justify-center ">
               <button
                 type="submit"
-                className="mt-10  mr-48 px-7 py-2 rounded-md shadow-xl text-white bg-gradient-to-r from-sky-600 to-cyan-400 hover:from-cyan-400 hover:to-sky-600">
+                className="mt-10 mr-48 px-7 py-2 rounded-md shadow-xl text-white bg-gradient-to-r from-sky-600 to-cyan-400 hover:from-cyan-400 hover:to-sky-600">
                 Update Profile
               </button>
             </div>
