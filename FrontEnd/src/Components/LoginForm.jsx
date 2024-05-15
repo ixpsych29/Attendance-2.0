@@ -3,6 +3,7 @@ import axios from "axios";
 import UserContext from "./UserContext";
 import sidebarlogo from "../assets/Images/sidebarlogo.png";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
+import toast from "react-hot-toast"; // Import toast for displaying notifications
 
 export default function LoginForm({ login, role }) {
   const [showPassword, setShowPassword] = useState(false);
@@ -39,18 +40,28 @@ export default function LoginForm({ login, role }) {
           password: formData.password,
         });
 
+        if (response.data.userStatus === "pending") {
+          console.log("pending check", response.data);
+          toast.error("Please wait, your request has been sent for approval.");
+        }
         setUserName(formData.username);
         login(true);
         role(response.data.role);
         setUserRole(response.data.role);
         navigate("/home");
       } catch (error) {
-        console.error("Login failed:", error);
-        // Handle login error here
-        setErrors({
-          username: "Invalid username or password",
-          password: "Invalid username or password",
-        });
+        if (error.response.data.userStatus === "pending") {
+          toast.error("Please wait, your request has been sent for approval.");
+        } else if (error.response.data.userStatus === "disapproved") {
+          toast.error(
+            "Your account is currently on hold. Please contact support for further assistance.",
+          );
+        } else {
+          setErrors({
+            username: "Invalid username or password",
+            password: "Invalid username or password",
+          });
+        }
       }
     } else {
       console.log("Invalid Form");
@@ -61,7 +72,6 @@ export default function LoginForm({ login, role }) {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
-
   return (
     <div className="min-h-screen flex">
       <div className="hidden lg:flex w-full lg:w-1/2 login_img_section justify-around items-center bg-gradient-to-r from-sky-600 to-cyan-400 text-white">
@@ -78,8 +88,7 @@ export default function LoginForm({ login, role }) {
           <div className="flex justify-end  mt-6">
             <a
               href="/signup"
-              className="hover:bg-gradient-to-r from-cyan-400 to-sky-600 hover:text-white hover:-translate-y-1 transition-all duration-500 bg-white text-cyan-700 mt-4 px-4 py-2 rounded-2xl font-bold mb-2"
-            >
+              className="hover:bg-gradient-to-r from-cyan-400 to-sky-600 hover:text-white hover:-translate-y-1 transition-all duration-500 bg-white text-cyan-700 mt-4 px-4 py-2 rounded-2xl font-bold mb-2">
               Get Started
             </a>
           </div>
@@ -89,8 +98,7 @@ export default function LoginForm({ login, role }) {
         <div className="w-full px-8 md:px-32 lg:px-24">
           <form
             className="bg-[#DBF3FA] rounded-md shadow-2xl p-5 mb-10"
-            onSubmit={handleSubmit}
-          >
+            onSubmit={handleSubmit}>
             <h1 className="text-gray-800 font-bold text-2xl mb-10 flex flex-col justify-center  ">
               Login
             </h1>
@@ -100,8 +108,7 @@ export default function LoginForm({ login, role }) {
                 className="h-5 w-5 text-black-400"
                 fill="none"
                 viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
+                stroke="currentColor">
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -130,8 +137,7 @@ export default function LoginForm({ login, role }) {
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-5 text-gray-400"
                 viewBox="0 0 20 20"
-                fill="currentColor"
-              >
+                fill="currentColor">
                 <path
                   fillRule="evenodd"
                   d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
@@ -153,16 +159,14 @@ export default function LoginForm({ login, role }) {
               &nbsp;
               <button
                 type="button"
-                onClick={() => setShowPassword(!showPassword)}
-              >
+                onClick={() => setShowPassword(!showPassword)}>
                 {showPassword ? (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-5 w-5 text-gray-400 cursor-pointer"
                     viewBox="0 0 24 24"
                     fill="none"
-                    stroke="currentColor"
-                  >
+                    stroke="currentColor">
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -176,8 +180,7 @@ export default function LoginForm({ login, role }) {
                     className="h-5 w-5 text-gray-400 cursor-pointer"
                     viewBox="0 0 24 24"
                     fill="none"
-                    stroke="currentColor"
-                  >
+                    stroke="currentColor">
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -200,8 +203,7 @@ export default function LoginForm({ login, role }) {
             <div className="flex justify-center">
               <button
                 type="submit"
-                className="mx-auto hover:bg-gradient-to-r from-cyan-400 to-sky-600 hover:text-white hover:-translate-y-1 transition-all duration-500 bg-white text-cyan-700 mt-4 px-28 py-2 rounded-2xl font-bold mb-2"
-              >
+                className="mx-auto hover:bg-gradient-to-r from-cyan-400 to-sky-600 hover:text-white hover:-translate-y-1 transition-all duration-500 bg-white text-cyan-700 mt-4 px-28 py-2 rounded-2xl font-bold mb-2">
                 Login
               </button>
             </div>
@@ -209,15 +211,13 @@ export default function LoginForm({ login, role }) {
               <RouterLink
                 to="#"
                 className="text-sm ml-2 hover:text-cyan-600 cursor-pointer hover:-translate-y-1 duration-500 transition-all "
-                title="Available Soon"
-              >
+                title="Available Soon">
                 Forgot Password?
               </RouterLink>
 
               <RouterLink
                 to="/signup"
-                className="text-sm ml-2 hover:text-cyan-600 cursor-pointer hover:-translate-y-1 duration-500 transition-all"
-              >
+                className="text-sm ml-2 hover:text-cyan-600 cursor-pointer hover:-translate-y-1 duration-500 transition-all">
                 Don't have an account yet?
               </RouterLink>
             </div>

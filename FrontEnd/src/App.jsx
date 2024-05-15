@@ -14,6 +14,7 @@ import TotalEmployee from "./Components/TotalEmployee";
 import LeaveForm from "./Components/LeaveForm"; // Import the LeaveForm component
 import AdminLeaveDashboard from "./Components/AdminLeaveDashboard";
 import UserLeaveDashboard from "./Components/UserLeaveDashboard";
+import SignupApprovals from "./Components/SignupApprovals";
 
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
@@ -74,6 +75,10 @@ function App() {
           <Route
             path="userleavedashboard"
             element={<ProtectedRoute element={<UserLeaveDashboard />} />}
+          />
+          <Route
+            path="signupapproval"
+            element={<ProtectedRoute element={<SignupApprovals />} />}
           />
         </Route>
       </Routes>

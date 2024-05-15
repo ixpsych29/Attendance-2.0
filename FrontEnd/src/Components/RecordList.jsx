@@ -99,7 +99,9 @@ const RecordList = ({ selectedDate, setSelectedDate }) => {
     username.charAt(0).toUpperCase() + username.slice(1);
 
   return (
-    <TableContainer component={Paper} sx={{ mt: 7, ml: 15, pt: 5 }}>
+    <TableContainer
+      component={Paper}
+      sx={{ mt: 7, ml: 15, pt: 5, bgcolor: "#DBF3FA" }}>
       <Typography
         variant="h4"
         textAlign="center"

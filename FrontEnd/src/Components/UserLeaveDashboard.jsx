@@ -19,7 +19,12 @@ import toast from "react-hot-toast";
 import UserContext from "./UserContext";
 import DisplayCard from "./DisplayCard";
 import CloseIcon from "@mui/icons-material/Close";
-import { Visibility } from "@mui/icons-material";
+import {
+  Visibility,
+  CheckCircle,
+  Cancel,
+  QueryBuilder,
+} from "@mui/icons-material";
 
 const UserLeaveDashboard = () => {
   const { username } = useContext(UserContext);
@@ -30,12 +35,10 @@ const UserLeaveDashboard = () => {
 
   const fetchUser = async () => {
     try {
-      // http://localhost:3000/api/users
-      // http://localhost:3000/api/users/${username}
       const response = await axios.get(
         ` http://localhost:3000/api/users/${username}`,
       );
-      console.log("API Response:", response); // Log the response data
+
       setUser(response.data.leaveRequests);
       setLeave({
         leaveCount: response.data.leaveCount,
@@ -192,6 +195,13 @@ const UserLeaveDashboard = () => {
                   <Typography
                     variant="subtitle1"
                     style={{ fontWeight: "bold" }}>
+                    Leaves
+                  </Typography>
+                </TableCell>
+                <TableCell>
+                  <Typography
+                    variant="subtitle1"
+                    style={{ fontWeight: "bold" }}>
                     Reason
                   </Typography>
                 </TableCell>
@@ -200,13 +210,6 @@ const UserLeaveDashboard = () => {
                     variant="subtitle1"
                     style={{ fontWeight: "bold" }}>
                     Status
-                  </Typography>
-                </TableCell>
-                <TableCell>
-                  <Typography
-                    variant="subtitle1"
-                    style={{ fontWeight: "bold" }}>
-                    Leaves
                   </Typography>
                 </TableCell>
               </TableRow>
@@ -219,15 +222,27 @@ const UserLeaveDashboard = () => {
                     <TableCell>{user.startDate}</TableCell>
                     <TableCell>{user.endDate}</TableCell>
                     <TableCell>
+                      <div className="ml-6">{user.leaveDays}</div>
+                    </TableCell>
+                    <TableCell>
                       <div className="ml-3">
                         <IconButton onClick={() => handleReasonOpenModal(user)}>
                           <Visibility />
                         </IconButton>
                       </div>
                     </TableCell>
-                    <TableCell>{user.status}</TableCell>
                     <TableCell>
-                      <div className="ml-6">{user.leaveDays}</div>
+                      <div className="ml-4">
+                        {user.status === "approved" && (
+                          <CheckCircle color="success" />
+                        )}
+                        {user.status === "disapproved" && (
+                          <Cancel color="error" />
+                        )}
+                        {user.status === "pending" && (
+                          <QueryBuilder color="warning" />
+                        )}
+                      </div>
                     </TableCell>
                   </TableRow>
                 );

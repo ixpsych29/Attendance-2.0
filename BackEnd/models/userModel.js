@@ -60,6 +60,11 @@ const userModel = new Schema(
       enum: ["user", "admin"],
       default: "user",
     },
+    status: {
+      type: String,
+      enum: ["pending", "approved", "disapproved"],
+      default: "pending",
+    },
     leaveCount: {
       type: Number,
       default: 24,
@@ -70,6 +75,7 @@ const userModel = new Schema(
     },
     leaveRequests: [leaveRequestSchema],
   },
+
   {
     timestamps: true,
   },

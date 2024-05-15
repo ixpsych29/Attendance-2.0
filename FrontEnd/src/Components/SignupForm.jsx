@@ -304,13 +304,59 @@ export default function SignupForm() {
                 className={`pl-2 w-full outline-none border border-gray-300 rounded-md py-2 ${
                   errors.confirmPassword ? "border-red-500" : ""
                 }`}
-                type="password"
+                type={showPassword ? "text" : "password"} // Use showPassword state to toggle password visibility
                 name="confirmPassword"
                 placeholder="Confirm Password"
                 value={formData.confirmPassword}
                 onChange={handleChanges}
               />
+              <button
+                type="button"
+                className="focus:outline-none ml-auto"
+                onClick={() => setShowPassword(!showPassword)} // Toggle showPassword state
+              >
+                {showPassword ? (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 text-black-400 cursor-pointer"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                    />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                    />
+                  </svg>
+                ) : (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 text-black-400 cursor-pointer"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M19.071 12.543C17.23 14.859 14.311 16 12 16c-1.243 0-2.478-.282-3.623-.834m-1.426-.852C6.718 14.16 5.031 13 3 13c-1.419 0-2.604.737-3 1.776m3.966-7.327c1.662-1.907 3.887-3.16 6.334-3.522M21 12c-.276 0-.526-.112-.707-.293-.267-.267-.267-.701 0-.968C21.474 10.112 22 9.075 22 8c0-2.21-3.581-4-8-4s-8 1.79-8 4c0 1.075.526 2.112 1.707 2.739.267.267.267.701 0 .968-.267.267-.701.267-.968 0C2.526 12.112 2 11.075 2 10c0-3.158 5.373-6 10-6s10 2.842 10 6c0 1.075-.526 2.112-1.707 2.739-.267.267-.267.701 0 .968.181.181.431.293.707.293z"
+                    />
+                  </svg>
+                )}
+              </button>
             </div>
+            {errors.confirmPassword && (
+              <p className="text-red-500 text-xs">{errors.confirmPassword}</p>
+            )}
             {errors.confirmPassword && (
               <p className="text-red-500 text-xs">{errors.confirmPassword}</p>
             )}
