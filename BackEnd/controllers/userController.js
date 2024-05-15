@@ -121,9 +121,6 @@ const createUser = async (req, res) => {
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Log the incoming request body
-    console.log("Request Body:", req.body);
-
     const newUser = await User.create({
       name,
       username,
