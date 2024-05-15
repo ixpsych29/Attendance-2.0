@@ -2,6 +2,7 @@ const User = require("../models/userModel");
 const multer = require("multer");
 const path = require("path");
 const jwt = require("jsonwebtoken");
+// const mongoose = require("mongoose");
 
 //get all Users
 const getUsers = async (req, res) => {
@@ -118,6 +119,8 @@ const createUser = async (req, res) => {
   const { name, username, email, password } = req.body;
 
   try {
+    const hashedPassword = await bcrypt.hash(password, 10);
+
     // Log the incoming request body
     console.log("Request Body:", req.body);
 
@@ -125,7 +128,7 @@ const createUser = async (req, res) => {
       name,
       username,
       email,
-      password,
+      password: hashedPassword,
       status: "pending", // Set status to pending_approval
     });
 
@@ -238,7 +241,10 @@ const updateProfile = async (req, res) => {
     if (dob) updateFields.dob = dob;
     if (email) updateFields.email = email;
     if (phoneNo) updateFields.phoneNumber = phoneNo;
-    if (password) updateFields.password = password;
+    if (password) {
+      const hashedPassword = await bcrypt.hash(password, 10);
+      updateFields.password = hashedPassword;
+    }
     if (status) updateFields.status = status; // Update the status field
 
     // Update the user document with the provided fields
@@ -259,23 +265,16 @@ const loginUser = async (req, res) => {
   const { username, password } = req.body;
 
   try {
-    const user = await User.findOne({ username, password });
+    const user = await User.findOne({ username });
 
     if (!user) {
       return res.status(401).json({ message: "Invalid Credentials" });
     }
-
     const token = jwt.sign(
       { userId: user._id, username: user.username, role: user.role },
       process.env.JWT_SECRET_KEY,
       { expiresIn: "1h" },
     );
-
-    // cookie storage
-    res.cookie("authToken-b", token, {
-      maxAge: 60 * 60 * 1000,
-    });
-
     if (user.role === "admin") {
       return res
         .status(200)
