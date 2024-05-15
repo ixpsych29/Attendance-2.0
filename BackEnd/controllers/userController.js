@@ -1,7 +1,7 @@
 const User = require("../models/userModel");
 const multer = require("multer");
-const path = require("path");
-// const mongoose = require("mongoose");
+// const path = require("path");
+const bcrypt = require("bcryptjs");
 
 //get all Users
 const getUsers = async (req, res) => {
@@ -53,7 +53,7 @@ const getSingleUser = async (req, res) => {
   const { userName } = req.params;
   try {
     const user = await User.findOne({ username: userName }).populate(
-      "leaveRequests",
+      "leaveRequests"
     );
 
     if (!user) {
@@ -100,6 +100,8 @@ const createUser = async (req, res) => {
   const { name, username, email, password } = req.body;
 
   try {
+    const hashedPassword = await bcrypt.hash(password, 10);
+
     // Log the incoming request body
     console.log("Request Body:", req.body);
 
@@ -107,7 +109,7 @@ const createUser = async (req, res) => {
       name,
       username,
       email,
-      password,
+      password: hashedPassword,
       status: "pending", // Set status to pending_approval
     });
 
@@ -190,7 +192,7 @@ const updatePicture = async (req, res) => {
       const updateRes = User.findOneAndUpdate(
         { username: userName },
         { profilePicture: fileName },
-        { new: true },
+        { new: true }
       ).then((user) => {
         if (!user) {
           return res.status(404).json({ error: "User not found" });
@@ -220,14 +222,17 @@ const updateProfile = async (req, res) => {
     if (dob) updateFields.dob = dob;
     if (email) updateFields.email = email;
     if (phoneNo) updateFields.phoneNumber = phoneNo;
-    if (password) updateFields.password = password;
+    if (password) {
+      const hashedPassword = await bcrypt.hash(password, 10);
+      updateFields.password = hashedPassword;
+    }
     if (status) updateFields.status = status; // Update the status field
 
     // Update the user document with the provided fields
     const newUser = await User.findOneAndUpdate(
       { username: userName },
       updateFields,
-      { new: true },
+      { new: true }
     );
 
     res.status(200).json(newUser);
@@ -241,11 +246,19 @@ const loginUser = async (req, res) => {
   const { username, password } = req.body;
 
   try {
-    const user = await User.findOne({ username, password });
+    const user = await User.findOne({ username });
 
     if (!user) {
       return res.status(401).json({ message: "Invalid Credentials" });
     }
+
+    // Compare hashed password
+    const isPasswordMatch = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordMatch) {
+      return res.status(401).json({ message: "Invalid Credentials" });
+    }
+
     if (user.role === "admin") {
       return res
         .status(200)
