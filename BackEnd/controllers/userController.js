@@ -222,7 +222,10 @@ const updateProfile = async (req, res) => {
     if (dob) updateFields.dob = dob;
     if (email) updateFields.email = email;
     if (phoneNo) updateFields.phoneNumber = phoneNo;
-    if (password) updateFields.password = password;
+    if (password) {
+      const hashedPassword = await bcrypt.hash(password, 10);
+      updateFields.password = hashedPassword;
+    }
     if (status) updateFields.status = status; // Update the status field
 
     // Update the user document with the provided fields
