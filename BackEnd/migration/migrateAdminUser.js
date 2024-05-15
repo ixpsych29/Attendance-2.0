@@ -1,28 +1,29 @@
-const bcrypt = require("bcryptjs");
 const mongoose = require("mongoose");
+const bcrypt = require("bcryptjs");
 const User = require("../models/userModel");
 
 // Define the migration function
 const migrateAdminUser = async () => {
   try {
-    // Check if the user collection is empty
-    const userCount = await User.countDocuments();
+    // Find if an admin user exists
+    const adminUser = await User.findOne({ role: "admin" });
 
-    hashedPassword = await bcrypt.hash("sApp@2024", 10);
+    // If no admin user found, create one
+    if (!adminUser) {
+      const hashedPassword = await bcrypt.hash("admin@123", 10);
 
-    // If the user collection is empty, add an admin user
-    if (userCount === 0) {
-      const adminUser = new User({
-        name: "Admin",
+      const newAdminUser = new User({
+        name: "Admin User",
         username: "admin",
         email: "admin@gmail.com",
         password: hashedPassword,
         role: "admin",
       });
-      await adminUser.save();
-      console.log("Admin user added successfully.");
+
+      await newAdminUser.save();
+      console.log("Admin added.");
     } else {
-      console.log("Admin user already exists in the database.");
+      console.log("Admin exists");
     }
   } catch (error) {
     console.error("Migration failed:", error);
