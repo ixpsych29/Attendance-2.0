@@ -1,7 +1,7 @@
 const User = require("../models/userModel");
 const multer = require("multer");
-const path = require("path");
-// const mongoose = require("mongoose");
+// const path = require("path");
+const bcrypt = require("bcryptjs");
 
 //get all Users
 const getUsers = async (req, res) => {
@@ -52,7 +52,7 @@ const getSingleUser = async (req, res) => {
   const { userName } = req.params;
   try {
     const user = await User.findOne({ username: userName }).populate(
-      "leaveRequests",
+      "leaveRequests"
     );
 
     if (!user) {
@@ -99,11 +99,13 @@ const createUser = async (req, res) => {
 
   //ADD doc to DB
   try {
+    const hashedPassword = await bcrypt.hash(password, 10);
+
     const newUser = await User.create({
       name,
       username,
       email,
-      password,
+      password: hashedPassword,
     });
     res.status(200).json(newUser);
   } catch (error) {
@@ -180,7 +182,7 @@ const updatePicture = async (req, res) => {
       const updateRes = User.findOneAndUpdate(
         { username: userName },
         { profilePicture: fileName },
-        { new: true },
+        { new: true }
       ).then((user) => {
         if (!user) {
           return res.status(404).json({ error: "User not found" });
@@ -216,7 +218,7 @@ const updateProfile = async (req, res) => {
     const newUser = await User.findOneAndUpdate(
       { username: userName },
       updateFields,
-      { new: true },
+      { new: true }
     );
 
     res.status(200).json(newUser);
@@ -230,11 +232,19 @@ const loginUser = async (req, res) => {
   const { username, password } = req.body;
 
   try {
-    const user = await User.findOne({ username, password });
+    const user = await User.findOne({ username });
 
     if (!user) {
       return res.status(401).json({ message: "Invalid Credentials" });
     }
+
+    // Compare hashed password
+    const isPasswordMatch = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordMatch) {
+      return res.status(401).json({ message: "Invalid Credentials" });
+    }
+
     // Check user role
     if (user.role === "admin") {
       return res

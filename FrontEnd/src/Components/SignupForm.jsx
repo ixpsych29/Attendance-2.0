@@ -57,10 +57,12 @@ export default function SignupForm() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    const apiEndpoint = "/api/users";
+
     if (validateForm()) {
       try {
         const usernameExists = await axios.get(
-          `${Api_EndPoint}/api/users/exists/${formData.userName}`
+          `${Api_EndPoint}${apiEndpoint}/exists/${formData.userName}`
         );
         if (usernameExists.data.exists) {
           toast.error(
@@ -68,7 +70,6 @@ export default function SignupForm() {
           );
           return;
         }
-        const apiEndpoint = "/api/users";
         await axios.post(`${Api_EndPoint}${apiEndpoint}`, {
           name: formData.name,
           username: formData.userName,

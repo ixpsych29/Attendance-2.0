@@ -1,3 +1,4 @@
+const bcrypt = require("bcryptjs");
 const mongoose = require("mongoose");
 const User = require("../models/userModel");
 
@@ -7,13 +8,15 @@ const migrateAdminUser = async () => {
     // Check if the user collection is empty
     const userCount = await User.countDocuments();
 
+    hashedPassword = await bcrypt.hash("sApp@2024", 10);
+
     // If the user collection is empty, add an admin user
     if (userCount === 0) {
       const adminUser = new User({
-        name: "Admin User",
+        name: "Admin",
         username: "admin",
         email: "admin@gmail.com",
-        password: "admin@123",
+        password: hashedPassword,
         role: "admin",
       });
       await adminUser.save();
