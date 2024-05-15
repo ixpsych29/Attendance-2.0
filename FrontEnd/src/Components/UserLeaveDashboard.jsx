@@ -32,6 +32,8 @@ const UserLeaveDashboard = () => {
   const [leave, setLeave] = useState(0);
   const [reasonModalOpen, setReasonModalOpen] = useState(false); // State for managing modal open/close
   const [selectedReasonRequest, setSelectedReasonRequest] = useState(null); // State for storing the selected leave request
+  const [selectedRequest, setSelectedRequest] = useState(null); // State for storing the selected leave request
+  const [commentsModalOpen, setCommentsModalOpen] = useState(false); // State for managing modal open/close
 
   const fetchUser = async () => {
     try {
@@ -63,6 +65,18 @@ const UserLeaveDashboard = () => {
   const handleReasonCloseModal = () => {
     setSelectedReasonRequest(null);
     setReasonModalOpen(false);
+  };
+
+  // Function to open the comments modal and set the selected request
+  const handleCommentsOpenModal = (request) => {
+    setSelectedRequest(request);
+    setCommentsModalOpen(true);
+  };
+
+  // Function to close the comments modal
+  const handleCommentsCloseModal = () => {
+    setSelectedRequest(null);
+    setCommentsModalOpen(false);
   };
 
   return (
@@ -113,6 +127,87 @@ const UserLeaveDashboard = () => {
                 }
                 disabled={!selectedReasonRequest} // Disable the field if no request is selected
               />
+            </>
+          )}
+        </Box>
+      </Modal>
+
+      {/* Comments Modal */}
+      <Modal open={commentsModalOpen} onClose={handleCommentsCloseModal}>
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: 400, // Adjust the width as needed
+            bgcolor: "white",
+            p: 4,
+            borderRadius: 4, // Add some border radius for a rounded look
+          }}>
+          {/* Close button */}
+          <IconButton
+            sx={{
+              position: "absolute",
+              top: 3,
+              right: 18,
+            }}
+            onClick={handleCommentsCloseModal}>
+            <CloseIcon />
+          </IconButton>
+
+          {/* Modal Content */}
+          {/* Display selected request details */}
+          {selectedRequest && (
+            <>
+              <Typography
+                variant="h5"
+                gutterBottom
+                sx={{ textAlign: "center", marginBottom: 4 }}>
+                Admin Comments
+              </Typography>
+
+              {/* Conditional rendering based on approval or disapproval */}
+              {selectedRequest.approvalComments &&
+                !selectedRequest.disapprovalReason && (
+                  <TextField
+                    fullWidth
+                    label="Approval Comments"
+                    variant="outlined"
+                    multiline
+                    rows={4}
+                    value={selectedRequest.approvalComments}
+                    disabled
+                  />
+                )}
+
+              {selectedRequest.disapprovalReason &&
+                !selectedRequest.approvalComments && (
+                  <TextField
+                    fullWidth
+                    label="Disapproval Reason"
+                    variant="outlined"
+                    multiline
+                    rows={4}
+                    value={selectedRequest.disapprovalReason}
+                    disabled
+                    sx={{ marginTop: 2 }}
+                  />
+                )}
+
+              {/* Default empty comment */}
+              {selectedRequest.status === "pending" && (
+                <TextField
+                  fullWidth
+                  label="Pending for Approval, Please Wait"
+                  variant="outlined"
+                  multiline
+                  rows={4}
+                  value={selectedRequest.pending}
+                  disabled
+                  sx={{ marginTop: 2 }}
+                />
+              )}
             </>
           )}
         </Box>
@@ -212,6 +307,13 @@ const UserLeaveDashboard = () => {
                     Status
                   </Typography>
                 </TableCell>
+                <TableCell>
+                  <Typography
+                    variant="subtitle1"
+                    style={{ fontWeight: "bold" }}>
+                    Comment
+                  </Typography>
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -242,6 +344,14 @@ const UserLeaveDashboard = () => {
                         {user.status === "pending" && (
                           <QueryBuilder color="warning" />
                         )}
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="ml-3">
+                        <IconButton
+                          onClick={() => handleCommentsOpenModal(user)}>
+                          <Visibility />
+                        </IconButton>
                       </div>
                     </TableCell>
                   </TableRow>
