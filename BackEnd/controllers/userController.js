@@ -1,7 +1,7 @@
 const User = require("../models/userModel");
 const multer = require("multer");
-const path = require("path");
-// const mongoose = require("mongoose");
+// const path = require("path");
+const bcrypt = require("bcryptjs");
 
 //get all Users
 const getUsers = async (req, res) => {
@@ -17,20 +17,30 @@ const getUsers = async (req, res) => {
       const leaveDetails = user.leaveRequests.map((request) => ({
         _id: request._id,
         leaveType: request.leaveType,
+        leaveSubject: request.leaveSubject,
         startDate: request.startDate.toDateString(),
         endDate: request.endDate.toDateString(),
         reason: request.reason,
         status: request.status,
+        leaveDays: request.leaveDays, // Include leave count
+        approvalComments: request.approvalComments,
+        disapprovalReason: request.disapprovalReason,
       }));
-      console.log(user.leaveRequests);
-      return {
+
+      // Add leave count to each user
+      const userWithLeaveCount = {
         _id: user._id,
         name: user.name,
+        dob: user.dob,
         username: user.username,
         email: user.email,
+        status: user.status,
         phoneNumber: user.phoneNumber,
-        leaveRequests: leaveDetails, // Add leave request details to each user
+        unpaidLeaves: user.unpaidLeaves,
+        leaveRequests: leaveDetails,
       };
+
+      return userWithLeaveCount;
     });
 
     res.status(200).json({ totalEmployees, users: usersWithLeaveDetails });
@@ -40,30 +50,93 @@ const getUsers = async (req, res) => {
   }
 };
 
-//get a single User
+//get a single User with leave details
 const getSingleUser = async (req, res) => {
   const { userName } = req.params;
-  const user = await User.findOne({ username: userName });
-  if (!user) {
-    return res.status(404).json({ error: "No user found" });
+  try {
+    const user = await User.findOne({ username: userName }).populate(
+      "leaveRequests"
+    );
+
+    if (!user) {
+      return res.status(404).json({ error: "No user found" });
+    }
+
+    // Extract leave request details for the user
+    const leaveDetails = user.leaveRequests.map((request) => {
+      const {
+        _id,
+        leaveType,
+        leaveSubject,
+        startDate,
+        endDate,
+        reason,
+        status,
+        leaveDays,
+      } = request;
+      // Check if approvalComments and disapprovalReason exist, provide default values if they don't
+      const approvalComments = request.approvalComments || "";
+      const disapprovalReason = request.disapprovalReason || "";
+      return {
+        _id,
+        leaveType,
+        leaveSubject,
+        startDate: startDate.toDateString(),
+        endDate: endDate.toDateString(),
+        reason,
+        status,
+        leaveDays,
+        approvalComments,
+        disapprovalReason,
+      };
+    });
+
+    // Create user object with leave details
+    const userWithLeaveDetails = {
+      _id: user._id,
+      name: user.name,
+      username: user.username,
+      dob: user.dob,
+      email: user.email,
+      status: user.status,
+      profilePicture: user.profilePicture,
+      phoneNumber: user.phoneNumber,
+      leaveCount: user.leaveCount,
+      unpaidLeaves: user.unpaidLeaves,
+      leaveRequests: leaveDetails,
+    };
+
+    res.status(200).json(userWithLeaveDetails);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
-  res.status(200).json(user);
 };
 
 //CREATE a new User
 const createUser = async (req, res) => {
   const { name, username, email, password } = req.body;
 
-  //ADD doc to DB
   try {
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Log the incoming request body
+    console.log("Request Body:", req.body);
+
     const newUser = await User.create({
       name,
       username,
       email,
-      password,
+      password: hashedPassword,
+      status: "pending", // Set status to pending_approval
     });
+
+    // Log the newly created user
+    console.log("New User:", newUser);
+
     res.status(200).json(newUser);
   } catch (error) {
+    console.error("Error creating user:", error);
     res.status(400).json({ error: error.message });
   }
 };
@@ -137,7 +210,7 @@ const updatePicture = async (req, res) => {
       const updateRes = User.findOneAndUpdate(
         { username: userName },
         { profilePicture: fileName },
-        { new: true },
+        { new: true }
       ).then((user) => {
         if (!user) {
           return res.status(404).json({ error: "User not found" });
@@ -156,7 +229,7 @@ const updatePicture = async (req, res) => {
 //updating a profile of user
 const updateProfile = async (req, res) => {
   const { userName } = req.params;
-  const { name, username, email, phoneNo, password } = req.body;
+  const { name, username, email, dob, phoneNo, password, status } = req.body;
 
   try {
     let updateFields = {};
@@ -164,15 +237,20 @@ const updateProfile = async (req, res) => {
     // Check if each field is provided in the request body and update accordingly
     if (name) updateFields.name = name;
     if (username) updateFields.username = username;
+    if (dob) updateFields.dob = dob;
     if (email) updateFields.email = email;
     if (phoneNo) updateFields.phoneNumber = phoneNo;
-    if (password) updateFields.password = password;
+    if (password) {
+      const hashedPassword = await bcrypt.hash(password, 10);
+      updateFields.password = hashedPassword;
+    }
+    if (status) updateFields.status = status; // Update the status field
 
     // Update the user document with the provided fields
     const newUser = await User.findOneAndUpdate(
       { username: userName },
       updateFields,
-      { new: true },
+      { new: true }
     );
 
     res.status(200).json(newUser);
@@ -186,11 +264,32 @@ const loginUser = async (req, res) => {
   const { username, password } = req.body;
 
   try {
-    const user = await User.findOne({ username, password });
+    const user = await User.findOne({ username });
 
     if (!user) {
       return res.status(401).json({ message: "Invalid Credentials" });
     }
+
+    // Compare hashed password
+    const isPasswordMatch = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordMatch) {
+      return res.status(401).json({ message: "Invalid Credentials" });
+    }
+
+    if (user.role === "admin") {
+      return res
+        .status(200)
+        .json({ message: "Admin Login successful", role: "admin" });
+    }
+
+    // Check if the user is approved
+    if (user.status !== "approved") {
+      return res
+        .status(401)
+        .json({ message: "User is pending approval", userStatus: user.status });
+    }
+
     // Check user role
     if (user.role === "admin") {
       return res
@@ -223,11 +322,18 @@ async function UserExist(req, res) {
   }
 }
 
-// Leave request controller
-
+// Create Leave request
 const createLeaveRequest = async (req, res) => {
   const { userName } = req.params;
-  const { leaveType, startDate, endDate, reason } = req.body;
+  const {
+    leaveType,
+    leaveSubject,
+    startDate,
+    endDate,
+    reason,
+    disapprovalReason,
+    approvalComments,
+  } = req.body; // Include disapprovalReason and approvalComments from req.body
 
   try {
     const user = await User.findOne({ username: userName });
@@ -235,13 +341,34 @@ const createLeaveRequest = async (req, res) => {
       return res.status(404).json({ error: "User not found" });
     }
 
+    // Calculate the number of days in the leave request
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    const leaveDays = Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1;
+
     const newLeaveRequest = {
       leaveType,
+      leaveSubject,
       startDate,
       endDate,
       reason,
-      status: "pending", // Set default status to pending
+      status: "pending",
+      leaveDays,
+      disapprovalReason,
+      approvalComments,
     };
+
+    if (leaveType === "paid") {
+      // Check if the user has enough leave count for paid leave
+      if (user.leaveCount < leaveDays) {
+        return res.status(400).json({ error: "Insufficient leave balance" });
+      }
+
+      // Deduct leave days from total leave count only after approval
+      newLeaveRequest.deducted = false;
+    } else if (leaveType === "unpaid") {
+      user.unpaidLeaves += leaveDays; // Increase unpaid leave count
+    }
 
     user.leaveRequests.push(newLeaveRequest);
     await user.save();
@@ -253,60 +380,35 @@ const createLeaveRequest = async (req, res) => {
   }
 };
 
-// Update leave request for a user by username
-// const updateLeaveRequest = async (req, res) => {
-//   const { userName } = req.params;
-//   const { leaveRequestId, newStatus } = req.body;
-
-//   try {
-//     const user = await User.findOne({ username: userName });
-//     if (!user) {
-//       return res.status(404).json({ error: "User not found" });
-//     }
-
-//     const leaveRequest = user.leaveRequests.id(leaveRequestId);
-//     if (!leaveRequest) {
-//       return res.status(404).json({ error: "Leave request not found" });
-//     }
-
-//     // Update the status of the leave request
-//     leaveRequest.status = newStatus;
-//     await user.save();
-
-//     res.status(200).json({ message: "Leave request updated successfully" });
-//   } catch (error) {
-//     console.error("Error updating leave request:", error);
-//     res.status(500).json({ error: "Internal Server Error" });
-//   }
-// };
-
+// update Leave request
 const updateLeaveRequest = async (req, res) => {
   const { userName } = req.params;
-  const { leaveRequestId, newStatus } = req.body;
-
-  console.log("Received request to update leave request for user:", userName);
-  console.log("Leave request ID:", leaveRequestId);
-  console.log("New status:", newStatus);
-  console.log("Request body:", req.body);
+  const { leaveRequestId, newStatus, disapprovalReason, approvalComments } =
+    req.body;
 
   try {
     const user = await User.findOne({ username: userName });
     if (!user) {
-      console.log("User not found");
       return res.status(404).json({ error: "User not found" });
     }
 
     const leaveRequest = user.leaveRequests.id(leaveRequestId);
     if (!leaveRequest) {
-      console.log("Leave request not found");
       return res.status(404).json({ error: "Leave request not found" });
     }
 
-    // Update the status of the leave request
+    // Update the status and handle comments
     leaveRequest.status = newStatus;
+    if (newStatus === "disapproved") {
+      leaveRequest.disapprovalReason = disapprovalReason;
+      leaveRequest.approvalComments = ""; // Clear approval comments if disapproved
+    } else if (newStatus === "approved") {
+      leaveRequest.approvalComments = approvalComments;
+      leaveRequest.disapprovalReason = ""; // Clear disapproval reason if approved
+    }
+
     await user.save();
 
-    console.log("Leave request updated successfully");
     res.status(200).json({ message: "Leave request updated successfully" });
   } catch (error) {
     console.error("Error updating leave request:", error);

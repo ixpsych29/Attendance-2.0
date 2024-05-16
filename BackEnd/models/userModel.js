@@ -5,15 +5,23 @@ const Schema = mongoose.Schema;
 // Define schema for leave request
 const leaveRequestSchema = new Schema(
   {
-    leaveType: { type: String, required: true },
+    leaveSubject: { type: String, required: true },
+    leaveType: {
+      type: String,
+      enum: ["paid", "unpaid"],
+      required: true,
+    },
     startDate: { type: Date, required: true },
     endDate: { type: Date, required: true },
     reason: { type: String, required: true },
+    leaveDays: { type: Number },
     status: {
       type: String,
       enum: ["pending", "approved", "disapproved"],
       default: "pending",
     },
+    disapprovalReason: { type: String },
+    approvalComments: { type: String },
   },
   { timestamps: true },
 );
@@ -28,6 +36,10 @@ const userModel = new Schema(
     username: {
       type: String,
       required: true,
+    },
+    dob: {
+      type: Date,
+      default: null,
     },
     email: {
       type: String,
@@ -50,10 +62,24 @@ const userModel = new Schema(
       enum: ["user", "admin"],
       default: "user",
     },
-    leaveRequests: [leaveRequestSchema], // Embed leaveRequestSchema as a subdocument array
+    status: {
+      type: String,
+      enum: ["pending", "approved", "disapproved"],
+      default: "pending",
+    },
+    leaveCount: {
+      type: Number,
+      default: 24,
+    },
+    unpaidLeaves: {
+      type: Number,
+      default: 0,
+    },
+    leaveRequests: [leaveRequestSchema],
   },
+
   {
-    timestamps: true, // Add timestamps (createdAt, updatedAt)
+    timestamps: true,
   },
 );
 

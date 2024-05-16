@@ -12,7 +12,9 @@ import ChangePassword from "./Components/ChangePassword";
 import ProfilePage from "./Components/ProfilePage";
 import TotalEmployee from "./Components/TotalEmployee";
 import LeaveForm from "./Components/LeaveForm"; // Import the LeaveForm component
-import LeaveRequests from "./Components/LeaveRequests";
+import AdminLeaveDashboard from "./Components/AdminLeaveDashboard";
+import UserLeaveDashboard from "./Components/UserLeaveDashboard";
+import SignupApprovals from "./Components/SignupApprovals";
 
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
@@ -66,8 +68,17 @@ function App() {
           />
           {/* Route for LeaveRequest */}
           <Route
-            path="leaverequest"
-            element={<ProtectedRoute element={<LeaveRequests />} />}
+            path="adminleavedashboard"
+            element={<ProtectedRoute element={<AdminLeaveDashboard />} />}
+          />
+          {/* Route for User LeaveRequest */}
+          <Route
+            path="userleavedashboard"
+            element={<ProtectedRoute element={<UserLeaveDashboard />} />}
+          />
+          <Route
+            path="signupapproval"
+            element={<ProtectedRoute element={<SignupApprovals />} />}
           />
         </Route>
       </Routes>

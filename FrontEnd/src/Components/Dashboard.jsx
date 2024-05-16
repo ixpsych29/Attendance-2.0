@@ -49,7 +49,7 @@ const Dashboard = () => {
       <CssBaseline />
 
       <Container>
-        <div className="flex justify-between mx-auto mb-9">
+        <div className="flex justify-between mx-auto mb-9 ]">
           <Link to="/home/totalemployee" style={{ textDecoration: "none" }}>
             <DisplayCard title="Total" count={totalEmployees} />
           </Link>
