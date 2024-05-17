@@ -2,6 +2,7 @@ const User = require("../models/userModel");
 const multer = require("multer");
 const path = require("path");
 const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
 // const mongoose = require("mongoose");
 
 //get all Users

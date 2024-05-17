@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import UserContext from "./UserContext";
 import sidebarlogo from "../assets/Images/sidebarlogo.png";
@@ -78,6 +78,32 @@ export default function LoginForm({ login, role }) {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
+
+  const logoutUser = () => {
+    // Clear JWT token from cookie
+    document.cookie = "authToken=; max-age=0; path=/";
+
+    // Update logged-in state to false
+    login(false);
+    // Additional logic to clear user data or redirect to login page if needed
+  };
+
+  useEffect(() => {
+    const token = document.cookie.replace(
+      /(?:(?:^|.*;\s*)authToken\s*=\s*([^;]*).*$)|^.*$/,
+      "$1",
+    );
+
+    if (!token) {
+      // Token does not exist, log out the user
+      logoutUser();
+    } else {
+      // Token exists, set user as logged in
+      // You can also validate the token here if needed
+      login(true);
+    }
+  }, []);
+
   return (
     <div className="min-h-screen flex">
       <div className="hidden lg:flex w-full lg:w-1/2 login_img_section justify-around items-center bg-gradient-to-r from-sky-600 to-cyan-400 text-white">
