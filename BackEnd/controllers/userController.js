@@ -401,6 +401,18 @@ const updateLeaveRequest = async (req, res) => {
     } else if (newStatus === "approved") {
       leaveRequest.approvalComments = approvalComments;
       leaveRequest.disapprovalReason = ""; // Clear disapproval reason if approved
+      // Deduct leave count only when the leave request is approved
+      const leaveDays = leaveRequest.leaveDays;
+      if (leaveRequest.leaveType === "paid") {
+        if (user.leaveCount < leaveDays) {
+          return res.status(400).json({ error: "Insufficient leave balance" });
+        }
+        user.leaveCount -= leaveDays;
+      } else if (leaveRequest.leaveType === "unpaid") {
+        if (leaveRequest.status === "approved") {
+          user.unpaidLeaves -= leaveDays;
+        }
+      }
     }
 
     await user.save();
