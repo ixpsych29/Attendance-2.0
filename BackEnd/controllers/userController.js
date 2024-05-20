@@ -38,6 +38,7 @@ const getUsers = async (req, res) => {
         email: user.email,
         status: user.status,
         phoneNumber: user.phoneNumber,
+        profilePicture: user.profilePicture,
         unpaidLeaves: user.unpaidLeaves,
         leaveRequests: leaveDetails,
       };
