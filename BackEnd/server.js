@@ -14,6 +14,8 @@ const port = process.env.PORT || 3000;
 //middleware
 app.use(express.json());
 
+app.use(express.static(path.join(__dirname, "static")));
+
 // Serve static files from the 'Images' directory within 'uploads'
 app.use(
   "/uploads/Images",
