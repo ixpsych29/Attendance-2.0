@@ -1,6 +1,6 @@
+import { CssBaseline } from "@mui/material";
 import { Box, Container } from "@mui/system";
 import PictureCam from "./PictureCam";
-import { CssBaseline } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import UserContext from "./UserContext";
