@@ -82,7 +82,7 @@ const Sidebar = ({ mode, setMode }) => {
         />
       )}
       {showSidebar && (
-        <aside className="ml-[-100%] fixed z-10 top-0 pb-3 px-6 w-full flex flex-col justify-between h-screen border-r  transition duration-300 md:w-4/12 lg:ml-0 lg:w-[25%] xl:w-[20%] 2xl:w-[15%] mt-0 bg-[#19B0E7]">
+        <aside className="ml-[-10%] fixed z-10 top-0 pb-3 px-6 w-full flex flex-col justify-between h-screen border-r  transition duration-300 md:w-4/12 lg:ml-0 lg:w-[25%] xl:w-[20%] 2xl:w-[15%] mt-0 bg-[#19B0E7]">
           <div>
             <img
               src="/src/assets/Images/sidebarlogo.png"
@@ -192,33 +192,32 @@ const Sidebar = ({ mode, setMode }) => {
               </li>
               <li>
                 {isAdmin && (
-                  <li>
-                    <Link
-                      to="/home/signupapproval"
-                      className={`px-4 py-3 flex items-center space-x-4 rounded-md ${
+                  <Link
+                    to="/home/signupapproval"
+                    className={`px-4 py-3 flex items-center space-x-4 rounded-md ${
+                      isActiveLink("/home/signupapproval")
+                        ? "btn-style text-white"
+                        : ""
+                    }`}>
+                    <FaChartBar
+                      className={`w-6 h-6 ${
                         isActiveLink("/home/signupapproval")
-                          ? "btn-style text-white"
-                          : ""
+                          ? "text-white"
+                          : "text-white"
+                      }`}
+                    />
+                    <span
+                      className={`-mr-1 font-medium ${
+                        isActiveLink("/home/signupapproval")
+                          ? "text-white"
+                          : "text-white"
                       }`}>
-                      <FaChartBar
-                        className={`w-6 h-6 ${
-                          isActiveLink("/home/signupapproval")
-                            ? "text-white"
-                            : "text-white"
-                        }`}
-                      />
-                      <span
-                        className={`-mr-1 font-medium ${
-                          isActiveLink("/home/signupapproval")
-                            ? "text-white"
-                            : "text-white"
-                        }`}>
-                        Signup Approval
-                      </span>
-                    </Link>
-                  </li>
+                      Signup Approval
+                    </span>
+                  </Link>
                 )}
               </li>
+
               <li>
                 <div
                   className={`px-4 py-3 flex items-center space-x-4 rounded-md cursor-pointer ${

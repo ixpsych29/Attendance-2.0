@@ -53,7 +53,7 @@ function Home({ login }) {
           ml={isMediumOrSmallerScreen ? 0 : 4}
           className="bg-transparent">
           <Box>
-            <Outlet />
+            <Outlet context={{ mode, setMode }} />
           </Box>
         </Box>
       </Box>

@@ -18,6 +18,8 @@ import { Link } from "react-router-dom";
 import CloseIcon from "@mui/icons-material/Close";
 import MenuIcon from "@mui/icons-material/Menu";
 import UserContext from "./UserContext";
+import Cookies from "js-cookie";
+
 // import Sidebar from "./Sidebar"; // Import your Sidebar component
 
 const StyledToolBar = styled(Toolbar)(({ theme }) => ({
@@ -39,6 +41,13 @@ const Icons = styled(Box)(({ theme }) => ({
   },
 }));
 
+const logout = () => {
+  // Clear the cookie named 'yourCookieName'
+  Cookies.remove("authToken");
+  // Perform any additional logout logic
+  login(false);
+};
+
 const Navbar = ({ login }) => {
   const [open, setOpen] = useState(false);
   const { username, userProfilePic, Api_EndPoint, toggleMenu, setToggleMenu } =
@@ -59,8 +68,7 @@ const Navbar = ({ login }) => {
     <Slide direction="down" in={true} mountOnEnter unmountOnExit>
       <AppBar
         position="fixed"
-        sx={{ backgroundColor: "#B7E9F7", maxWidth: "100%", zIndex: 10 }}
-      >
+        sx={{ backgroundColor: "#B7E9F7", maxWidth: "100%", zIndex: 10 }}>
         <StyledToolBar>
           <Box sx={{ flexGrow: 1 }}>
             {/* <Button onClick={toggleSidebar}>
@@ -106,22 +114,14 @@ const Navbar = ({ login }) => {
           transformOrigin={{
             vertical: "top",
             horizontal: "right",
-          }}
-        >
+          }}>
           <MenuItem
             component={Link}
             to="/home/profile"
-            style={{ textAlign: "left", marginRight: 30 }}
-          >
+            style={{ textAlign: "left", marginRight: 30 }}>
             My Account
           </MenuItem>
-          <MenuItem
-            component={Link}
-            to="/"
-            onClick={() => {
-              login(false);
-            }}
-          >
+          <MenuItem component={Link} to="/" onClick={logout}>
             Logout
           </MenuItem>
         </Menu>
