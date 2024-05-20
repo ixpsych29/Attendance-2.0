@@ -8,8 +8,10 @@ import {
   IconButton,
 } from "@mui/material";
 import { Edit, Delete } from "@mui/icons-material";
+import Avatar from "@mui/material/Avatar";
 
 const TotalEmployeeRecord = ({ users, handleEdit, handleDelete }) => {
+  console.log(users);
   return (
     <Table
       stickyHeader
@@ -22,6 +24,12 @@ const TotalEmployeeRecord = ({ users, handleEdit, handleDelete }) => {
       className="w-full border-collapse">
       <TableHead>
         <TableRow>
+          <TableCell
+            align="center"
+            className="px-4 py-2 "
+            style={{ backgroundColor: "#DBF3FA", color: "black" }}>
+            Picture
+          </TableCell>
           <TableCell
             align="center"
             className="px-4 py-2 "
@@ -66,6 +74,17 @@ const TotalEmployeeRecord = ({ users, handleEdit, handleDelete }) => {
           .sort((a, b) => a.name.localeCompare(b.name)) // Sort users alphabetically by name
           .map((user) => (
             <TableRow key={user.id}>
+              <TableCell align="center" className="px-4 py-2">
+                {user.profilePicture ? (
+                  <img
+                    src={user.profilePicture}
+                    alt="Profile Picture"
+                    style={{ width: 50, height: 50, borderRadius: "50%" }}
+                  />
+                ) : (
+                  <Avatar>{user.username.charAt(0).toUpperCase()}</Avatar>
+                )}
+              </TableCell>
               <TableCell align="center" className="px-4 py-2">
                 {user.name}
               </TableCell>
