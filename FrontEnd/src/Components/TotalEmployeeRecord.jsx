@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   Table,
   TableBody,
@@ -9,9 +9,10 @@ import {
 } from "@mui/material";
 import { Edit, Delete } from "@mui/icons-material";
 import Avatar from "@mui/material/Avatar";
+import UserContext from "./UserContext";
 
 const TotalEmployeeRecord = ({ users, handleEdit, handleDelete }) => {
-  console.log(users);
+  const { userProfilePic } = useContext(UserContext);
   return (
     <Table
       stickyHeader
@@ -75,9 +76,9 @@ const TotalEmployeeRecord = ({ users, handleEdit, handleDelete }) => {
           .map((user) => (
             <TableRow key={user.id}>
               <TableCell align="center" className="px-4 py-2">
-                {user.profilePicture ? (
+                {userProfilePic ? (
                   <img
-                    src={user.profilePicture}
+                    src={userProfilePic}
                     alt="Profile Picture"
                     style={{ width: 50, height: 50, borderRadius: "50%" }}
                   />
