@@ -15,8 +15,6 @@ import {
   Button,
 } from "@mui/material";
 import { Link } from "react-router-dom";
-import CloseIcon from "@mui/icons-material/Close";
-import MenuIcon from "@mui/icons-material/Menu";
 import UserContext from "./UserContext";
 // import Sidebar from "./Sidebar"; // Import your Sidebar component
 

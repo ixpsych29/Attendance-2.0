@@ -1,7 +1,6 @@
 import React from "react";
 import { Modal, Box, Typography, TextField, IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { Visibility } from "@mui/icons-material";
 
 const CommentsModal = ({ isOpen, handleClose, request }) => {
   return (
@@ -16,14 +15,16 @@ const CommentsModal = ({ isOpen, handleClose, request }) => {
           bgcolor: "white",
           p: 4,
           borderRadius: 4,
-        }}>
+        }}
+      >
         <IconButton
           sx={{
             position: "absolute",
             top: 3,
             right: 18,
           }}
-          onClick={handleClose}>
+          onClick={handleClose}
+        >
           <CloseIcon />
         </IconButton>
 
@@ -32,7 +33,8 @@ const CommentsModal = ({ isOpen, handleClose, request }) => {
             <Typography
               variant="h5"
               gutterBottom
-              sx={{ textAlign: "center", marginBottom: 4 }}>
+              sx={{ textAlign: "center", marginBottom: 4 }}
+            >
               Admin Comments
             </Typography>
 

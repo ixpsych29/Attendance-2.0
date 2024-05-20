@@ -14,7 +14,6 @@ import {
   TextField,
   Button,
 } from "@mui/material";
-import { Edit, Delete } from "@mui/icons-material";
 import { useContext, useEffect, useState } from "react";
 import UserContext from "./UserContext";
 import toast from "react-hot-toast";
@@ -51,7 +50,7 @@ const TotalEmployee = () => {
           username: newUsername,
           email: newEmail,
           phoneNo: newPhoneNumber,
-        },
+        }
       );
       toast.success("Profile Updated");
 
@@ -73,7 +72,7 @@ const TotalEmployee = () => {
   const confirmDelete = async () => {
     try {
       await axios.delete(
-        `http://localhost:3000/api/users/${selectedUser.username}`,
+        `http://localhost:3000/api/users/${selectedUser.username}`
       );
       toast.success("User deleted successfully");
 
@@ -115,7 +114,8 @@ const TotalEmployee = () => {
               bgcolor: "background.paper",
               boxShadow: 24,
               p: 4,
-            }}>
+            }}
+          >
             <Typography variant="h6" component="h2" gutterBottom>
               Update Profile
             </Typography>
@@ -162,7 +162,8 @@ const TotalEmployee = () => {
         {/* Delete Confirmation Modal */}
         <Modal
           open={isDeleteModalOpen}
-          onClose={() => setIsDeleteModalOpen(false)}>
+          onClose={() => setIsDeleteModalOpen(false)}
+        >
           <Box
             sx={{
               position: "absolute",
@@ -173,7 +174,8 @@ const TotalEmployee = () => {
               bgcolor: "background.paper",
               boxShadow: 24,
               p: 4,
-            }}>
+            }}
+          >
             <Typography variant="h6" component="h2" gutterBottom>
               Confirm Deletion
             </Typography>
@@ -189,7 +191,8 @@ const TotalEmployee = () => {
                   <Button
                     variant="contained"
                     color="error"
-                    onClick={confirmDelete}>
+                    onClick={confirmDelete}
+                  >
                     Delete
                   </Button>
                 </Box>
@@ -202,13 +205,15 @@ const TotalEmployee = () => {
           paddingBottom={10}
           paddingTop={5}
           boxShadow={3}
-          mb={4}>
+          mb={4}
+        >
           <Typography
             variant="h4"
             component="h2"
             gutterBottom
             textAlign="center"
-            sx={{ mb: 3, color: "text.primary" }}>
+            sx={{ mb: 3, color: "text.primary" }}
+          >
             Total Employees
           </Typography>
           <Divider
