@@ -1,4 +1,4 @@
-import React from "react";
+import { useContext } from "react";
 import {
   Table,
   TableBody,
@@ -9,9 +9,13 @@ import {
 } from "@mui/material";
 import { Edit, Delete } from "@mui/icons-material";
 import Avatar from "@mui/material/Avatar";
+import UserContext from "./UserContext";
 
 const TotalEmployeeRecord = ({ users, handleEdit, handleDelete }) => {
+  const { userProfilePic, Api_EndPoint } = useContext(UserContext);
   console.log(users);
+  const srcSet = `${Api_EndPoint}/uploads/Images/${userProfilePic}`;
+  console.log(srcSet);
   return (
     <Table
       stickyHeader
@@ -21,49 +25,57 @@ const TotalEmployeeRecord = ({ users, handleEdit, handleDelete }) => {
       }}
       size="small"
       aria-label="a dense table"
-      className="w-full border-collapse">
+      className="w-full border-collapse"
+    >
       <TableHead>
         <TableRow>
           <TableCell
             align="center"
             className="px-4 py-2 "
-            style={{ backgroundColor: "#DBF3FA", color: "black" }}>
+            style={{ backgroundColor: "#DBF3FA", color: "black" }}
+          >
             Picture
           </TableCell>
           <TableCell
             align="center"
             className="px-4 py-2 "
-            style={{ backgroundColor: "#DBF3FA", color: "black" }}>
+            style={{ backgroundColor: "#DBF3FA", color: "black" }}
+          >
             Name
           </TableCell>
           <TableCell
             align="center"
             className="px-4 py-2"
-            style={{ backgroundColor: "#DBF3FA", color: "black" }}>
+            style={{ backgroundColor: "#DBF3FA", color: "black" }}
+          >
             User Name
           </TableCell>
           <TableCell
             align="center"
             className="px-4 py-2"
-            style={{ backgroundColor: "#DBF3FA", color: "black" }}>
+            style={{ backgroundColor: "#DBF3FA", color: "black" }}
+          >
             Email
           </TableCell>
           <TableCell
             align="center"
             className="px-4 py-2"
-            style={{ backgroundColor: "#DBF3FA", color: "black" }}>
+            style={{ backgroundColor: "#DBF3FA", color: "black" }}
+          >
             Phone Number
           </TableCell>
           <TableCell
             align="center"
             className="px-4 py-2"
-            style={{ backgroundColor: "#DBF3FA", color: "black" }}>
+            style={{ backgroundColor: "#DBF3FA", color: "black" }}
+          >
             Edit
           </TableCell>
           <TableCell
             align="center"
             className="px-4 py-2"
-            style={{ backgroundColor: "#DBF3FA", color: "black" }}>
+            style={{ backgroundColor: "#DBF3FA", color: "black" }}
+          >
             Delete
           </TableCell>
         </TableRow>
@@ -75,15 +87,18 @@ const TotalEmployeeRecord = ({ users, handleEdit, handleDelete }) => {
           .map((user) => (
             <TableRow key={user.id}>
               <TableCell align="center" className="px-4 py-2">
-                {user.profilePicture ? (
-                  <img
-                    src={user.profilePicture}
-                    alt="Profile Picture"
-                    style={{ width: 50, height: 50, borderRadius: "50%" }}
-                  />
-                ) : (
-                  <Avatar>{user.username.charAt(0).toUpperCase()}</Avatar>
-                )}
+                {
+                  userProfilePic && (
+                    <Avatar sx={{ width: 70, height: 70 }}>
+                      <img
+                        src={`${Api_EndPoint}/uploads/Images/${userProfilePic}`}
+                        alt="Attendance"
+                        style={{ maxWidth: "100px" }}
+                      />
+                    </Avatar>
+                  )
+                  // <Avatar>{user.username.charAt(0).toUpperCase()}</Avatar>
+                }
               </TableCell>
               <TableCell align="center" className="px-4 py-2">
                 {user.name}
@@ -105,7 +120,8 @@ const TotalEmployeeRecord = ({ users, handleEdit, handleDelete }) => {
               <TableCell align="center" className="px-4 py-2">
                 <IconButton
                   aria-label="delete"
-                  onClick={() => handleDelete(user)}>
+                  onClick={() => handleDelete(user)}
+                >
                   <Delete />
                 </IconButton>
               </TableCell>

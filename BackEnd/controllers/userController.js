@@ -1,5 +1,6 @@
 const User = require("../models/userModel");
 const multer = require("multer");
+const fs = require("fs");
 const path = require("path");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
@@ -58,7 +59,7 @@ const getSingleUser = async (req, res) => {
   const { userName } = req.params;
   try {
     const user = await User.findOne({ username: userName }).populate(
-      "leaveRequests",
+      "leaveRequests"
     );
 
     if (!user) {
@@ -159,6 +160,18 @@ const deleteUser = async (req, res) => {
 
 //profile picture updation logic starts here...
 
+//it will creates the uploads/images folder if not exists
+const createDirectoryIfNotExists = (folderName) => {
+  const directoryPath = path.join(__dirname, "..", folderName);
+
+  if (!fs.existsSync(directoryPath)) {
+    fs.mkdirSync(directoryPath, { recursive: true });
+    console.log(`Directory created: ${directoryPath}`);
+  }
+};
+
+createDirectoryIfNotExists("uploads/images");
+
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "uploads/images/"); //specify the destination folder
@@ -210,7 +223,7 @@ const updatePicture = async (req, res) => {
       const updateRes = User.findOneAndUpdate(
         { username: userName },
         { profilePicture: fileName },
-        { new: true },
+        { new: true }
       ).then((user) => {
         if (!user) {
           return res.status(404).json({ error: "User not found" });
@@ -250,7 +263,7 @@ const updateProfile = async (req, res) => {
     const newUser = await User.findOneAndUpdate(
       { username: userName },
       updateFields,
-      { new: true },
+      { new: true }
     );
 
     res.status(200).json(newUser);
@@ -272,7 +285,7 @@ const loginUser = async (req, res) => {
     const token = jwt.sign(
       { userId: user._id, username: user.username, role: user.role },
       process.env.JWT_SECRET_KEY,
-      { expiresIn: "1h" },
+      { expiresIn: "1h" }
     );
     if (user.role === "admin") {
       return res
