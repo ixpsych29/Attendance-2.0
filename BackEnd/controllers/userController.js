@@ -166,7 +166,7 @@ const createDirectoryIfNotExists = (folderName) => {
 
   if (!fs.existsSync(directoryPath)) {
     fs.mkdirSync(directoryPath, { recursive: true });
-    console.log(`Directory created: ${directoryPath}`);
+    // console.log(`Directory created: ${directoryPath}`);
   }
 };
 
