@@ -53,7 +53,7 @@ const UserLeaveDashboard = () => {
   };
   useEffect(() => {
     fetchUser();
-  }, []);
+  }, [fetchUser()]);
 
   // Function to open the modal and set the selected request
   const handleReasonOpenModal = (request) => {

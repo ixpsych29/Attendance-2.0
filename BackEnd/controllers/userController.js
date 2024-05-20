@@ -363,8 +363,6 @@ const createLeaveRequest = async (req, res) => {
 
       // Deduct leave days from total leave count only after approval
       newLeaveRequest.deducted = false;
-    } else if (leaveType === "unpaid") {
-      user.unpaidLeaves += leaveDays; // Increase unpaid leave count
     }
 
     user.leaveRequests.push(newLeaveRequest);
@@ -402,7 +400,7 @@ const updateLeaveRequest = async (req, res) => {
     } else if (newStatus === "approved") {
       leaveRequest.approvalComments = approvalComments;
       leaveRequest.disapprovalReason = ""; // Clear disapproval reason if approved
-      // Deduct leave count only when the leave request is approved
+
       const leaveDays = leaveRequest.leaveDays;
       if (leaveRequest.leaveType === "paid") {
         if (user.leaveCount < leaveDays) {
@@ -410,9 +408,7 @@ const updateLeaveRequest = async (req, res) => {
         }
         user.leaveCount -= leaveDays;
       } else if (leaveRequest.leaveType === "unpaid") {
-        if (leaveRequest.status === "approved") {
-          user.unpaidLeaves -= leaveDays;
-        }
+        user.unpaidLeaves += leaveDays;
       }
     }
 

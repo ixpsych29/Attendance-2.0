@@ -5,7 +5,7 @@ import { FaHome, FaUserCheck, FaSignOutAlt } from "react-icons/fa";
 import { CiCalendarDate } from "react-icons/ci";
 import { CgProfile } from "react-icons/cg";
 import { FaMoon, FaChartBar, FaPenSquare } from "react-icons/fa";
-import { FaSun } from "react-icons/fa6";
+import { FaSun, FaPeopleGroup } from "react-icons/fa6";
 import { FaCog } from "react-icons/fa";
 import {
   RiArrowLeftDoubleLine,
@@ -163,6 +163,33 @@ const Sidebar = ({ mode, setMode }) => {
                     Profile
                   </span>
                 </Link>
+              </li>
+              <li>
+                {isAdmin && (
+                  <Link
+                    to="/home/totalemployee"
+                    className={`px-4 py-3 flex items-center space-x-4 rounded-md ${
+                      isActiveLink("/home/totalemployee")
+                        ? "btn-style text-white"
+                        : ""
+                    }`}>
+                    <FaPeopleGroup
+                      className={`w-6 h-6 ${
+                        isActiveLink("/home/totalemployee")
+                          ? "text-white"
+                          : "text-white"
+                      }`}
+                    />
+                    <span
+                      className={`-mr-1 font-medium ${
+                        isActiveLink("/home/totalemployee")
+                          ? "text-white"
+                          : "text-white"
+                      }`}>
+                      Employees
+                    </span>
+                  </Link>
+                )}
               </li>
               {/* Settings option */}
               <li>
