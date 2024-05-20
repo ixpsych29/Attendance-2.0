@@ -8,7 +8,6 @@ import {
   IconButton,
 } from "@mui/material";
 import { Edit, Delete } from "@mui/icons-material";
-import Avatar from "@mui/material/Avatar";
 import UserContext from "./UserContext";
 
 const TotalEmployeeRecord = ({ users, handleEdit, handleDelete }) => {
