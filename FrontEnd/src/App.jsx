@@ -35,6 +35,7 @@ function App() {
           index
         />
         <Route path="/signup" element={<SignupForm />} />
+        <Route path="/update-password" element={<ChangePassword />} />
         <Route path="/*" element={<Nopage />} />
         <Route
           path="/home/"

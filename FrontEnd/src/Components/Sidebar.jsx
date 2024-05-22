@@ -7,13 +7,14 @@ import {
   FaSignOutAlt,
   FaMoon,
   FaSun,
-  FaPeopleGroup,
   FaCog,
   FaChartBar,
   FaPenSquare,
 } from "react-icons/fa";
 import { CiCalendarDate } from "react-icons/ci";
+import { FaPeopleGroup } from "react-icons/fa6";
 import { CgProfile } from "react-icons/cg";
+import { MdManageAccounts } from "react-icons/md";
 import { RiArrowLeftDoubleLine, RiArrowRightSLine } from "react-icons/ri";
 
 const Sidebar = ({ mode, setMode }) => {
@@ -124,6 +125,18 @@ const Sidebar = ({ mode, setMode }) => {
                 <>
                   <li>
                     <Link
+                      to="/signup"
+                      className={`px-4 py-3 flex items-center space-x-4 rounded-md ${
+                        isActiveLink("/home/totalemployee")
+                          ? "btn-style text-white"
+                          : "text-white"
+                      }`}>
+                      <MdManageAccounts className="w-6 h-6" />
+                      <span className="-mr-1 font-medium">Create Account</span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
                       to="/home/totalemployee"
                       className={`px-4 py-3 flex items-center space-x-4 rounded-md ${
                         isActiveLink("/home/totalemployee")
@@ -134,7 +147,7 @@ const Sidebar = ({ mode, setMode }) => {
                       <span className="-mr-1 font-medium">Employees</span>
                     </Link>
                   </li>
-                  <li>
+                  {/* <li>
                     <Link
                       to="/home/signupapproval"
                       className={`px-4 py-3 flex items-center space-x-4 rounded-md ${
@@ -145,7 +158,7 @@ const Sidebar = ({ mode, setMode }) => {
                       <FaChartBar className="w-6 h-6" />
                       <span className="-mr-1 font-medium">Signup Approval</span>
                     </Link>
-                  </li>
+                  </li> */}
                 </>
               )}
               <li>

@@ -40,11 +40,6 @@ export default function LoginForm({ login, role }) {
           password: formData.password,
         });
 
-        if (response.data.userStatus === "pending") {
-          console.log("pending check", response.data);
-          toast.error("Please wait, your request has been sent for approval.");
-        }
-
         console.log(response);
         // Store JWT token in a cookie
         const token = response.data.token;
@@ -56,9 +51,7 @@ export default function LoginForm({ login, role }) {
         setUserRole(response.data.role);
         navigate("/home");
       } catch (error) {
-        if (error.response.data.userStatus === "pending") {
-          toast.error("Please wait, your request has been sent for approval.");
-        } else if (error.response.data.userStatus === "disapproved") {
+        if (error.response.data.userStatus === "disapproved") {
           toast.error(
             "Your account is currently on hold. Please contact support for further assistance.",
           );
@@ -117,13 +110,13 @@ export default function LoginForm({ login, role }) {
             // Adjust the height, width, and color as needed
           />
           <p className="text-4xl text-white mt-1">Welcome to Daily TimeSheet</p>
-          <div className="flex justify-end  mt-6">
+          {/* <div className="flex justify-end  mt-6">
             <a
               href="/signup"
               className="hover:bg-gradient-to-r from-cyan-400 to-sky-600 hover:text-white hover:-translate-y-1 transition-all duration-500 bg-white text-cyan-700 mt-4 px-4 py-2 rounded-2xl font-bold mb-2">
               Get Started
             </a>
-          </div>
+          </div> */}
         </div>
       </div>
       <div className="flex w-full lg:w-1/2 justify-center items-center bg-white space-y-8 mt-10 p-5">
@@ -247,11 +240,11 @@ export default function LoginForm({ login, role }) {
                 Forgot Password?
               </RouterLink>
 
-              <RouterLink
+              {/* <RouterLink
                 to="/signup"
                 className="text-sm ml-2 hover:text-cyan-600 cursor-pointer hover:-translate-y-1 duration-500 transition-all">
                 Don't have an account yet?
-              </RouterLink>
+              </RouterLink> */}
             </div>
           </form>
         </div>

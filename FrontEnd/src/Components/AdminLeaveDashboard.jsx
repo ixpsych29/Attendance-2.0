@@ -17,7 +17,12 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { CheckCircle, Cancel, Visibility } from "@mui/icons-material";
+import {
+  CheckCircle,
+  Cancel,
+  Visibility,
+  QueryBuilder,
+} from "@mui/icons-material";
 import toast from "react-hot-toast";
 import CommentsModal from "./CommentsModal"; // Importing the CommentsModal component
 
@@ -395,18 +400,20 @@ const AdminLeaveDashboard = () => {
                       </TableCell>
                       <TableCell>
                         {request.status === "approved" && (
-                          <IconButton color="success">
+                          <IconButton color="success" title="approved">
                             <CheckCircle />
                           </IconButton>
                         )}
                         {request.status === "disapproved" && (
-                          <IconButton color="error">
+                          <IconButton color="error" title="disapproved">
                             <Cancel />
                           </IconButton>
                         )}
                         {request.status !== "approved" &&
                           request.status !== "disapproved" && (
-                            <div>Pending</div>
+                            <IconButton color="warning" title="pending">
+                              <QueryBuilder />
+                            </IconButton>
                           )}
                       </TableCell>
                       <TableCell>

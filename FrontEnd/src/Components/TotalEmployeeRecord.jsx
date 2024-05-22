@@ -19,7 +19,7 @@ const TotalEmployeeRecord = ({ users, handleEdit, handleDelete }) => {
       <Table
         stickyHeader
         sx={{
-          minWidth: 650,
+          minWidth: 600,
           mt: 3,
         }}
         size="small"
@@ -29,13 +29,13 @@ const TotalEmployeeRecord = ({ users, handleEdit, handleDelete }) => {
           <TableRow>
             <TableCell
               align="center"
-              className="px-4 py-2 "
+              className="px-2 py-2 "
               style={{ backgroundColor: "#DBF3FA", color: "black" }}>
               Picture
             </TableCell>
             <TableCell
               align="center"
-              className="px-4 py-2 "
+              className="px-2 py-2 "
               style={{ backgroundColor: "#DBF3FA", color: "black" }}>
               Name
             </TableCell>
@@ -78,16 +78,28 @@ const TotalEmployeeRecord = ({ users, handleEdit, handleDelete }) => {
             .map((user) => (
               <TableRow key={user.id}>
                 <TableCell align="center" className="px-6 py-2">
-                  <img
-                    src={
-                      user.profilePicture
-                        ? `${Api_EndPoint}/uploads/Images/${user.profilePicture}`
-                        : "path/to/default/avatar.jpg"
-                    }
-                    className="ml-20 mt-2 mb-2"
-                    alt="Profile Picture"
-                    style={{ width: 50, height: 50, borderRadius: "50%" }}
-                  />
+                  {user.profilePicture ? (
+                    <img
+                      src={`${Api_EndPoint}/uploads/Images/${user.profilePicture}`}
+                      className="ml-20 mt-2 mb-2"
+                      alt="Profile Picture"
+                      style={{ width: 50, height: 50, borderRadius: "50%" }}
+                    />
+                  ) : (
+                    <div
+                      className="ml-20 mt-2 mb-2 flex items-center justify-center"
+                      style={{
+                        width: 50,
+                        height: 50,
+                        borderRadius: "50%",
+                        backgroundColor: "#ccc",
+                        color: "#fff",
+                        fontSize: "1.5rem",
+                        fontWeight: "bold",
+                      }}>
+                      {user.username.slice(0, 2).toUpperCase()}
+                    </div>
+                  )}
                 </TableCell>
 
                 <TableCell align="center" className="px-4 py-2">
