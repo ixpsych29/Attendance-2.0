@@ -5,10 +5,25 @@ import {
   TableCell,
   TableHead,
   TableRow,
+  Menu,
+  MenuItem,
 } from "@mui/material";
 import FormatDateTime from "./FormatDateTime";
+import { BsThreeDots } from "react-icons/bs";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 
 function AttendanceRecordTable({ attendanceRecord }) {
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleMenuClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   if (attendanceRecord.length === 0) {
     return (
       <div className="flex items-center justify-center ">
@@ -16,6 +31,7 @@ function AttendanceRecordTable({ attendanceRecord }) {
       </div>
     );
   }
+
   return (
     <Table
       stickyHeader
@@ -25,12 +41,12 @@ function AttendanceRecordTable({ attendanceRecord }) {
       }}
       size="small"
       aria-label="a dense table"
-      className="w-full border-collapse ">
+      className="w-full border-collapse">
       <TableHead>
         <TableRow>
           <TableCell
             align="center"
-            className="px-4 py-2 "
+            className="px-4 py-2"
             style={{ backgroundColor: "#DBF3FA", color: "black" }}>
             Picture
           </TableCell>
@@ -58,6 +74,7 @@ function AttendanceRecordTable({ attendanceRecord }) {
             style={{ backgroundColor: "#DBF3FA", color: "black" }}>
             Leave Time
           </TableCell>
+          {/* <TableCell align="center" className="px-4 py-2"></TableCell> */}
         </TableRow>
       </TableHead>
 
@@ -67,10 +84,7 @@ function AttendanceRecordTable({ attendanceRecord }) {
             key={record._id}
             sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             className="border-b border-black-200">
-            <TableCell
-              component="th"
-              align="center" // Aligning the content horizontally to the center
-              className="px-4 py-2">
+            <TableCell component="th" align="center" className="px-4 py-2">
               <div
                 style={{
                   display: "flex",
@@ -78,15 +92,13 @@ function AttendanceRecordTable({ attendanceRecord }) {
                   alignItems: "center",
                 }}>
                 {record.picture ? (
-                  <>
-                    <Avatar sx={{ width: 70, height: 70 }}>
-                      <img
-                        src={record.picture}
-                        alt="Attendance"
-                        style={{ maxWidth: "100px" }}
-                      />
-                    </Avatar>
-                  </>
+                  <Avatar sx={{ width: 70, height: 70 }}>
+                    <img
+                      src={record.picture}
+                      alt="Attendance"
+                      style={{ maxWidth: "100px" }}
+                    />
+                  </Avatar>
                 ) : (
                   "Not Found"
                 )}
@@ -97,39 +109,34 @@ function AttendanceRecordTable({ attendanceRecord }) {
               {record.username}
             </TableCell>
 
-            <TableCell
-              component="th"
-              align="center"
-              scope="row"
-              className="px-4 py-2">
+            <TableCell align="center" className="px-4 py-2">
               {FormatDateTime(record.entranceTime).formattedDate}
             </TableCell>
 
-            <TableCell
-              component="th"
-              align="center"
-              scope="row"
-              className="px-4 py-2">
+            <TableCell align="center" className="px-4 py-2">
               {FormatDateTime(record.entranceTime).formattedTime}
             </TableCell>
 
-            {record.leavingTime ? (
-              <TableCell
-                component="th"
-                align="center"
-                scope="row"
-                className="px-4 py-2">
-                {FormatDateTime(record.leavingTime).formattedTime}
-              </TableCell>
-            ) : (
-              <TableCell
-                component="th"
-                align="center"
-                scope="row"
-                className="px-4 py-2">
-                Didn&apos;t Check Out
-              </TableCell>
-            )}
+            <TableCell align="center" className="px-4 py-2">
+              {record.leavingTime
+                ? FormatDateTime(record.leavingTime).formattedTime
+                : "Didn't Check Out"}
+            </TableCell>
+
+            <TableCell align="center" className="px-4 py-2">
+              <BsThreeDots onClick={handleMenuClick} />
+              <Menu
+                anchorEl={anchorEl}
+                open={Boolean(anchorEl)}
+                onClose={handleClose}>
+                <MenuItem
+                  component={Link}
+                  to="/home/profile"
+                  onClick={handleClose}>
+                  View Profile
+                </MenuItem>
+              </Menu>
+            </TableCell>
           </TableRow>
         ))}
       </TableBody>

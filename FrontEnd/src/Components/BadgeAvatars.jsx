@@ -74,11 +74,7 @@ export default function BadgeAvatars({ login }) {
           {!userProfilePic && username.slice(0, 2).toUpperCase()}
         </Avatar>
       </StyledBadge>
-      <Menu
-        anchorEl={anchorEl}
-        open={submenuOpen}
-        onClose={handleClose}
-        onClick={handleClose}>
+      <Menu anchorEl={anchorEl} open={submenuOpen} onClick={handleClose}>
         <MenuItem component={Link} to="/home/profile">
           My account
         </MenuItem>

@@ -127,7 +127,7 @@ const Sidebar = ({ mode, setMode }) => {
                     <Link
                       to="/signup"
                       className={`px-4 py-3 flex items-center space-x-4 rounded-md ${
-                        isActiveLink("/home/totalemployee")
+                        isActiveLink("/signup")
                           ? "btn-style text-white"
                           : "text-white"
                       }`}>
