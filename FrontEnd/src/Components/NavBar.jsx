@@ -121,7 +121,10 @@ const Navbar = ({ login }) => {
           <MenuItem
             component={Link}
             to="/home/profile"
-            style={{ textAlign: "left", marginRight: 30 }}>
+            style={{
+              textAlign: "left",
+              marginRight: 30,
+            }}>
             My Account
           </MenuItem>
           <MenuItem component={Link} to="/" onClick={logout}>
