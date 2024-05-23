@@ -17,6 +17,9 @@ import {
 import { Link } from "react-router-dom";
 import UserContext from "./UserContext";
 import Cookies from "js-cookie";
+import BadgeAvatars from "./BadgeAvatars";
+
+// import { CAvatar } from "@coreui/react-cavatar";
 
 // import Sidebar from "./Sidebar"; // Import your Sidebar component
 
@@ -55,10 +58,10 @@ const Navbar = ({ login }) => {
   const capitalizedUserName =
     username.charAt(0).toUpperCase() + username.slice(1);
 
-  const toggleSidebar = () => {
-    // console.log("Toggling sidebar...");
-    setToggleMenu(!toggleMenu); // Toggle menu button
-  };
+  // const toggleSidebar = () => {
+  //   // console.log("Toggling sidebar...");
+  //   setToggleMenu(!toggleMenu); // Toggle menu button
+  // };
 
   // console.log("Rendering Navbar. toggleMenu:", toggleMenu);
 
@@ -90,12 +93,14 @@ const Navbar = ({ login }) => {
                 {capitalizedUserName}
               </Typography>
               <Badge>
-                <Avatar
+                {/* <Avatar
                   sx={{ width: 40, height: 40 }}
                   srcSet={`${Api_EndPoint}/uploads/Images/${userProfilePic}`}
                   onClick={() => setOpen(true)}
-                />
+                  status="success"
+          />*/}
               </Badge>
+              <BadgeAvatars login={login} />
             </Icons>
           )}
         </StyledToolBar>

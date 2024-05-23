@@ -53,7 +53,7 @@ const UserLeaveDashboard = () => {
   };
   useEffect(() => {
     fetchUser();
-  }, []);
+  }, [fetchUser()]);
 
   // Function to open the modal and set the selected request
   const handleReasonOpenModal = (request) => {
@@ -328,28 +328,37 @@ const UserLeaveDashboard = () => {
                     </TableCell>
                     <TableCell>
                       <div className="ml-3">
-                        <IconButton onClick={() => handleReasonOpenModal(user)}>
+                        <IconButton
+                          onClick={() => handleReasonOpenModal(user)}
+                          title="view reason">
                           <Visibility />
                         </IconButton>
                       </div>
                     </TableCell>
                     <TableCell>
-                      <div className="ml-4">
+                      <div className="ml-2">
                         {user.status === "approved" && (
-                          <CheckCircle color="success" />
+                          <IconButton color="success" title="approved">
+                            <CheckCircle />
+                          </IconButton>
                         )}
                         {user.status === "disapproved" && (
-                          <Cancel color="error" />
+                          <IconButton color="error" title="disapproved">
+                            <Cancel />
+                          </IconButton>
                         )}
                         {user.status === "pending" && (
-                          <QueryBuilder color="warning" />
+                          <IconButton color="warning" title="pending">
+                            <QueryBuilder />
+                          </IconButton>
                         )}
                       </div>
                     </TableCell>
                     <TableCell>
                       <div className="ml-3">
                         <IconButton
-                          onClick={() => handleCommentsOpenModal(user)}>
+                          onClick={() => handleCommentsOpenModal(user)}
+                          title="view comment">
                           <Visibility />
                         </IconButton>
                       </div>

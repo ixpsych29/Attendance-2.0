@@ -101,13 +101,11 @@ const RecordList = ({ selectedDate, setSelectedDate }) => {
   return (
     <TableContainer
       component={Paper}
-      sx={{ mt: 7, ml: 15, pt: 5, bgcolor: "#DBF3FA" }}
-    >
+      sx={{ mt: 7, ml: 15, pt: 5, bgcolor: "#DBF3FA" }}>
       <Typography
         variant="h4"
         textAlign="center"
-        sx={{ mb: 3, color: "text.primary" }}
-      >
+        sx={{ mb: 3, color: "text.primary" }}>
         {role === "admin"
           ? "Admin Dashboard"
           : `${capitalizedUserName}, Welcome to the Daily log`}
@@ -123,15 +121,13 @@ const RecordList = ({ selectedDate, setSelectedDate }) => {
             className="btn-style"
             variant="contained"
             onClick={handleMenuOpen}
-            sx={{ left: "7%", mr: 1 }}
-          >
+            sx={{ left: "7%", mr: 1 }}>
             Generate Report
           </Button>
           <Menu
             anchorEl={anchorEl}
             open={Boolean(anchorEl)}
-            onClose={handleMenuClose}
-          >
+            onClose={handleMenuClose}>
             <MenuItem onClick={() => generateCSVReport("thisMonth")}>
               This Month Report
             </MenuItem>
@@ -155,8 +151,7 @@ const RecordList = ({ selectedDate, setSelectedDate }) => {
               end: dayjs().endOf("day"),
             });
           }}
-          sx={{ left: "5%", mr: 1 }}
-        >
+          sx={{ left: "5%", mr: 1 }}>
           This Month Records
         </Button>
       ) : (
@@ -168,12 +163,14 @@ const RecordList = ({ selectedDate, setSelectedDate }) => {
             left: "2%",
             mr: 1,
             marginBottom: 2,
-          }}
-        >
+          }}>
           Previous Month Records
         </Button>
       )}
-      <AttendanceRecordTable attendanceRecord={attendanceRecord} />
+      <AttendanceRecordTable
+        attendanceRecord={attendanceRecord}
+        isAdmin={isAdmin}
+      />
     </TableContainer>
   );
 };

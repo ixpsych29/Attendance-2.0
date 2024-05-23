@@ -3,17 +3,19 @@ import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-// import { IconButton, InputAdornment } from "@mui/material";
-// import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-// import VisibilityIcon from "@mui/icons-material/Visibility";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import axios from "axios";
 import UserContext from "./UserContext";
+import { useCookies } from "react-cookie";
+import { jwtDecode } from "jwt-decode";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 
 export default function ChangePassword() {
-  const { username, Api_EndPoint } = useContext(UserContext);
-
+  const { Api_EndPoint } = useContext(UserContext);
+  const navigate = useNavigate(); // Create navigate function
+  const [cookies, setCookie, removeCookie] = useCookies(["authToken"]); // Use useCookies hook to get cookies
+  const [isUsername, setUsername] = useState(""); // Initialize isUsername
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({});
   const [formData, setFormData] = useState({
@@ -21,7 +23,19 @@ export default function ChangePassword() {
     confirmPassword: "",
   });
 
-  //validation of ChangePasswordForm
+  useEffect(() => {
+    if (cookies.authToken) {
+      try {
+        const decodedToken = jwtDecode(cookies.authToken);
+        const username = decodedToken.username; // Retrieve username from decoded token
+        setUsername(username); // Set the retrieved username in state
+      } catch (error) {
+        console.error("Invalid token", error);
+      }
+    }
+  }, [cookies.authToken]);
+
+  // validation of ChangePasswordForm
   const validateForm = () => {
     let isValid = true;
     const newErrors = {};
@@ -36,7 +50,7 @@ export default function ChangePassword() {
     ) {
       newErrors.password = "Enter a valid password between 7 and 15 characters";
       toast.error(
-        "Password must contain at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character"
+        "Password must contain at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character",
       );
       isValid = false;
     }
@@ -51,33 +65,36 @@ export default function ChangePassword() {
     return isValid;
   };
 
-  //handleChange Function
+  // handleChange Function
   const handleChanges = (event) => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
   };
 
-  //handleForm Function
+  // handleForm Function
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     if (validateForm()) {
       try {
-        await axios.put(
-          `${Api_EndPoint}/api/users/${username}/update-profile`,
+        const response = await axios.put(
+          `${Api_EndPoint}/api/users/${isUsername}/update-profile`,
           {
             password: formData.password,
-          }
+            status: "approved",
+          },
         );
 
         toast.success("Password Changed Successfully");
 
-        //setting the form to empty
+        // setting the form to empty
         setFormData({ password: "", confirmPassword: "" });
+        navigate("/");
       } catch (err) {
         console.error("Error in Updating Password", err);
+        toast.error("Error in updating password");
       }
     } else {
-      //Password is not valid
+      // Password is not valid
       toast.error("Enter a Valid Password");
     }
   };
@@ -86,8 +103,7 @@ export default function ChangePassword() {
     <Container
       component="main"
       maxWidth="xs"
-      sx={{ marginTop: 23, marginLeft: "auto" }}
-    >
+      sx={{ marginTop: 23, marginLeft: "auto" }}>
       <CssBaseline />
       <Box
         sx={{
@@ -101,8 +117,7 @@ export default function ChangePassword() {
           padding: "20px",
           margin: "12px",
           boxShadow: "14px 12px 20px rgba(0, 0, 0, 0.6)",
-        }}
-      >
+        }}>
         <Typography component="h1" variant="h5" color={"black"}>
           Change Password
         </Typography>
@@ -110,13 +125,11 @@ export default function ChangePassword() {
           component="form"
           onSubmit={handleSubmit}
           noValidate
-          sx={{ mt: 4, width: "100%" }}
-        >
+          sx={{ mt: 4, width: "100%" }}>
           <div className="mb-6 text-center text-black">
             <label
               htmlFor="password"
-              className="block mb-2 text-lg font-semibold text-white-900 dark:text-black-900"
-            >
+              className="block mb-2 text-lg font-semibold text-white-900 dark:text-black-900">
               Enter New Password
             </label>
             <input
@@ -138,8 +151,7 @@ export default function ChangePassword() {
           <div className="mb-6 text-center text-black">
             <label
               htmlFor="confirmPassword"
-              className="block mb-2 text-lg font-semibold text-white-900 text-black-600"
-            >
+              className="block mb-2 text-lg font-semibold text-white-900 text-black-600">
               Confirm Password
             </label>
             <input
@@ -166,8 +178,7 @@ export default function ChangePassword() {
             sx={{
               mt: 4,
               mb: 2,
-            }}
-          >
+            }}>
             Change Password
           </Button>
         </Box>

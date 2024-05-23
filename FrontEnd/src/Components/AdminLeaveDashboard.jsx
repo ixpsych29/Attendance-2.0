@@ -17,7 +17,12 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { CheckCircle, Cancel, Visibility } from "@mui/icons-material";
+import {
+  CheckCircle,
+  Cancel,
+  Visibility,
+  QueryBuilder,
+} from "@mui/icons-material";
 import toast from "react-hot-toast";
 import CommentsModal from "./CommentsModal"; // Importing the CommentsModal component
 
@@ -79,7 +84,7 @@ const AdminLeaveDashboard = () => {
     leaveRequestId,
     newStatus,
     approveComments,
-    disapprovalReason
+    disapprovalReason,
   ) => {
     try {
       await axios.put(
@@ -89,7 +94,7 @@ const AdminLeaveDashboard = () => {
           newStatus,
           disapprovalReason: disapprovalReason,
           approvalComments: approveComments,
-        }
+        },
       );
       fetchUsers();
       toast.success("Leave request updated successfully");
@@ -102,7 +107,7 @@ const AdminLeaveDashboard = () => {
 
   const handleOpenModal = (request) => {
     const user = users.find((user) =>
-      user.leaveRequests.some((req) => req._id === request._id)
+      user.leaveRequests.some((req) => req._id === request._id),
     );
     setSelectedUser(user);
     setSelectedRequest(request);
@@ -116,7 +121,7 @@ const AdminLeaveDashboard = () => {
 
   const handleOpenCommentsModal = (request) => {
     const user = users.find((user) =>
-      user.leaveRequests.some((req) => req._id === request._id)
+      user.leaveRequests.some((req) => req._id === request._id),
     );
     setSelectedUser(user);
     setSelectedRequest(request);
@@ -137,8 +142,7 @@ const AdminLeaveDashboard = () => {
             bgcolor: "white",
             p: 4,
             borderRadius: 4,
-          }}
-        >
+          }}>
           <IconButton
             sx={{
               position: "absolute",
@@ -146,16 +150,14 @@ const AdminLeaveDashboard = () => {
               left: 3,
               zIndex: 1,
             }}
-            onClick={handleCloseApproveModal}
-          >
+            onClick={handleCloseApproveModal}>
             <ArrowBackIcon />
           </IconButton>
 
           <Typography
             variant="h5"
             gutterBottom
-            sx={{ textAlign: "center", marginBottom: 4 }}
-          >
+            sx={{ textAlign: "center", marginBottom: 4 }}>
             Approve Modal Content
           </Typography>
           <TextField
@@ -176,12 +178,11 @@ const AdminLeaveDashboard = () => {
                 selectedRequest._id,
                 "approved",
                 approveComments,
-                ""
+                "",
               )
             }
             color="success"
-            sx={{ display: "block", margin: "auto" }}
-          >
+            sx={{ display: "block", margin: "auto" }}>
             <CheckCircle />
           </IconButton>
         </Box>
@@ -198,8 +199,7 @@ const AdminLeaveDashboard = () => {
             bgcolor: "white",
             p: 4,
             borderRadius: 4,
-          }}
-        >
+          }}>
           <IconButton
             sx={{
               position: "absolute",
@@ -207,16 +207,14 @@ const AdminLeaveDashboard = () => {
               left: 3,
               zIndex: 1,
             }}
-            onClick={handleCloseDisapproveModal}
-          >
+            onClick={handleCloseDisapproveModal}>
             <ArrowBackIcon />
           </IconButton>
 
           <Typography
             variant="h5"
             gutterBottom
-            sx={{ textAlign: "center", marginBottom: 4 }}
-          >
+            sx={{ textAlign: "center", marginBottom: 4 }}>
             Disapprove Modal Content
           </Typography>
           <TextField
@@ -237,12 +235,11 @@ const AdminLeaveDashboard = () => {
                 selectedRequest._id,
                 "disapproved",
                 "",
-                disapproveReason
+                disapproveReason,
               )
             }
             color="error"
-            sx={{ display: "block", margin: "auto" }}
-          >
+            sx={{ display: "block", margin: "auto" }}>
             <Cancel />
           </IconButton>
         </Box>
@@ -259,16 +256,14 @@ const AdminLeaveDashboard = () => {
             bgcolor: "white",
             p: 4,
             borderRadius: 4,
-          }}
-        >
+          }}>
           <IconButton
             sx={{
               position: "absolute",
               top: 3,
               right: 18,
             }}
-            onClick={handleCloseModal}
-          >
+            onClick={handleCloseModal}>
             <CloseIcon />
           </IconButton>
 
@@ -277,8 +272,7 @@ const AdminLeaveDashboard = () => {
               <Typography
                 variant="h5"
                 gutterBottom
-                sx={{ textAlign: "center", marginBottom: 4 }}
-              >
+                sx={{ textAlign: "center", marginBottom: 4 }}>
                 Leave Request Details
               </Typography>
               <TextField
@@ -318,8 +312,7 @@ const AdminLeaveDashboard = () => {
         borderRadius={4}
         ml={40}
         mt={2}
-        width={"80%"}
-      >
+        width={"80%"}>
         <Typography variant="h4" component="h2" gutterBottom textAlign="center">
           Leave Requests
         </Typography>
@@ -407,32 +400,33 @@ const AdminLeaveDashboard = () => {
                       </TableCell>
                       <TableCell>
                         {request.status === "approved" && (
-                          <IconButton color="success">
+                          <IconButton color="success" title="approved">
                             <CheckCircle />
                           </IconButton>
                         )}
                         {request.status === "disapproved" && (
-                          <IconButton color="error">
+                          <IconButton color="error" title="disapproved">
                             <Cancel />
                           </IconButton>
                         )}
                         {request.status !== "approved" &&
                           request.status !== "disapproved" && (
-                            <div>Pending</div>
+                            <IconButton color="warning" title="pending">
+                              <QueryBuilder />
+                            </IconButton>
                           )}
                       </TableCell>
                       <TableCell>
                         <div className="ml-3">
                           <IconButton
-                            onClick={() => handleOpenCommentsModal(request)}
-                          >
+                            onClick={() => handleOpenCommentsModal(request)}>
                             <Visibility />
                           </IconButton>
                         </div>
                       </TableCell>
                     </TableRow>
                   );
-                })
+                }),
               )}
             </TableBody>
           </Table>

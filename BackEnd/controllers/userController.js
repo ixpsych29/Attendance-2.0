@@ -59,7 +59,7 @@ const getSingleUser = async (req, res) => {
   const { userName } = req.params;
   try {
     const user = await User.findOne({ username: userName }).populate(
-      "leaveRequests"
+      "leaveRequests",
     );
 
     if (!user) {
@@ -223,7 +223,7 @@ const updatePicture = async (req, res) => {
       const updateRes = User.findOneAndUpdate(
         { username: userName },
         { profilePicture: fileName },
-        { new: true }
+        { new: true },
       ).then((user) => {
         if (!user) {
           return res.status(404).json({ error: "User not found" });
@@ -257,17 +257,31 @@ const updateProfile = async (req, res) => {
       const hashedPassword = await bcrypt.hash(password, 10);
       updateFields.password = hashedPassword;
     }
-    if (status) updateFields.status = status; // Update the status field
+    if (status) updateFields.status = status;
+
+    console.log("Update Fields:", updateFields); // Log updateFields to see if it contains the correct data
 
     // Update the user document with the provided fields
     const newUser = await User.findOneAndUpdate(
       { username: userName },
       updateFields,
-      { new: true }
+      { new: true },
     );
+
+    console.log("New User:", newUser); // Log newUser to see if it contains the updated user data
+
+    // If password was successfully updated and status is not already "approved", change status to "approved"
+    if (password && newUser.status !== "approved") {
+      console.log("check=>", password, newUser);
+      await User.findOneAndUpdate(
+        { username: userName },
+        { $set: { status: "approved" } },
+      );
+    }
 
     res.status(200).json(newUser);
   } catch (error) {
+    console.error("Error:", error); // Log any errors that occur
     res.status(400).json({ error: error.message });
   }
 };
@@ -282,33 +296,38 @@ const loginUser = async (req, res) => {
     if (!user) {
       return res.status(401).json({ message: "Invalid Credentials" });
     }
+
+    // Check if the user is approved
+    if (user.status === "pending") {
+      console.log(user.status);
+      // return res.status(401).json({ message: "User approval pending" });
+    }
+
+    // Generate JWT token
     const token = jwt.sign(
       { userId: user._id, username: user.username, role: user.role },
       process.env.JWT_SECRET_KEY,
-      { expiresIn: "1h" }
+      { expiresIn: "1h" },
     );
-    if (user.role === "admin") {
-      return res
-        .status(200)
-        .json({ message: "Admin Login successful", role: "admin", token });
-    }
 
-    // Check if the user is approved
-    if (user.status !== "approved") {
-      return res
-        .status(401)
-        .json({ message: "User is pending approval", userStatus: user.status });
-    }
+    // Include user status in the response
+    let status = user.status;
 
     // Check user role
     if (user.role === "admin") {
-      return res
-        .status(200)
-        .json({ message: "Admin Login successful", role: "admin", token });
+      return res.status(200).json({
+        message: "Admin Login successful",
+        role: "admin",
+        token,
+        status,
+      });
     } else {
-      return res
-        .status(200)
-        .json({ message: "User Login successful", role: "user", token });
+      return res.status(200).json({
+        message: "User Login successful",
+        role: "user",
+        token,
+        status,
+      });
     }
   } catch (error) {
     console.error("Error during login:", error);
@@ -376,8 +395,6 @@ const createLeaveRequest = async (req, res) => {
 
       // Deduct leave days from total leave count only after approval
       newLeaveRequest.deducted = false;
-    } else if (leaveType === "unpaid") {
-      user.unpaidLeaves += leaveDays; // Increase unpaid leave count
     }
 
     user.leaveRequests.push(newLeaveRequest);
@@ -415,7 +432,7 @@ const updateLeaveRequest = async (req, res) => {
     } else if (newStatus === "approved") {
       leaveRequest.approvalComments = approvalComments;
       leaveRequest.disapprovalReason = ""; // Clear disapproval reason if approved
-      // Deduct leave count only when the leave request is approved
+
       const leaveDays = leaveRequest.leaveDays;
       if (leaveRequest.leaveType === "paid") {
         if (user.leaveCount < leaveDays) {
@@ -423,9 +440,7 @@ const updateLeaveRequest = async (req, res) => {
         }
         user.leaveCount -= leaveDays;
       } else if (leaveRequest.leaveType === "unpaid") {
-        if (leaveRequest.status === "approved") {
-          user.unpaidLeaves -= leaveDays;
-        }
+        user.unpaidLeaves += leaveDays;
       }
     }
 
