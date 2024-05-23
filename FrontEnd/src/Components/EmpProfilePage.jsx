@@ -1,11 +1,9 @@
 import { useContext, useState, useEffect } from "react";
 import UserContext from "./UserContext";
-import ProfilePictureUpload from "./ProfilePictureUpload";
 import axios from "axios";
 import toast from "react-hot-toast";
 import SelectedProfilePage from "./SelectedProfilePage";
 import { useLocation } from "react-router-dom";
-import EmpProfile from "./EmpProfile";
 
 export default function EmpProfilePage() {
   const { Api_EndPoint } = useContext(UserContext);
