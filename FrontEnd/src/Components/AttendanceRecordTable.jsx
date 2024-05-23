@@ -139,7 +139,8 @@ function AttendanceRecordTable({ attendanceRecord, isAdmin }) {
                 <Menu
                   anchorEl={anchorEl}
                   open={Boolean(anchorEl)}
-                  onClose={handleClose}>
+                  onClose={handleClose}
+                  sx={{ "& .MuiMenu-paper": { backgroundColor: "#DBF3FA" } }}>
                   <MenuItem onClick={handleViewProfile}>View Profile</MenuItem>
                 </Menu>
               </TableCell>
