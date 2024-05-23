@@ -15,6 +15,7 @@ import LeaveForm from "./Components/LeaveForm"; // Import the LeaveForm componen
 import AdminLeaveDashboard from "./Components/AdminLeaveDashboard";
 import UserLeaveDashboard from "./Components/UserLeaveDashboard";
 import SignupApprovals from "./Components/SignupApprovals";
+import EmpProfilePage from "./Components/EmpProfilePage";
 
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
@@ -47,6 +48,10 @@ function App() {
           <Route
             path="profile"
             element={<ProtectedRoute element={<ProfilePage />} />}
+          />
+          <Route
+            path="empprofile"
+            element={<ProtectedRoute element={<EmpProfilePage />} />}
           />
           <Route
             path="update-password"

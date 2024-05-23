@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import {
   Avatar,
   Table,
@@ -10,18 +11,26 @@ import {
 } from "@mui/material";
 import FormatDateTime from "./FormatDateTime";
 import { BsThreeDots } from "react-icons/bs";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-function AttendanceRecordTable({ attendanceRecord }) {
+function AttendanceRecordTable({ attendanceRecord, isAdmin }) {
+  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
+  const [selectedUsername, setSelectedUsername] = useState(null);
 
-  const handleMenuClick = (event) => {
+  const handleMenuClick = (event, username) => {
     setAnchorEl(event.currentTarget);
+    setSelectedUsername(username);
   };
 
   const handleClose = () => {
     setAnchorEl(null);
+    setSelectedUsername(null);
+  };
+
+  const handleViewProfile = () => {
+    navigate("/home/empprofile", { state: { username: selectedUsername } });
+    handleClose();
   };
 
   if (attendanceRecord.length === 0) {
@@ -74,7 +83,6 @@ function AttendanceRecordTable({ attendanceRecord }) {
             style={{ backgroundColor: "#DBF3FA", color: "black" }}>
             Leave Time
           </TableCell>
-          {/* <TableCell align="center" className="px-4 py-2"></TableCell> */}
         </TableRow>
       </TableHead>
 
@@ -123,20 +131,19 @@ function AttendanceRecordTable({ attendanceRecord }) {
                 : "Didn't Check Out"}
             </TableCell>
 
-            <TableCell align="center" className="px-4 py-2">
-              <BsThreeDots onClick={handleMenuClick} />
-              <Menu
-                anchorEl={anchorEl}
-                open={Boolean(anchorEl)}
-                onClose={handleClose}>
-                <MenuItem
-                  component={Link}
-                  to="/home/profile"
-                  onClick={handleClose}>
-                  View Profile
-                </MenuItem>
-              </Menu>
-            </TableCell>
+            {isAdmin && (
+              <TableCell align="center" className="px-4 py-2">
+                <BsThreeDots
+                  onClick={(event) => handleMenuClick(event, record.username)}
+                />
+                <Menu
+                  anchorEl={anchorEl}
+                  open={Boolean(anchorEl)}
+                  onClose={handleClose}>
+                  <MenuItem onClick={handleViewProfile}>View Profile</MenuItem>
+                </Menu>
+              </TableCell>
+            )}
           </TableRow>
         ))}
       </TableBody>

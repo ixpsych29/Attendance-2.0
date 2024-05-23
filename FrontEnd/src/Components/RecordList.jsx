@@ -167,7 +167,10 @@ const RecordList = ({ selectedDate, setSelectedDate }) => {
           Previous Month Records
         </Button>
       )}
-      <AttendanceRecordTable attendanceRecord={attendanceRecord} />
+      <AttendanceRecordTable
+        attendanceRecord={attendanceRecord}
+        isAdmin={isAdmin}
+      />
     </TableContainer>
   );
 };

@@ -1,21 +1,53 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import UserContext from "./UserContext";
 import ProfilePictureUpload from "./ProfilePictureUpload";
 import axios from "axios";
 import toast from "react-hot-toast";
 import SelectedProfilePage from "./SelectedProfilePage";
+import { useLocation } from "react-router-dom";
+import EmpProfile from "./EmpProfile";
 
-export default function ProfilePage() {
-  const { nameUser, username, Api_EndPoint, email, phNumber, dob } =
-    useContext(UserContext);
+export default function EmpProfilePage() {
+  const { Api_EndPoint } = useContext(UserContext);
+  const location = useLocation();
+  const { username } = location.state || {};
+  const [user, setUser] = useState(null);
+
+  const getSingleUser = async () => {
+    try {
+      const response = await axios.get(`${Api_EndPoint}/api/users/${username}`);
+      setUser(response.data);
+    } catch (err) {
+      console.error("Error Fetching Profile Data", err);
+      toast.error("Failed to fetch profile. Please try again later.");
+    }
+  };
+
+  useEffect(() => {
+    if (username) {
+      getSingleUser();
+    }
+  }, [username]);
 
   const [formData, setFormData] = useState({
-    name: nameUser,
-    email: email,
-    username: username,
-    phoneNo: phNumber,
-    dob: dob,
+    name: "",
+    email: "",
+    username: "",
+    phoneNo: "",
+    dob: "",
   });
+
+  useEffect(() => {
+    if (user) {
+      setFormData({
+        name: user.name || "",
+        email: user.email || "",
+        username: user.username || "",
+        phoneNo: user.phoneNumber || "",
+        dob: user.dob || "",
+      });
+    }
+  }, [user]);
 
   const [formErrors, setFormErrors] = useState({
     name: false,
@@ -66,6 +98,10 @@ export default function ProfilePage() {
     return "";
   }
 
+  if (!user) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className="max-w-2.5xl mx-auto mt-0">
       <h1 className="text-center text-3xl font-bold mb-20">
@@ -76,7 +112,28 @@ export default function ProfilePage() {
           className="flex flex-col lg:flex-row items-center justify-center space-x-4 mb-4 border border-gray-300 p-24 pl-[-5] rounded-md shadow-2xl bg-[#DBF3FA] pr-20"
           style={{ boxShadow: "14px 12px 20px rgba(0, 0, 0, 0.6)" }}>
           <div className="w-full lg:w-1/2 border-b lg:border-b-0 lg:border-r border-black lg:mr-44 pr-10 mb-4 lg:mb-0">
-            <ProfilePictureUpload />
+            {user.profilePicture ? (
+              <img
+                src={`${Api_EndPoint}/uploads/Images/${user.profilePicture}`}
+                className="ml-20 mt-2 mb-2"
+                alt="Profile Picture"
+                style={{ width: 200, height: 200, borderRadius: "50%" }}
+              />
+            ) : (
+              <div
+                className="ml-20 mt-2 mb-2 flex items-center justify-center"
+                style={{
+                  width: 200,
+                  height: 200,
+                  borderRadius: "50%",
+                  backgroundColor: "#ccc",
+                  color: "#fff",
+                  fontSize: "6rem",
+                  fontWeight: "bold",
+                }}>
+                {user.username.slice(0, 2).toUpperCase()}
+              </div>
+            )}
           </div>
           <SelectedProfilePage
             formData={formData}

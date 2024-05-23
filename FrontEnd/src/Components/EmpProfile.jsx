@@ -1,15 +1,9 @@
-import React from "react";
+import { useContext } from "react";
+import UserContext from "./UserContext";
 
-export default function SelectedProfilePage({
-  formData,
-  formErrors,
-  handleValueChange,
-  handleSubmit,
-  formatDate,
-  setFormData,
-}) {
+export default function EmpProfile({}) {
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 w-full lg:w-1/2">
+    <form className="space-y-4 w-full lg:w-1/2">
       <div className="ml-0 lg:ml-12">
         <div className="flex items-center space-x-4 mb-4 justify-end">
           <label htmlFor="name" className="label-style">
@@ -19,17 +13,11 @@ export default function SelectedProfilePage({
             id="name"
             name="name"
             type="text"
-            className={`input-style ${formErrors.name ? "border-red-500" : ""}`}
-            value={formData.name}
-            onChange={handleValueChange}
+            className="input-style"
+            value={user.name}
             maxLength="30"
             disabled
           />
-          {formErrors.name && (
-            <span className="text-red-500 block mt-1">
-              Please fill this field
-            </span>
-          )}
         </div>
         <div className="flex items-center space-x-4 mb-4 justify-end">
           <label htmlFor="email" className="label-style">
@@ -39,7 +27,7 @@ export default function SelectedProfilePage({
             id="email"
             type="email"
             className="input-style cursor-not-allowed"
-            value={formData.email}
+            value={user.email}
             disabled
           />
         </div>
@@ -51,7 +39,7 @@ export default function SelectedProfilePage({
             id="username"
             type="text"
             className="input-style cursor-not-allowed"
-            value={formData.username}
+            value={user.username}
             disabled
           />
         </div>
@@ -66,13 +54,7 @@ export default function SelectedProfilePage({
               type="date"
               style={{ width: "210px" }}
               className="input-style"
-              value={formatDate(formData.dob)}
-              onChange={(e) =>
-                setFormData((prevFormData) => ({
-                  ...prevFormData,
-                  dob: e.target.value,
-                }))
-              }
+              value={formatDate(user.dob)}
             />
           </div>
         </div>
@@ -85,25 +67,19 @@ export default function SelectedProfilePage({
               id="phoneNo"
               name="phoneNo"
               type="tel"
-              className={`input-style ${
-                formErrors.phoneNo ? "border-red-500" : ""
-              }`}
-              value={formData.phoneNo}
-              onChange={handleValueChange}
+              className="input-style"
+              value={user.phoneNumber}
             />
-            {formErrors.phoneNo && (
-              <span className="text-red-500 mt-1">Please fill this field</span>
-            )}
           </div>
         </div>
       </div>
-      <div className="flex justify-center">
+      {/* <div className="flex justify-center">
         <button
           type="submit"
           className="mt-10 mr-48 px-7 py-2 rounded-md shadow-xl text-white bg-gradient-to-r from-sky-600 to-cyan-400 hover:from-cyan-400 hover:to-sky-600">
           Update Profile
         </button>
-      </div>
+      </div> */}
     </form>
   );
 }
