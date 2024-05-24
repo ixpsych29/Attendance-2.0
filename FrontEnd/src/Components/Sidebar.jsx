@@ -16,6 +16,7 @@ import { FaPeopleGroup } from "react-icons/fa6";
 import { CgProfile } from "react-icons/cg";
 import { MdManageAccounts } from "react-icons/md";
 import { RiArrowLeftDoubleLine, RiArrowRightSLine } from "react-icons/ri";
+import Cookies from "js-cookie";
 
 const Sidebar = ({ mode, setMode }) => {
   const { role } = useContext(UserContext);
@@ -40,6 +41,13 @@ const Sidebar = ({ mode, setMode }) => {
     if (mode !== undefined && setMode !== undefined) {
       setMode(darkMode ? "light" : "dark");
     }
+  };
+
+  const logout = () => {
+    // Clear the cookie named 'yourCookieName'
+    Cookies.remove("authToken");
+    // Perform any additional logout logic
+    login(false);
   };
 
   const toggleSidebar = () => setShowSidebar(!showSidebar);
@@ -125,9 +133,9 @@ const Sidebar = ({ mode, setMode }) => {
                 <>
                   <li>
                     <Link
-                      to="/signup"
+                      to="/home/signup"
                       className={`px-4 py-3 flex items-center space-x-4 rounded-md ${
-                        isActiveLink("/signup")
+                        isActiveLink("/home/signup")
                           ? "btn-style text-white"
                           : "text-white"
                       }`}>
@@ -250,7 +258,7 @@ const Sidebar = ({ mode, setMode }) => {
               <span>Dark Mode</span>
             </button>
             <button className="px-4 py-3 flex flex-col items-center rounded-md text-white group transition duration-300 ease-in-out transform hover:scale-110">
-              <Link to="/" onClick={() => login(false)}>
+              <Link to="/" onClick={logout}>
                 <FaSignOutAlt className="w-6 h-6 mb-2 space-x-2" />
                 <span>Logout</span>
               </Link>

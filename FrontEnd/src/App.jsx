@@ -35,7 +35,7 @@ function App() {
           element={<LoginForm login={setAuthenticated} role={setRole} />}
           index
         />
-        <Route path="/signup" element={<SignupForm />} />
+        {/* <Route path="/signup" element={<SignupForm />} /> */}
         <Route path="update-password" element={<ChangePassword />} />
         <Route path="/*" element={<Nopage />} />
         <Route
@@ -45,6 +45,12 @@ function App() {
           }>
           {role === "user" && <Route index element={<UserDashboard />} />}
           {role === "admin" && <Route index element={<Dashboard />} />}
+          {role === "admin" && (
+            <Route
+              path="signup"
+              element={<ProtectedRoute element={<SignupForm />} />}
+            />
+          )}
           <Route
             path="profile"
             element={<ProtectedRoute element={<ProfilePage />} />}

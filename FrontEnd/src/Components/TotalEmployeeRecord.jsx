@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import {
   Table,
   TableBody,
@@ -6,14 +6,21 @@ import {
   TableHead,
   TableRow,
   IconButton,
+  Tooltip,
 } from "@mui/material";
 import { Edit, Delete } from "@mui/icons-material";
 import UserContext from "./UserContext";
+import { useNavigate } from "react-router-dom";
 
 const TotalEmployeeRecord = ({ users, handleEdit, handleDelete }) => {
   const { Api_EndPoint } = useContext(UserContext);
 
-  console.log("usersssss", users);
+  const navigate = useNavigate();
+
+  const handleOpenProfile = (username) => {
+    navigate("/home/empprofile", { state: { username: username } });
+  };
+
   return (
     <>
       <Table
@@ -29,13 +36,13 @@ const TotalEmployeeRecord = ({ users, handleEdit, handleDelete }) => {
           <TableRow>
             <TableCell
               align="center"
-              className="px-2 py-2 "
+              className="px-2 py-2"
               style={{ backgroundColor: "#DBF3FA", color: "black" }}>
               Picture
             </TableCell>
             <TableCell
               align="center"
-              className="px-2 py-2 "
+              className="px-2 py-2"
               style={{ backgroundColor: "#DBF3FA", color: "black" }}>
               Name
             </TableCell>
@@ -106,7 +113,16 @@ const TotalEmployeeRecord = ({ users, handleEdit, handleDelete }) => {
                   {user.name}
                 </TableCell>
                 <TableCell align="center" className="px-4 py-2">
-                  {user.username}
+                  <Tooltip title="View Profile" arrow>
+                    <span
+                      onClick={() => handleOpenProfile(user.username)}
+                      style={{
+                        cursor: "pointer",
+                        textDecoration: "underline",
+                      }}>
+                      {user.username}
+                    </span>
+                  </Tooltip>
                 </TableCell>
                 <TableCell align="center" className="px-4 py-2">
                   {user.email}
@@ -115,18 +131,22 @@ const TotalEmployeeRecord = ({ users, handleEdit, handleDelete }) => {
                   {user.phoneNumber}
                 </TableCell>
                 <TableCell align="center" className="px-4 py-2">
-                  <IconButton
-                    aria-label="edit"
-                    onClick={() => handleEdit(user)}>
-                    <Edit />
-                  </IconButton>
+                  <Tooltip title="Edit Profile" arrow>
+                    <IconButton
+                      aria-label="edit"
+                      onClick={() => handleEdit(user)}>
+                      <Edit />
+                    </IconButton>
+                  </Tooltip>
                 </TableCell>
                 <TableCell align="center" className="px-4 py-2">
-                  <IconButton
-                    aria-label="delete"
-                    onClick={() => handleDelete(user)}>
-                    <Delete />
-                  </IconButton>
+                  <Tooltip title="Delete Profile" arrow>
+                    <IconButton
+                      aria-label="delete"
+                      onClick={() => handleDelete(user)}>
+                      <Delete />
+                    </IconButton>
+                  </Tooltip>
                 </TableCell>
               </TableRow>
             ))}

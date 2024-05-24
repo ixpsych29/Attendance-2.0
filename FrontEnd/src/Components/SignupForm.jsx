@@ -91,24 +91,23 @@ export default function SignupForm() {
   };
 
   return (
-    <div className="min-h-screen flex">
-      <div className="hidden lg:flex w-full lg:w-1/2 login_img_section justify-around items-center bg-gradient-to-r from-sky-600 to-cyan-400 text-white">
+    <div className=" flex justify-center">
+      {/* <div className="hidden lg:flex w-full lg:w-1/2 login_img_section justify-around items-center bg-gradient-to-r from-sky-600 to-cyan-400 text-white">
         <div className="bg-black opacity-20 inset-0 z-0"></div>
         <div className="w-full mx-auto px-20 flex-col items-center space-y-6">
           <p className="text-9xl text-white mt-1">Attendance</p>
           <img className="max-w-48 ml-auto" src={sidebarlogo} alt="logo" />
           <p className="text-4xl text-white mt-1">Create a new user</p>
-          {/* <div className="flex justify-end  mt-6">
+          <div className="flex justify-end  mt-6">
             <a
               href="#"
-              className="hover:bg-gradient-to-r from-cyan-400 to-sky-600 hover:text-white hover:-translate-y-1 transition-all duration-500 bg-white text-cyan-700 mt-4 px-4 py-2 rounded-2xl font-bold mb-2"
-            >
+              className="hover:bg-gradient-to-r from-cyan-400 to-sky-600 hover:text-white hover:-translate-y-1 transition-all duration-500 bg-white text-cyan-700 mt-4 px-4 py-2 rounded-2xl font-bold mb-2">
               Get Started
             </a>
-          </div> */}
+          </div>
         </div>
-      </div>
-      <div className="flex w-full lg:w-1/2 justify-center items-center bg-white space-y-8 mt-10 p-5">
+      </div> */}
+      <div className="flex w-full lg:w-1/2 justify-center items-center  space-y-8 mt-14 ">
         <div className="w-full px-8 md:px-32 lg:px-24">
           <form
             className="bg-[#DBF3FA] rounded-md shadow-2xl p-5 mb-10"
