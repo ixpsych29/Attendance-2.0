@@ -77,7 +77,7 @@ const Sidebar = ({ mode, setMode }) => {
       ) : (
         <RiArrowLeftDoubleLine
           onClick={toggleSidebar}
-          className="fixed z-50 ml-72 mt-80 rotate-180 text-[#19B0E7] text-3xl focus:outline-none transform cursor-pointer"
+          className="fixed z-50 ml-2 mt-80 rotate-180 text-[#19B0E7] text-3xl focus:outline-none transform cursor-pointer"
           title="Open Sidebar"
         />
       )}
