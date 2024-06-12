@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import {
   Table,
@@ -15,17 +15,12 @@ import {
   IconButton,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import {
-  Visibility,
-  CheckCircle,
-  Cancel,
-  QueryBuilder,
-} from "@mui/icons-material";
+import { CheckCircle, Cancel, QueryBuilder } from "@mui/icons-material";
 import UserContext from "./UserContext";
 import toast from "react-hot-toast";
 
 const SignupApprovals = () => {
-  const { username } = useContext(UserContext);
+  const { Api_EndPoint } = useContext(UserContext);
   const [requests, setRequests] = useState([]);
   const [reasonModalOpen, setReasonModalOpen] = useState(false);
   const [selectedReasonRequest, setSelectedReasonRequest] = useState(null);
@@ -33,7 +28,7 @@ const SignupApprovals = () => {
   useEffect(() => {
     const fetchRequests = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/api/users`);
+        const response = await axios.get(`${Api_EndPoint}/api/users`);
         setRequests(response.data.users); // Assuming the response contains an array of users with a field 'users'
       } catch (error) {
         console.error("Error fetching signup requests:", error);
@@ -56,17 +51,14 @@ const SignupApprovals = () => {
 
   const handleStatusUpdate = async (userName, newStatus) => {
     try {
-      await axios.put(
-        `http://localhost:3000/api/users/${userName}/update-profile`,
-        {
-          status: newStatus,
-        },
-      );
+      await axios.put(`${Api_EndPoint}/api/users/${userName}/update-profile`, {
+        status: newStatus,
+      });
       // Update the local state to reflect the change
       setRequests((prevRequests) =>
         prevRequests.map((user) =>
-          user.username === userName ? { ...user, status: newStatus } : user,
-        ),
+          user.username === userName ? { ...user, status: newStatus } : user
+        )
       );
       toast.success("User status updated successfully");
     } catch (error) {
@@ -88,14 +80,16 @@ const SignupApprovals = () => {
             bgcolor: "white",
             p: 4,
             borderRadius: 4,
-          }}>
+          }}
+        >
           <IconButton
             sx={{
               position: "absolute",
               top: 3,
               right: 18,
             }}
-            onClick={handleReasonCloseModal}>
+            onClick={handleReasonCloseModal}
+          >
             <CloseIcon />
           </IconButton>
           {selectedReasonRequest && (
@@ -103,7 +97,8 @@ const SignupApprovals = () => {
               <Typography
                 variant="h5"
                 gutterBottom
-                sx={{ textAlign: "center", marginBottom: 4 }}>
+                sx={{ textAlign: "center", marginBottom: 4 }}
+              >
                 Leave Request Details
               </Typography>
               <Typography variant="body1">
@@ -123,7 +118,8 @@ const SignupApprovals = () => {
         borderRadius={4}
         ml={40}
         mt={15}
-        width={"80%"}>
+        width={"80%"}
+      >
         <Typography variant="h4" component="h2" gutterBottom textAlign="center">
           Signup Requests
         </Typography>
@@ -143,28 +139,32 @@ const SignupApprovals = () => {
                 <TableCell>
                   <Typography
                     variant="subtitle1"
-                    style={{ fontWeight: "bold" }}>
+                    style={{ fontWeight: "bold" }}
+                  >
                     Username
                   </Typography>
                 </TableCell>
                 <TableCell>
                   <Typography
                     variant="subtitle1"
-                    style={{ fontWeight: "bold" }}>
+                    style={{ fontWeight: "bold" }}
+                  >
                     Email
                   </Typography>
                 </TableCell>
                 <TableCell>
                   <Typography
                     variant="subtitle1"
-                    style={{ fontWeight: "bold" }}>
+                    style={{ fontWeight: "bold" }}
+                  >
                     Status
                   </Typography>
                 </TableCell>
                 <TableCell>
                   <Typography
                     variant="subtitle1"
-                    style={{ fontWeight: "bold" }}>
+                    style={{ fontWeight: "bold" }}
+                  >
                     Action
                   </Typography>
                 </TableCell>
@@ -190,13 +190,15 @@ const SignupApprovals = () => {
                     <IconButton
                       onClick={() =>
                         handleStatusUpdate(request.username, "approved")
-                      }>
+                      }
+                    >
                       <CheckCircle color="success" />
                     </IconButton>
                     <IconButton
                       onClick={() =>
                         handleStatusUpdate(request.username, "disapproved")
-                      }>
+                      }
+                    >
                       <Cancel color="error" />
                     </IconButton>
                   </TableCell>

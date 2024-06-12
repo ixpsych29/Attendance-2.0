@@ -50,7 +50,7 @@ const TotalEmployee = () => {
           username: newUsername,
           email: newEmail,
           phoneNo: newPhoneNumber,
-        },
+        }
       );
       toast.success("Profile Updated");
 
@@ -71,9 +71,7 @@ const TotalEmployee = () => {
 
   const confirmDelete = async () => {
     try {
-      await axios.delete(
-        `http://localhost:3000/api/users/${selectedUser.username}`,
-      );
+      await axios.delete(`${Api_EndPoint}/api/users/${selectedUser.username}`);
       toast.success("User deleted successfully");
 
       // Fetch updated user data after successful deletion
@@ -89,7 +87,7 @@ const TotalEmployee = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/api/users");
+      const response = await axios.get("${Api_EndPoint}/api/users");
       setUsers(response.data.users);
     } catch (error) {
       console.error("Error fetching users: ", error);
@@ -115,7 +113,8 @@ const TotalEmployee = () => {
               bgcolor: "background.paper",
               boxShadow: 24,
               p: 4,
-            }}>
+            }}
+          >
             <Typography variant="h6" component="h2" gutterBottom>
               Update Profile
             </Typography>
@@ -162,7 +161,8 @@ const TotalEmployee = () => {
         {/* Delete Confirmation Modal */}
         <Modal
           open={isDeleteModalOpen}
-          onClose={() => setIsDeleteModalOpen(false)}>
+          onClose={() => setIsDeleteModalOpen(false)}
+        >
           <Box
             sx={{
               position: "absolute",
@@ -173,7 +173,8 @@ const TotalEmployee = () => {
               bgcolor: "background.paper",
               boxShadow: 24,
               p: 4,
-            }}>
+            }}
+          >
             <Typography variant="h6" component="h2" gutterBottom>
               Confirm Deletion
             </Typography>
@@ -189,7 +190,8 @@ const TotalEmployee = () => {
                   <Button
                     variant="contained"
                     color="error"
-                    onClick={confirmDelete}>
+                    onClick={confirmDelete}
+                  >
                     Delete
                   </Button>
                 </Box>
@@ -202,13 +204,15 @@ const TotalEmployee = () => {
           paddingBottom={10}
           paddingTop={5}
           boxShadow={3}
-          mb={4}>
+          mb={4}
+        >
           <Typography
             variant="h4"
             component="h2"
             gutterBottom
             textAlign="center"
-            sx={{ mb: 3, color: "text.primary" }}>
+            sx={{ mb: 3, color: "text.primary" }}
+          >
             Total Employees
           </Typography>
           <Divider

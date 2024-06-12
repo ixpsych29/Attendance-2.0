@@ -59,7 +59,7 @@ const getSingleUser = async (req, res) => {
   const { userName } = req.params;
   try {
     const user = await User.findOne({ username: userName }).populate(
-      "leaveRequests",
+      "leaveRequests"
     );
 
     if (!user) {
@@ -223,7 +223,7 @@ const updatePicture = async (req, res) => {
       const updateRes = User.findOneAndUpdate(
         { username: userName },
         { profilePicture: fileName },
-        { new: true },
+        { new: true }
       ).then((user) => {
         if (!user) {
           return res.status(404).json({ error: "User not found" });
@@ -265,7 +265,7 @@ const updateProfile = async (req, res) => {
     const newUser = await User.findOneAndUpdate(
       { username: userName },
       updateFields,
-      { new: true },
+      { new: true }
     );
 
     console.log("New User:", newUser); // Log newUser to see if it contains the updated user data
@@ -275,7 +275,7 @@ const updateProfile = async (req, res) => {
       console.log("check=>", password, newUser);
       await User.findOneAndUpdate(
         { username: userName },
-        { $set: { status: "approved" } },
+        { $set: { status: "approved" } }
       );
     }
 
@@ -307,7 +307,7 @@ const loginUser = async (req, res) => {
     const token = jwt.sign(
       { userId: user._id, username: user.username, role: user.role },
       process.env.JWT_SECRET_KEY,
-      { expiresIn: "1h" },
+      { expiresIn: "1h" }
     );
 
     // Include user status in the response
