@@ -16,7 +16,7 @@ import toast from "react-hot-toast";
 import axios from "axios"; // Import Axios
 
 const LeaveForm = () => {
-  const { username, email } = useContext(UserContext);
+  const { username, email, Api_EndPoint } = useContext(UserContext);
   const [leaveData, setLeaveData] = useState({
     leaveType: "",
     leaveSubject: "",
@@ -84,13 +84,11 @@ const LeaveForm = () => {
 
     try {
       // Fetch the user's leave requests to check the time of the last leave request
-      const response = await axios.get(
-        `http://localhost:3000/api/users/${username}`,
-      );
+      const response = await axios.get(`${Api_EndPoint}/api/users/${username}`);
       const userLeaveRequests = response.data.leaveRequests;
       if (userLeaveRequests.length > 0) {
         const lastLeaveRequestTime = new Date(
-          userLeaveRequests[userLeaveRequests.length - 1].createdAt,
+          userLeaveRequests[userLeaveRequests.length - 1].createdAt
         );
         // Calculate the time difference between the last leave request and the current time
         const timeDifferenceInHours =
@@ -103,8 +101,8 @@ const LeaveForm = () => {
 
       // If the user hasn't made a leave request in the last 24 hours, submit the new leave request
       await axios.post(
-        `http://localhost:3000/api/users/${username}/leave-request`,
-        leaveData,
+        `${Api_EndPoint}/api/users/${username}/leave-request`,
+        leaveData
       );
       toast.success("Leave submitted successfully");
       console.log("Form Submitted");
@@ -132,7 +130,8 @@ const LeaveForm = () => {
       borderRadius={4}
       ml={70}
       mt={10}
-      width={"40%"}>
+      width={"40%"}
+    >
       <Typography variant="h4" component="h2" gutterBottom textAlign="center">
         Leave Application
       </Typography>
@@ -161,7 +160,8 @@ const LeaveForm = () => {
                 onChange={(e) =>
                   setLeaveData({ ...leaveData, leaveType: e.target.value })
                 }
-                label="Leave Type">
+                label="Leave Type"
+              >
                 <MenuItem value="paid">Paid Leave</MenuItem>
                 <MenuItem value="unpaid">Unpaid Leave</MenuItem>
               </Select>

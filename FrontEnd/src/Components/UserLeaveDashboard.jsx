@@ -27,7 +27,7 @@ import {
 } from "@mui/icons-material";
 
 const UserLeaveDashboard = () => {
-  const { username } = useContext(UserContext);
+  const { username, Api_EndPoint } = useContext(UserContext);
   const [user, setUser] = useState([]);
   const [leave, setLeave] = useState(0);
   const [reasonModalOpen, setReasonModalOpen] = useState(false); // State for managing modal open/close
@@ -38,7 +38,7 @@ const UserLeaveDashboard = () => {
   const fetchUser = async () => {
     try {
       const response = await axios.get(
-        ` http://localhost:3000/api/users/${username}`,
+        ` ${Api_EndPoint}/api/users/${username}`
       );
 
       setUser(response.data.leaveRequests);
@@ -53,7 +53,7 @@ const UserLeaveDashboard = () => {
   };
   useEffect(() => {
     fetchUser();
-  }, [fetchUser()]);
+  }, []);
 
   // Function to open the modal and set the selected request
   const handleReasonOpenModal = (request) => {
@@ -93,7 +93,8 @@ const UserLeaveDashboard = () => {
             bgcolor: "white",
             p: 4,
             borderRadius: 4, // Add some border radius for a rounded look
-          }}>
+          }}
+        >
           {/* Close button */}
           <IconButton
             sx={{
@@ -101,7 +102,8 @@ const UserLeaveDashboard = () => {
               top: 3,
               right: 18,
             }}
-            onClick={handleReasonCloseModal}>
+            onClick={handleReasonCloseModal}
+          >
             <CloseIcon />
           </IconButton>
 
@@ -112,7 +114,8 @@ const UserLeaveDashboard = () => {
               <Typography
                 variant="h5"
                 gutterBottom
-                sx={{ textAlign: "center", marginBottom: 4 }}>
+                sx={{ textAlign: "center", marginBottom: 4 }}
+              >
                 Leave Request Details
               </Typography>
               {/* Additional input (text field) */}
@@ -144,7 +147,8 @@ const UserLeaveDashboard = () => {
             bgcolor: "white",
             p: 4,
             borderRadius: 4, // Add some border radius for a rounded look
-          }}>
+          }}
+        >
           {/* Close button */}
           <IconButton
             sx={{
@@ -152,7 +156,8 @@ const UserLeaveDashboard = () => {
               top: 3,
               right: 18,
             }}
-            onClick={handleCommentsCloseModal}>
+            onClick={handleCommentsCloseModal}
+          >
             <CloseIcon />
           </IconButton>
 
@@ -163,7 +168,8 @@ const UserLeaveDashboard = () => {
               <Typography
                 variant="h5"
                 gutterBottom
-                sx={{ textAlign: "center", marginBottom: 4 }}>
+                sx={{ textAlign: "center", marginBottom: 4 }}
+              >
                 Admin Comments
               </Typography>
 
@@ -248,7 +254,8 @@ const UserLeaveDashboard = () => {
         borderRadius={4}
         ml={40}
         mt={15}
-        width={"80%"}>
+        width={"80%"}
+      >
         <Typography variant="h4" component="h2" gutterBottom textAlign="center">
           Leave Requests
         </Typography>
@@ -268,49 +275,56 @@ const UserLeaveDashboard = () => {
                 <TableCell>
                   <Typography
                     variant="subtitle1"
-                    style={{ fontWeight: "bold" }}>
+                    style={{ fontWeight: "bold" }}
+                  >
                     Leave Type
                   </Typography>
                 </TableCell>
                 <TableCell>
                   <Typography
                     variant="subtitle1"
-                    style={{ fontWeight: "bold" }}>
+                    style={{ fontWeight: "bold" }}
+                  >
                     Start Date
                   </Typography>
                 </TableCell>
                 <TableCell>
                   <Typography
                     variant="subtitle1"
-                    style={{ fontWeight: "bold" }}>
+                    style={{ fontWeight: "bold" }}
+                  >
                     End Date
                   </Typography>
                 </TableCell>
                 <TableCell>
                   <Typography
                     variant="subtitle1"
-                    style={{ fontWeight: "bold" }}>
+                    style={{ fontWeight: "bold" }}
+                  >
                     Leaves
                   </Typography>
                 </TableCell>
                 <TableCell>
                   <Typography
                     variant="subtitle1"
-                    style={{ fontWeight: "bold" }}>
+                    style={{ fontWeight: "bold" }}
+                  >
                     Reason
                   </Typography>
                 </TableCell>
                 <TableCell>
                   <Typography
                     variant="subtitle1"
-                    style={{ fontWeight: "bold" }}>
+                    style={{ fontWeight: "bold" }}
+                  >
                     Status
                   </Typography>
                 </TableCell>
                 <TableCell>
                   <Typography
                     variant="subtitle1"
-                    style={{ fontWeight: "bold" }}>
+                    style={{ fontWeight: "bold" }}
+                  >
                     Comment
                   </Typography>
                 </TableCell>
@@ -330,7 +344,8 @@ const UserLeaveDashboard = () => {
                       <div className="ml-3">
                         <IconButton
                           onClick={() => handleReasonOpenModal(user)}
-                          title="view reason">
+                          title="view reason"
+                        >
                           <Visibility />
                         </IconButton>
                       </div>
@@ -358,7 +373,8 @@ const UserLeaveDashboard = () => {
                       <div className="ml-3">
                         <IconButton
                           onClick={() => handleCommentsOpenModal(user)}
-                          title="view comment">
+                          title="view comment"
+                        >
                           <Visibility />
                         </IconButton>
                       </div>

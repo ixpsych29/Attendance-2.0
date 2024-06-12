@@ -5,19 +5,18 @@ import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import UserContext from "./UserContext";
+import toast from "react-hot-toast";
 
 const UserDashboard = () => {
   const [selectedDate, setSelectedDate] = useState(dayjs());
   const navigate = useNavigate();
-  const { username } = useContext(UserContext);
+  const { username, Api_EndPoint } = useContext(UserContext);
   const [userStatus, setStatus] = useState("");
   const [loading, setLoading] = useState(true);
 
   const getUser = async () => {
     try {
-      const response = await axios.get(
-        `http://localhost:3000/api/users/${username}`,
-      );
+      const response = await axios.get(`${Api_EndPoint}/api/users/${username}`);
       setStatus(response.data.status);
       setLoading(false);
     } catch (error) {
