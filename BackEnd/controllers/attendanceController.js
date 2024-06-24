@@ -53,14 +53,13 @@ const getOneAttendance = async (req, res) => {
 
 //insert new attendance record
 const createAttendance = async (req, res) => {
-  const { username, picture, entranceTime } = req.body;
+  const { username, entranceTime } = req.body;
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   //INSERT new document to DB
   try {
     const todayAttendance = await Attendance.create({
       username,
-      picture,
       entranceTime,
       leavingTime: null,
     });
@@ -70,7 +69,6 @@ const createAttendance = async (req, res) => {
   }
 };
 
-//UPDATING attendance at leaving time.
 const updateAttendance = async (req, res) => {
   try {
     const { userName } = req.params;
@@ -80,11 +78,18 @@ const updateAttendance = async (req, res) => {
     const currentDate = new Date();
     currentDate.setHours(0, 0, 0, 0);
 
-    // Find or create the attendance record for the current date
+    // Find the attendance record for the current date
     let employee = await Attendance.findOne({
       username: userName,
       entranceTime: { $gte: currentDate },
     });
+
+    if (!employee) {
+      return res
+        .status(404)
+        .json({ error: "No check-in record found for today" });
+    }
+
     // Update the leaving time of the existing record
     employee.leavingTime = leavingTime;
     await employee.save();

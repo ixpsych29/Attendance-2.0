@@ -1,11 +1,12 @@
 import { CssBaseline } from "@mui/material";
 import { Box, Container } from "@mui/system";
-import PictureCam from "./PictureCam";
+// import PictureCam from "./PictureCam";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import UserContext from "./UserContext";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import MarkAttendanceTest from "./MarkAttendanceTest";
 
 function Attendence() {
   const { username, Api_EndPoint } = useContext(UserContext);
