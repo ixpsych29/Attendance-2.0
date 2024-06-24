@@ -49,7 +49,7 @@ function Attendence() {
     >
       <CssBaseline />
       <Container>
-        {attendanceMarked ? redirectToDashboard() : <MarkAttendanceTest />}{" "}
+        {attendanceMarked ? redirectToDashboard() : <MarkAttendanceTest />}
       </Container>
     </Box>
   );
