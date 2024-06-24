@@ -6,9 +6,17 @@ const path = require("path");
 const userRoutes = require("./routes/userRoutes");
 const attendanceRoutes = require("./routes/attendanceRoutes");
 const migrateAdminUser = require("./migration/migrateAdminUser");
+const fs = require("fs");
+const https = require("https");
 
 const app = express();
-const port = process.env.PORT || 3000;
+const options = {
+  key: fs.readFileSync("../SSL/private.key"),
+  cert: fs.readFileSync("../SSL/certificate.pem"),
+};
+const port = process.env.PORT || 3001;
+
+const server = https.createServer(options, app);
 
 app.use(cors());
 

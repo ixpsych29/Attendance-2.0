@@ -87,7 +87,7 @@ const TotalEmployee = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get("${Api_EndPoint}/api/users");
+      const response = await axios.get(`${Api_EndPoint}/api/users`);
       setUsers(response.data.users);
     } catch (error) {
       console.error("Error fetching users: ", error);
