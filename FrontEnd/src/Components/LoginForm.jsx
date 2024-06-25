@@ -53,7 +53,7 @@ export default function LoginForm({ login, role }) {
       } catch (error) {
         if (error.response.data.userStatus === "disapproved") {
           toast.error(
-            "Your account is currently on hold. Please contact support for further assistance.",
+            "Your account is currently on hold. Please contact support for further assistance."
           );
         } else {
           setErrors({
@@ -84,7 +84,7 @@ export default function LoginForm({ login, role }) {
   useEffect(() => {
     const token = document.cookie.replace(
       /(?:(?:^|.*;\s*)authToken\s*=\s*([^;]*).*$)|^.*$/,
-      "$1",
+      "$1"
     );
 
     if (!token) {
@@ -123,7 +123,8 @@ export default function LoginForm({ login, role }) {
         <div className="w-full px-8 md:px-32 lg:px-24">
           <form
             className="bg-[#DBF3FA] rounded-md shadow-2xl p-5 mb-10"
-            onSubmit={handleSubmit}>
+            onSubmit={handleSubmit}
+          >
             <h1 className="text-gray-800 font-bold text-2xl mb-10 flex flex-col justify-center  ">
               Login
             </h1>
@@ -133,7 +134,8 @@ export default function LoginForm({ login, role }) {
                 className="h-5 w-5 text-black-400"
                 fill="none"
                 viewBox="0 0 24 24"
-                stroke="currentColor">
+                stroke="currentColor"
+              >
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -162,7 +164,8 @@ export default function LoginForm({ login, role }) {
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-5 text-gray-400"
                 viewBox="0 0 20 20"
-                fill="currentColor">
+                fill="currentColor"
+              >
                 <path
                   fillRule="evenodd"
                   d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
@@ -184,14 +187,16 @@ export default function LoginForm({ login, role }) {
               &nbsp;
               <button
                 type="button"
-                onClick={() => setShowPassword(!showPassword)}>
+                onClick={() => setShowPassword(!showPassword)}
+              >
                 {showPassword ? (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-5 w-5 text-gray-400 cursor-pointer"
                     viewBox="0 0 24 24"
                     fill="none"
-                    stroke="currentColor">
+                    stroke="currentColor"
+                  >
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -205,7 +210,8 @@ export default function LoginForm({ login, role }) {
                     className="h-5 w-5 text-gray-400 cursor-pointer"
                     viewBox="0 0 24 24"
                     fill="none"
-                    stroke="currentColor">
+                    stroke="currentColor"
+                  >
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -228,7 +234,8 @@ export default function LoginForm({ login, role }) {
             <div className="flex justify-center">
               <button
                 type="submit"
-                className="mx-auto hover:bg-gradient-to-r from-cyan-400 to-sky-600 hover:text-white hover:-translate-y-1 transition-all duration-500 bg-white text-cyan-700 mt-4 px-28 py-2 rounded-2xl font-bold mb-2">
+                className="mx-auto hover:bg-gradient-to-r from-cyan-400 to-sky-600 hover:text-white hover:-translate-y-1 transition-all duration-500 bg-white text-cyan-700 mt-4 px-28 py-2 rounded-2xl font-bold mb-2"
+              >
                 Login
               </button>
             </div>
@@ -236,7 +243,8 @@ export default function LoginForm({ login, role }) {
               <RouterLink
                 to="#"
                 className="text-sm ml-2 hover:text-cyan-600 cursor-pointer hover:-translate-y-1 duration-500 transition-all "
-                title="Available Soon">
+                title="Available Soon"
+              >
                 Forgot Password?
               </RouterLink>
 
