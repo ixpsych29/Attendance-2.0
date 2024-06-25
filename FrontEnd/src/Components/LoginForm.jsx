@@ -117,7 +117,7 @@ export default function LoginForm({ login, role }) {
             className="bg-[#DBF3FA] rounded-md shadow-2xl p-5 mb-10"
             onSubmit={handleSubmit}
           >
-            <h1 className="text-gray-800 font-bold text-2xl mb-10 flex flex-col justify-center">
+            <h1 className="text-gray-800 font-bold text-2xl mb-10 flex flex-col justify-center  ">
               Login
             </h1>
             <div className="flex items-center mb-8 py-2 px-3 rounded-2xl">
@@ -234,7 +234,7 @@ export default function LoginForm({ login, role }) {
             <div className="flex flex-col sm:flex-row justify-between mt-4">
               <RouterLink
                 to="#"
-                className="text-sm ml-2 hover:text-cyan-600 cursor-pointer hover:-translate-y-1 duration-500 transition-all mb-2 sm:mb-0"
+                className="text-sm ml-2 hover:text-cyan-600 cursor-pointer hover:-translate-y-1 duration-500 transition-all "
                 title="Available Soon"
               >
                 Forgot Password?

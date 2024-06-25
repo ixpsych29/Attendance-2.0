@@ -4,7 +4,6 @@ import {
   Toolbar,
   styled,
   Typography,
-  Badge,
   Avatar,
   Box,
   Menu,
@@ -12,24 +11,24 @@ import {
   Slide,
   useTheme,
   useMediaQuery,
-  Button,
+  IconButton,
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import UserContext from "./UserContext";
 import Cookies from "js-cookie";
+import MenuIcon from "@mui/icons-material/Menu";
+import CloseIcon from "@mui/icons-material/Close";
 import BadgeAvatars from "./BadgeAvatars";
-
-// import { CAvatar } from "@coreui/react-cavatar";
-
-// import Sidebar from "./Sidebar"; // Import your Sidebar component
 
 const StyledToolBar = styled(Toolbar)(({ theme }) => ({
   display: "flex",
   justifyContent: "space-between",
-  padding: "0 20px",
-  transition: "padding 0.3s ease-in-out",
+  padding: "0 10px",
   [theme.breakpoints.up("sm")]: {
-    padding: "0 40px", // Adjust padding for larger screens
+    padding: "0 20px",
+  },
+  [theme.breakpoints.up("md")]: {
+    padding: "0 40px",
   },
 }));
 
@@ -38,16 +37,9 @@ const Icons = styled(Box)(({ theme }) => ({
   gap: "20px",
   alignItems: "center",
   [theme.breakpoints.up("sm")]: {
-    display: "flex", // Change display to flex for larger screens
+    display: "flex",
   },
 }));
-
-const logout = () => {
-  // Clear the cookie named 'yourCookieName'
-  Cookies.remove("authToken");
-  // Perform any additional logout logic
-  login(false);
-};
 
 const Navbar = ({ login }) => {
   const [open, setOpen] = useState(false);
@@ -55,32 +47,53 @@ const Navbar = ({ login }) => {
     useContext(UserContext);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
   const capitalizedUserName =
     username.charAt(0).toUpperCase() + username.slice(1);
 
-  // const toggleSidebar = () => {
-  //   // console.log("Toggling sidebar...");
-  //   setToggleMenu(!toggleMenu); // Toggle menu button
-  // };
-
-  // console.log("Rendering Navbar. toggleMenu:", toggleMenu);
+  const logout = () => {
+    Cookies.remove("authToken");
+    login(false);
+  };
 
   return (
     <Slide direction="down" in={true} mountOnEnter unmountOnExit>
       <AppBar
         position="fixed"
-        sx={{ backgroundColor: "#B7E9F7", maxWidth: "100%", zIndex: 10 }}>
+        sx={{
+          backgroundColor: "#B7E9F7",
+          maxWidth: "100%",
+          zIndex: 10,
+          boxShadow: "none",
+        }}
+      >
         <StyledToolBar>
           <Box sx={{ flexGrow: 1 }}>
-            {/* <Button onClick={toggleSidebar}>
-              {toggleMenu ? (
-                <CloseIcon sx={{ display: "flex", alignItems: "center" }} />
-              ) : (
-                <MenuIcon sx={{ display: "flex", alignItems: "center" }} />
-              )}
-            </Button> */}
-            {/* {toggleMenu && <Sidebar />} Render Sidebar conditionally */}
+            <IconButton
+              edge="start"
+              color="inherit"
+              aria-label="menu"
+              sx={{ display: { xs: "block", sm: "none" } }}
+              onClick={() => setToggleMenu(!toggleMenu)}
+            >
+              {toggleMenu ? <CloseIcon /> : <MenuIcon />}
+            </IconButton>
+            {toggleMenu && (
+              <Box
+                sx={{
+                  position: "absolute",
+                  top: 60,
+                  left: 0,
+                  width: "100%",
+                  bgcolor: "#B7E9F7",
+                  zIndex: 11,
+                }}
+              >
+                {/* Render Sidebar or any other component conditionally */}
+              </Box>
+            )}
           </Box>
+          <Box sx={{ flexGrow: 1, display: { xs: "none", sm: "flex" } }}></Box>
           {isSmallScreen ? (
             <Avatar
               sx={{ width: 40, height: 40 }}
@@ -92,14 +105,6 @@ const Navbar = ({ login }) => {
               <Typography variant="span" sx={{ color: "black" }}>
                 {capitalizedUserName}
               </Typography>
-              <Badge>
-                {/* <Avatar
-                  sx={{ width: 40, height: 40 }}
-                  srcSet={`${Api_EndPoint}/uploads/Images/${userProfilePic}`}
-                  onClick={() => setOpen(true)}
-                  status="success"
-          />*/}
-              </Badge>
               <BadgeAvatars login={login} />
             </Icons>
           )}
@@ -109,7 +114,6 @@ const Navbar = ({ login }) => {
           aria-labelledby="demo-positioned-button"
           open={open}
           onClose={() => setOpen(false)}
-          style={{ margin: 40, width: "200px" }}
           anchorOrigin={{
             vertical: "top",
             horizontal: "right",
@@ -117,17 +121,23 @@ const Navbar = ({ login }) => {
           transformOrigin={{
             vertical: "top",
             horizontal: "right",
-          }}>
+          }}
+        >
           <MenuItem
             component={Link}
             to="/home/profile"
-            style={{
-              textAlign: "left",
-              marginRight: 30,
-            }}>
+            onClick={() => setOpen(false)}
+          >
             My Account
           </MenuItem>
-          <MenuItem component={Link} to="/" onClick={logout}>
+          <MenuItem
+            component={Link}
+            to="/"
+            onClick={() => {
+              logout();
+              setOpen(false);
+            }}
+          >
             Logout
           </MenuItem>
         </Menu>
