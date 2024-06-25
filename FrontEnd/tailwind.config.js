@@ -6,7 +6,11 @@ export default {
     "./node_modules/tw-elements-react/dist/js/**/*.js",
   ],
   theme: {
-    extend: {},
+    extend: {
+      screens: {
+        "3xl": "1350px",
+      },
+    },
   },
   plugins: [],
 };
