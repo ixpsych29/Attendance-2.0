@@ -50,7 +50,7 @@ const MarkAttendanceTest = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center bg-[#DBF3FA] px-80 py-10 rounded-md border border-white border-opacity-40 backdrop-blur-md ml-20 mb-10">
+    <div className="flex flex-col items-center justify-center bg-[#DBF3FA] px-80 py-10 rounded-md border border-white border-opacity-40 backdrop-blur-md ml-auto mb-10">
       <Button
         variant="contained"
         className="w-72 btn-style"

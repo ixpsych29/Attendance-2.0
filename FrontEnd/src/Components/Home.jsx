@@ -1,14 +1,19 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import createTheme from "@mui/material/styles/createTheme";
 import { Box, ThemeProvider, useTheme } from "@mui/material";
 import Navbar from "./NavBar";
 import Sidebar from "./Sidebar";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { useMediaQuery } from "@mui/material";
 import BirthdayAlert from "./BirthdayAlert";
 
 function Home({ login }) {
   const [mode, setMode] = useState("light");
+  const [showSidebar, setShowSidebar] = useState(true);
+
+  const toggleSidebar = () => {
+    setShowSidebar(!showSidebar);
+  };
   const darkTheme = createTheme({
     palette: {
       mode: mode,
@@ -24,42 +29,38 @@ function Home({ login }) {
 
   return (
     <ThemeProvider theme={darkTheme}>
-      <Box className="bg-glassBlue bg-opacity-70 text-primary min-h-screen flex flex-col pt-20 bg-[#DBF3FA]">
+      <Box className="bg-glassBlue bg-opacity-70 text-primary min-h-screen flex flex-col bg-[#DBF3FA]">
         <div className="flex justify-center">
           <BirthdayAlert />
         </div>
         {!isLoginPage && !isSignUpPage && (
           <>
-            <Box
-              className={
-                isMediumOrSmallerScreen
-                  ? "bg-transparent fixed top-20 left-0 w-full"
-                  : "bg-transparent"
-              }
-            >
-              <Navbar login={login} />
+            <Box className="fixed top-0 left-0 w-full z-20">
+              <Navbar login={login} toggleSidebar={toggleSidebar} />
             </Box>
-            <Box
-              className={
-                isMediumOrSmallerScreen
-                  ? "bg-transparent fixed top-20 left-0 w-full"
-                  : "bg-transparent"
-              }
-            >
-              <Sidebar mode={mode} setMode={setMode} />
-            </Box>
+            <div className="flex pt-20">
+              <Box
+                className={`w-64 flex-shrink-0 fixed left-0 top-14 transition-transform duration-300 ease-in-out bg-[#19B0E7] ${
+                  showSidebar ? "translate-x-0" : "-translate-x-full"
+                }`}
+              >
+                <Sidebar mode={mode} setMode={setMode} />
+              </Box>
+              <Box
+                className={`flex-grow p-4 overflow-x-hidden transition-all duration-300 ease-in-out ${
+                  showSidebar ? "ml-64" : "ml-0"
+                } md:ml-64`}
+              >
+                <Outlet context={{ mode, setMode }} />
+              </Box>
+            </div>
           </>
         )}
-        <Box
-          flex="1"
-          p={3}
-          ml={isMediumOrSmallerScreen ? 0 : 4}
-          className="bg-transparent"
-        >
-          <Box>
+        {(isLoginPage || isSignUpPage) && (
+          <Box flex="1" p={3} className="bg-transparent max-w-full">
             <Outlet context={{ mode, setMode }} />
           </Box>
-        </Box>
+        )}
       </Box>
     </ThemeProvider>
   );

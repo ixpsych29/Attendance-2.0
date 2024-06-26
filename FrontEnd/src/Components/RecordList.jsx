@@ -101,7 +101,7 @@ const RecordList = ({ selectedDate, setSelectedDate }) => {
   return (
     <TableContainer
       component={Paper}
-      sx={{ mt: 7, ml: 15, pt: 5, bgcolor: "#DBF3FA" }}
+      sx={{ mt: 7, ml: "auto", pt: 5, bgcolor: "#DBF3FA" }}
     >
       <Typography
         variant="h4"

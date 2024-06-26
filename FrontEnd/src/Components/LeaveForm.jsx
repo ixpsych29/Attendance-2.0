@@ -128,8 +128,8 @@ const LeaveForm = () => {
       mb={4}
       p={5}
       borderRadius={4}
-      ml={70}
-      mt={10}
+      ml={61.2}
+      mt={12.2}
       width={"40%"}
     >
       <Typography variant="h4" component="h2" gutterBottom textAlign="center">
