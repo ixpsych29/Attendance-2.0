@@ -22,7 +22,7 @@ const Dashboard = () => {
 
         //fetching total no of users
         const totalResponse = await axios.get(
-          `${Api_EndPoint}/api/users?cacheBuster=${uniqueIdentifier}`,
+          `${Api_EndPoint}/api/users?cacheBuster=${uniqueIdentifier}`
         );
         // console.log("totalResponse ", totalResponse.data);
         setTotalEmployees(totalResponse.data.totalEmployees || 0);
@@ -35,7 +35,7 @@ const Dashboard = () => {
 
         // Calculate absentees as total employees minus present ones
         setAbsentEmployees(
-          totalResponse.data.totalEmployees - distinctEmployeeCount || 0,
+          totalResponse.data.totalEmployees - distinctEmployeeCount || 0
         );
       } catch (error) {
         console.error("Error Fetching Attendance Records", error);
