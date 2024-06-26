@@ -68,7 +68,7 @@ const Sidebar = ({ mode, setMode }) => {
 
   return (
     <div>
-      {showSidebar ? (
+      {/* {showSidebar ? (
         <RiArrowLeftDoubleLine
           onClick={toggleSidebar}
           className="fixed z-50 ml-72 mt-80 text-[#19B0E7] text-3xl focus:outline-none transform cursor-pointer"
@@ -80,9 +80,9 @@ const Sidebar = ({ mode, setMode }) => {
           className="fixed z-50 ml-2 mt-80 rotate-180 text-[#19B0E7] text-3xl focus:outline-none transform cursor-pointer"
           title="Open Sidebar"
         />
-      )}
+      )} */}
       {showSidebar && (
-        <aside className="sidebar fixed z-10 top-0 pb-3 px-6 w-full flex flex-col justify-between h-screen border-r transition duration-300 md:w-4/12 lg:w-[25%] xl:w-[20%] 2xl:w-[15%] bg-[#19B0E7]">
+        <aside className="sidebar fixed z-10 top-0 pb-14 px-6 w-full flex flex-col justify-between h-screen border-r transition duration-300  bg-[#19B0E7]">
           <div>
             <img
               src="/src/assets/Images/sidebarlogo.png"
