@@ -98,29 +98,21 @@ export default function LoginForm({ login, role }) {
   }, []);
 
   return (
-    <div className="min-h-screen flex">
-      <div className="hidden lg:flex w-full lg:w-1/2 login_img_section justify-around items-center bg-gradient-to-r from-sky-600 to-cyan-400 text-white">
+    <div className="min-h-screen flex flex-col lg:flex-row">
+      <div className="w-full lg:w-1/2 login_img_section justify-around items-center bg-gradient-to-r from-sky-600 to-cyan-400 text-white p-4 lg:p-0 hidden lg:flex">
         <div className="bg-black opacity-20 inset-0 z-0"></div>
-        <div className="w-full mx-auto px-20 flex-col items-center space-y-6">
-          <p className="text-9xl text-white mt-1">Attendance</p>
-          <img
-            className="max-w-48 ml-auto"
-            src={sidebarlogo}
-            alt="logo"
-            // Adjust the height, width, and color as needed
-          />
-          <p className="text-4xl text-white mt-1">Welcome to Daily TimeSheet</p>
-          {/* <div className="flex justify-end  mt-6">
-            <a
-              href="/signup"
-              className="hover:bg-gradient-to-r from-cyan-400 to-sky-600 hover:text-white hover:-translate-y-1 transition-all duration-500 bg-white text-cyan-700 mt-4 px-4 py-2 rounded-2xl font-bold mb-2">
-              Get Started
-            </a>
-          </div> */}
+        <div className="w-full mx-auto px-4 lg:px-20 flex-col items-center space-y-6">
+          <p className="text-8xl lg:text-7xl 3xl:text-6xl 2xl:text-8xl text-white mt-1">
+            Attendance
+          </p>
+          <img className="max-w-48 ml-auto" src={sidebarlogo} alt="logo" />
+          <p className="text-2xl lg:text-4xl text-white mt-1">
+            Welcome to Daily TimeSheet
+          </p>
         </div>
       </div>
-      <div className="flex w-full lg:w-1/2 justify-center items-center bg-white space-y-8 mt-10 p-5">
-        <div className="w-full px-8 md:px-32 lg:px-24">
+      <div className="flex w-full lg:w-1/2 justify-center items-center bg-white space-y-8 p-4 lg:p-0 lg:mt-10">
+        <div className="w-full px-4 md:px-32 lg:px-24">
           <form
             className="bg-[#DBF3FA] rounded-md shadow-2xl p-5 mb-10"
             onSubmit={handleSubmit}
@@ -128,7 +120,7 @@ export default function LoginForm({ login, role }) {
             <h1 className="text-gray-800 font-bold text-2xl mb-10 flex flex-col justify-center  ">
               Login
             </h1>
-            <div className="flex items-center  mb-8 py-2 px-3 rounded-2xl">
+            <div className="flex items-center mb-8 py-2 px-3 rounded-2xl">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-5 text-black-400"
@@ -239,7 +231,7 @@ export default function LoginForm({ login, role }) {
                 Login
               </button>
             </div>
-            <div className="flex justify-between mt-4">
+            <div className="flex flex-col sm:flex-row justify-between mt-4">
               <RouterLink
                 to="#"
                 className="text-sm ml-2 hover:text-cyan-600 cursor-pointer hover:-translate-y-1 duration-500 transition-all "
@@ -247,12 +239,6 @@ export default function LoginForm({ login, role }) {
               >
                 Forgot Password?
               </RouterLink>
-
-              {/* <RouterLink
-                to="/signup"
-                className="text-sm ml-2 hover:text-cyan-600 cursor-pointer hover:-translate-y-1 duration-500 transition-all">
-                Don't have an account yet?
-              </RouterLink> */}
             </div>
           </form>
         </div>

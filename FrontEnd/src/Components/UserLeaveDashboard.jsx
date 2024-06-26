@@ -219,8 +219,8 @@ const UserLeaveDashboard = () => {
         </Box>
       </Modal>
 
-      <div className="flex justify-between">
-        <div className="container ml-80  cursor-pointer">
+      <div className="flex justify-between ml-auto px-36">
+        <div className="container cursor-pointer">
           <div className="relative shadow-md transform hover:scale-105 transition duration-300 ease-in-out rounded-lg overflow-hidden flex justify-center btn-style ">
             <div className="p-7">
               <h5 className="text-white text-lg font-bold mb-2 flex justify-center">
@@ -232,7 +232,7 @@ const UserLeaveDashboard = () => {
             </div>
           </div>
         </div>
-        <div className="container ml-32  cursor-pointer">
+        <div className="container ml-32 cursor-pointer">
           <div className="relative shadow-md transform hover:scale-105 transition duration-300 ease-in-out rounded-lg overflow-hidden flex justify-center btn-style ">
             <div className="p-7">
               <h5 className="text-white text-lg font-bold mb-2 flex justify-center">
@@ -252,7 +252,7 @@ const UserLeaveDashboard = () => {
         mb={4}
         p={5}
         borderRadius={4}
-        ml={40}
+        ml={20.4}
         mt={15}
         width={"80%"}
       >
