@@ -108,7 +108,8 @@ export default function EmpProfilePage() {
       <div className="flex items-center justify-center">
         <div
           className="flex flex-col lg:flex-row items-center justify-center space-x-4 mb-4 border border-gray-300 p-24 pl-[-5] rounded-md shadow-2xl bg-[#DBF3FA] pr-20"
-          style={{ boxShadow: "14px 12px 20px rgba(0, 0, 0, 0.6)" }}>
+          style={{ boxShadow: "14px 12px 20px rgba(0, 0, 0, 0.6)" }}
+        >
           <div className="w-full lg:w-1/2 border-b lg:border-b-0 lg:border-r border-black lg:mr-44 pr-10 mb-4 lg:mb-0">
             {user.profilePicture ? (
               <img
@@ -128,7 +129,8 @@ export default function EmpProfilePage() {
                   color: "#fff",
                   fontSize: "6rem",
                   fontWeight: "bold",
-                }}>
+                }}
+              >
                 {user.username.slice(0, 2).toUpperCase()}
               </div>
             )}
