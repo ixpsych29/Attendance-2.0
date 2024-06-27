@@ -61,7 +61,7 @@ const Navbar = ({ login }) => {
       <AppBar
         position="fixed"
         sx={{
-          backgroundColor: "#B7E9F7",
+          backgroundColor: "#19b0e7",
           maxWidth: "100%",
           zIndex: 10,
           boxShadow: "none",
@@ -85,13 +85,20 @@ const Navbar = ({ login }) => {
                   top: 60,
                   left: 0,
                   width: "100%",
-                  bgcolor: "#B7E9F7",
+                  bgcolor: "#19b0e7",
                   zIndex: 11,
                 }}
               >
                 {/* Render Sidebar or any other component conditionally */}
               </Box>
             )}
+          </Box>
+          <Box>
+            <img
+              src="/src/assets/Images/sidebarlogo.png"
+              alt="Your Logo"
+              style={{ height: "40px" }}
+            />
           </Box>
           <Box sx={{ flexGrow: 1, display: { xs: "none", sm: "flex" } }}></Box>
           {isSmallScreen ? (
@@ -102,7 +109,7 @@ const Navbar = ({ login }) => {
             />
           ) : (
             <Icons>
-              <Typography variant="span" sx={{ color: "black" }}>
+              <Typography variant="span" sx={{ color: "#fff" }}>
                 {capitalizedUserName}
               </Typography>
               <BadgeAvatars login={login} />
