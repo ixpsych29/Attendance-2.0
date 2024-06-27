@@ -323,7 +323,7 @@ const AdminLeaveDashboard = () => {
         mb={4}
         p={5}
         borderRadius={4}
-        ml={40}
+        ml={20.3}
         mt={2}
         width={"80%"}
       >

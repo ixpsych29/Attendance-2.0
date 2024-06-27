@@ -82,14 +82,14 @@ const Sidebar = ({ mode, setMode }) => {
         />
       )} */}
       {showSidebar && (
-        <aside className="sidebar fixed z-10 top-0 pb-14 px-6 w-full flex flex-col justify-between h-screen border-r transition duration-300  bg-[#19B0E7]">
+        <aside className="sidebar fixed z-10 top-0 pb-14 px-6 w-full flex flex-col justify-between h-screen border-r transition duration-300  bg-[#19b0e7]">
           <div>
-            <img
+            {/* <img
               src="/src/assets/Images/sidebarlogo.png"
               alt="Your Logo"
               style={{ marginTop: "20px" }}
-            />
-            <div className="h-[2px] bg-white opacity-50 my-4" />
+            /> */}
+            <div className="h-[2px] bg-white opacity-50 my-2" />
             <ul className="space-y-2 tracking-wide">
               <li>
                 <Link
