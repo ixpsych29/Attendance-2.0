@@ -116,8 +116,8 @@ const SignupApprovals = () => {
         mb={4}
         p={5}
         borderRadius={4}
-        ml={40}
-        mt={15}
+        ml={20.3}
+        mt={2}
         width={"80%"}
       >
         <Typography variant="h4" component="h2" gutterBottom textAlign="center">
