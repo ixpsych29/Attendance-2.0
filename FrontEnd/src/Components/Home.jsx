@@ -29,7 +29,7 @@ function Home({ login }) {
 
   return (
     <ThemeProvider theme={darkTheme}>
-      <Box className="bg-glassBlue bg-opacity-70 text-primary min-h-screen flex flex-col bg-[#DBF3FA]">
+      <Box className="bg-glassBlue bg-opacity-70 text-primary min-h-screen flex flex-col bg-[#dbf3fa]">
         <div className="flex justify-center">
           <BirthdayAlert />
         </div>
