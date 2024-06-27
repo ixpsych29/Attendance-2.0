@@ -40,5 +40,5 @@ build/
 
 package-lock.json*
 
-uploads/Images/*
-assets/Images/*
+uploads/images/*
+assets/images/*
