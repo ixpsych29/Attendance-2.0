@@ -103,11 +103,7 @@ const RecordList = ({ selectedDate, setSelectedDate }) => {
       component={Paper}
       sx={{ mt: 7, ml: "auto", pt: 5, bgcolor: "#DBF3FA" }}
     >
-      <Typography
-        variant="h4"
-        textAlign="center"
-        sx={{ mb: 3, color: "text.primary" }}
-      >
+      <Typography variant="h4" textAlign="center" sx={{ mb: 3, color: "#000" }}>
         {role === "admin"
           ? "Admin Dashboard"
           : `${capitalizedUserName}, Welcome to the Daily log`}

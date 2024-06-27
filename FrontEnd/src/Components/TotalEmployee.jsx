@@ -4,12 +4,6 @@ import {
   CssBaseline,
   Typography,
   Divider,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  IconButton,
   Modal,
   TextField,
   Button,
@@ -99,7 +93,7 @@ const TotalEmployee = () => {
   }, []);
 
   return (
-    <Box paddingTop={10} paddingLeft={35}>
+    <Box paddingTop={10} paddingLeft={0}>
       <CssBaseline />
       <Container>
         <Modal open={isModalOpen} onClose={handleCloseModal}>
