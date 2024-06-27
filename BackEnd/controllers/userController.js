@@ -291,16 +291,24 @@ const loginUser = async (req, res) => {
   const { username, password } = req.body;
 
   try {
+    // Find the user by username only
     const user = await User.findOne({ username });
 
     if (!user) {
-      return res.status(401).json({ message: "Invalid Credentials" });
+      return res.status(401).json({ message: "Invalid credentials" });
     }
 
     // Check if the user is approved
     if (user.status === "pending") {
-      console.log(user.status);
-      // return res.status(401).json({ message: "User approval pending" });
+      return res.status(401).json({ message: "User approval pending" });
+    }
+    console.log(password, user.password);
+    // Verify the password using bcrypt
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+
+    console.log(isPasswordValid);
+    if (!isPasswordValid) {
+      return res.status(401).json({ message: "Invalid credentials" });
     }
 
     // Generate JWT token
@@ -316,14 +324,14 @@ const loginUser = async (req, res) => {
     // Check user role
     if (user.role === "admin") {
       return res.status(200).json({
-        message: "Admin Login successful",
+        message: "Admin login successful",
         role: "admin",
         token,
         status,
       });
     } else {
       return res.status(200).json({
-        message: "User Login successful",
+        message: "User login successful",
         role: "user",
         token,
         status,
