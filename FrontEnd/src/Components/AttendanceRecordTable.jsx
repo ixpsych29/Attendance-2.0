@@ -50,7 +50,7 @@ function AttendanceRecordTable({ attendanceRecord, isAdmin }) {
       }}
       size="small"
       aria-label="a dense table"
-      className="w-full border-collapse"
+      className="w-full border-collapse md:mt-3 sm:mt-2 md:min-w-[650rem] sm:min-w-[500rem]"
     >
       <TableHead>
         <TableRow>
@@ -112,7 +112,7 @@ function AttendanceRecordTable({ attendanceRecord, isAdmin }) {
                     <img
                       src={record.picture}
                       alt="Attendance"
-                      style={{ maxWidth: "100px" }}
+                      style={{ maxWidth: "100rem" }}
                     />
                   </Avatar>
                 ) : (
