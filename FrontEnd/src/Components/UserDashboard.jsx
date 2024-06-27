@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import UserContext from "./UserContext";
 import toast from "react-hot-toast";
-import Loader from "../Loader/Loader";
 
 const UserDashboard = () => {
   const [selectedDate, setSelectedDate] = useState(dayjs());
@@ -40,9 +39,7 @@ const UserDashboard = () => {
   return (
     <Container sx={{ mt: 0 }}>
       {loading ? (
-        <p>
-          <Loader />
-        </p>
+        <p>Loading...</p>
       ) : (
         <>
           <CssBaseline />

@@ -234,12 +234,7 @@ const LeaveForm = () => {
           </Grid>
           <Grid item xs={12}>
             <Box textAlign="center">
-              <Button
-                type="submit"
-                variant="contained"
-                color="primary"
-                className="btn-style"
-              >
+              <Button type="submit" variant="contained" color="primary">
                 Submit
               </Button>
             </Box>

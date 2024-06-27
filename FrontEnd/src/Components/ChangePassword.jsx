@@ -50,7 +50,7 @@ export default function ChangePassword() {
     ) {
       newErrors.password = "Enter a valid password between 7 and 15 characters";
       toast.error(
-        "Password must contain at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character"
+        "Password must contain at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character",
       );
       isValid = false;
     }
@@ -81,7 +81,7 @@ export default function ChangePassword() {
           {
             password: formData.password,
             status: "approved",
-          }
+          },
         );
 
         toast.success("Password Changed Successfully");
@@ -103,8 +103,7 @@ export default function ChangePassword() {
     <Container
       component="main"
       maxWidth="xs"
-      sx={{ marginTop: 23, marginLeft: "auto" }}
-    >
+      sx={{ marginTop: 23, marginLeft: "auto" }}>
       <CssBaseline />
       <Box
         sx={{
@@ -118,8 +117,7 @@ export default function ChangePassword() {
           padding: "20px",
           margin: "12px",
           boxShadow: "14px 12px 20px rgba(0, 0, 0, 0.6)",
-        }}
-      >
+        }}>
         <Typography component="h1" variant="h5" color={"black"}>
           Change Password
         </Typography>
@@ -127,13 +125,11 @@ export default function ChangePassword() {
           component="form"
           onSubmit={handleSubmit}
           noValidate
-          sx={{ mt: 4, width: "100%" }}
-        >
+          sx={{ mt: 4, width: "100%" }}>
           <div className="mb-6 text-center text-black">
             <label
               htmlFor="password"
-              className="block mb-2 text-lg font-semibold text-white-900 dark:text-black-900"
-            >
+              className="block mb-2 text-lg font-semibold text-white-900 dark:text-black-900">
               Enter New Password
             </label>
             <input
@@ -155,8 +151,7 @@ export default function ChangePassword() {
           <div className="mb-6 text-center text-black">
             <label
               htmlFor="confirmPassword"
-              className="block mb-2 text-lg font-semibold text-white-900 text-black-600"
-            >
+              className="block mb-2 text-lg font-semibold text-white-900 text-black-600">
               Confirm Password
             </label>
             <input
@@ -183,8 +178,7 @@ export default function ChangePassword() {
             sx={{
               mt: 4,
               mb: 2,
-            }}
-          >
+            }}>
             Change Password
           </Button>
         </Box>
