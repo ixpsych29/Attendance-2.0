@@ -142,7 +142,7 @@ export default function ChangePassword() {
               className={`bg-gray-50 border border-black text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-black dark:placeholder-black dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500 ${
                 errors.password ? "border-red-500" : ""
               }`}
-              placeholder="•••••••••"
+              placeholder=""
               required
               name="password"
               value={formData.password}
@@ -165,7 +165,7 @@ export default function ChangePassword() {
               className={`bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500 ${
                 errors.confirmPassword ? "border-red-500" : ""
               }`}
-              placeholder="•••••••••"
+              placeholder=""
               required
               name="confirmPassword"
               value={formData.confirmPassword}

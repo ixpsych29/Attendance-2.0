@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   Avatar,
   Table,
@@ -12,10 +12,13 @@ import {
 import FormatDateTime from "./FormatDateTime";
 import { BsThreeDots } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
+import UserContext from "./UserContext";
 
 function AttendanceRecordTable({ attendanceRecord, isAdmin }) {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
+  const { userProfilePic, Api_EndPoint, username } = useContext(UserContext);
+
   const [selectedUsername, setSelectedUsername] = useState(null);
 
   const handleMenuClick = (event, username) => {
@@ -50,42 +53,67 @@ function AttendanceRecordTable({ attendanceRecord, isAdmin }) {
       }}
       size="small"
       aria-label="a dense table"
-      className="w-full border-collapse md:mt-3 sm:mt-2 md:min-w-[650rem] sm:min-w-[500rem]"
+      className="w-full  border-collapse md:mt-3 sm:mt-2 md:min-w-[650rem] sm:min-w-[500rem]"
     >
       <TableHead>
         <TableRow>
           <TableCell
             align="center"
-            className="px-4 py-2"
-            style={{ backgroundColor: "#DBF3FA", color: "black" }}
+            className="px-4 py-2 "
+            style={{
+              backgroundColor: "#DBF3FA",
+              color: "black",
+              fontWeight: "bold",
+              fontSize: "1rem",
+            }}
           >
             Picture
           </TableCell>
           <TableCell
             align="center"
             className="px-4 py-2"
-            style={{ backgroundColor: "#DBF3FA", color: "black" }}
+            style={{
+              backgroundColor: "#DBF3FA",
+              color: "black",
+              fontWeight: "bold",
+              fontSize: "1rem",
+            }}
           >
             User Name
           </TableCell>
           <TableCell
             align="center"
             className="px-4 py-2"
-            style={{ backgroundColor: "#DBF3FA", color: "black" }}
+            style={{
+              backgroundColor: "#DBF3FA",
+              color: "black",
+              fontWeight: "bold",
+              fontSize: "1rem",
+            }}
           >
             Date
           </TableCell>
           <TableCell
             align="center"
             className="px-4 py-2"
-            style={{ backgroundColor: "#DBF3FA", color: "black" }}
+            style={{
+              backgroundColor: "#DBF3FA",
+              color: "black",
+              fontWeight: "bold",
+              fontSize: "1rem",
+            }}
           >
             Entrance Time
           </TableCell>
           <TableCell
             align="center"
             className="px-4 py-2"
-            style={{ backgroundColor: "#DBF3FA", color: "black" }}
+            style={{
+              backgroundColor: "#DBF3FA",
+              color: "black",
+              fontWeight: "bold",
+              fontSize: "1rem",
+            }}
           >
             Leave Time
           </TableCell>
@@ -116,7 +144,16 @@ function AttendanceRecordTable({ attendanceRecord, isAdmin }) {
                     />
                   </Avatar>
                 ) : (
-                  "Not Found"
+                  <Avatar
+                    alt="ProfilePic"
+                    src={
+                      userProfilePic
+                        ? `${Api_EndPoint}/uploads/Images/${userProfilePic}`
+                        : undefined
+                    }
+                  >
+                    {!userProfilePic && username.slice(0, 2).toUpperCase()}
+                  </Avatar>
                 )}
               </div>
             </TableCell>
