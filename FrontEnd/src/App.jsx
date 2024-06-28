@@ -42,7 +42,8 @@ function App() {
           path="/home/"
           element={
             <ProtectedRoute element={<Home login={setAuthenticated} />} />
-          }>
+          }
+        >
           {role === "user" && <Route index element={<UserDashboard />} />}
           {role === "admin" && <Route index element={<Dashboard />} />}
           {role === "admin" && (
