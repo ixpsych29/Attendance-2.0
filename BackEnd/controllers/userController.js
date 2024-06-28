@@ -302,7 +302,7 @@ const loginUser = async (req, res) => {
     if (user.status === "pending") {
       return res.status(401).json({ message: "User approval pending" });
     }
-    console.log(password, user.password);
+    // console.log(password, user.password);
     // Verify the password using bcrypt
     const isPasswordValid = await bcrypt.compare(password, user.password);
 
