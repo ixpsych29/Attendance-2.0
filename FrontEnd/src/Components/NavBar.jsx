@@ -19,6 +19,7 @@ import Cookies from "js-cookie";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import BadgeAvatars from "./BadgeAvatars";
+import logo from "../assets/Images/sidebarlogo.png";
 
 const StyledToolBar = styled(Toolbar)(({ theme }) => ({
   display: "flex",
@@ -94,11 +95,7 @@ const Navbar = ({ login }) => {
             )}
           </Box>
           <Box>
-            <img
-              src="/src/assets/Images/sidebarlogo.png"
-              alt="Your Logo"
-              style={{ height: "40px" }}
-            />
+            <img src={logo} alt="Your Logo" style={{ height: "40px" }} />
           </Box>
           <Box sx={{ flexGrow: 1, display: { xs: "none", sm: "flex" } }}></Box>
           {isSmallScreen ? (
