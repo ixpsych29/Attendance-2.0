@@ -8,8 +8,8 @@ export default defineConfig({
     host: true,
     port: 3000,
     proxy: {
-      "/api": "192.168.18.35:3001",
-      // "/api": "localhost:3001",
+      // "/api": "192.168.18.35:3001",
+      "/api": "localhost:3001",
     },
   },
 });
