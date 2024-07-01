@@ -17,8 +17,7 @@ import UserContext from "./UserContext";
 function AttendanceRecordTable({ attendanceRecord, isAdmin }) {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
-  const { userProfilePic, Api_EndPoint, username } = useContext(UserContext);
-
+  const { Api_EndPoint } = useContext(UserContext);
   const [selectedUsername, setSelectedUsername] = useState(null);
 
   const handleMenuClick = (event, username) => {
@@ -38,7 +37,7 @@ function AttendanceRecordTable({ attendanceRecord, isAdmin }) {
 
   if (attendanceRecord.length === 0) {
     return (
-      <div className="flex items-center justify-center ">
+      <div className="flex items-center justify-center">
         <h1 className="text-3xl font-bold text-center mb-10">No Record</h1>
       </div>
     );
@@ -53,13 +52,13 @@ function AttendanceRecordTable({ attendanceRecord, isAdmin }) {
       }}
       size="small"
       aria-label="a dense table"
-      className="w-full  border-collapse md:mt-3 sm:mt-2 md:min-w-[650rem] sm:min-w-[500rem]"
+      className="w-full border-collapse md:mt-3 sm:mt-2 md:min-w-[650rem] sm:min-w-[500rem]"
     >
       <TableHead>
         <TableRow>
           <TableCell
             align="center"
-            className="px-4 py-2 "
+            className="px-4 py-2"
             style={{
               backgroundColor: "#DBF3FA",
               color: "black",
@@ -117,6 +116,20 @@ function AttendanceRecordTable({ attendanceRecord, isAdmin }) {
           >
             Leave Time
           </TableCell>
+          {isAdmin && (
+            <TableCell
+              align="center"
+              className="px-4 py-2"
+              style={{
+                backgroundColor: "#DBF3FA",
+                color: "black",
+                fontWeight: "bold",
+                fontSize: "1rem",
+              }}
+            >
+              Actions
+            </TableCell>
+          )}
         </TableRow>
       </TableHead>
 
@@ -135,24 +148,17 @@ function AttendanceRecordTable({ attendanceRecord, isAdmin }) {
                   alignItems: "center",
                 }}
               >
-                {record.picture ? (
+                {record.userProfilePic ? (
                   <Avatar sx={{ width: 70, height: 70 }}>
                     <img
-                      src={record.picture}
-                      alt="Attendance"
-                      style={{ maxWidth: "100rem" }}
+                      src={`${Api_EndPoint}/uploads/Images/${record.userProfilePic}`}
+                      alt="Profile"
+                      style={{ width: "100%", height: "100%" }}
                     />
                   </Avatar>
                 ) : (
-                  <Avatar
-                    alt="ProfilePic"
-                    src={
-                      userProfilePic
-                        ? `${Api_EndPoint}/uploads/Images/${userProfilePic}`
-                        : undefined
-                    }
-                  >
-                    {!userProfilePic && username.slice(0, 2).toUpperCase()}
+                  <Avatar sx={{ width: 70, height: 70 }}>
+                    {record.username.slice(0, 2).toUpperCase()}
                   </Avatar>
                 )}
               </div>

@@ -57,6 +57,7 @@ const RecordList = ({ selectedDate, setSelectedDate }) => {
   const handleDateChange = (newDate) => {
     setSelectedDate(newDate);
   };
+
   const handleMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -87,6 +88,7 @@ const RecordList = ({ selectedDate, setSelectedDate }) => {
       console.error("Error generating CSV report", error);
     }
   };
+
   const handleLastMonthClick = () => {
     // Set the date range to last month
     setDateRange({
@@ -95,6 +97,7 @@ const RecordList = ({ selectedDate, setSelectedDate }) => {
     });
     setShowPreviousMonth(true);
   };
+
   const capitalizedUserName =
     username.charAt(0).toUpperCase() + username.slice(1);
 

@@ -68,14 +68,15 @@ export default function ProfilePage() {
 
   return (
     <div className="max-w-2.5xl mx-auto mt-0">
-      <h1 className="text-center text-3xl font-bold mb-20">
+      <h1 className="text-center text-3xl font-bold mb-8">
         Profile Information
       </h1>
-      <div className="flex items-center justify-center">
+      <div className="flex items-center justify-between ml-[15%]">
         <div
-          className="flex flex-col lg:flex-row items-center justify-center space-x-4 mb-4 border border-gray-300 p-24 pl-[-5] rounded-md shadow-2xl bg-[#DBF3FA] pr-20"
-          style={{ boxShadow: "14px 12px 20px rgba(0, 0, 0, 0.6)" }}>
-          <div className="w-full lg:w-1/2 border-b lg:border-b-0 lg:border-r border-black lg:mr-44 pr-10 mb-4 lg:mb-0">
+          className="flex flex-col lg:flex-row items-center justify-between space-x-4 mb-4 border border-gray-300 py-16 rounded-md shadow-2xl bg-[#DBF3FA] pr-20 "
+          style={{ boxShadow: "14px 12px 20px rgba(0, 0, 0, 0.6)" }}
+        >
+          <div className="w-full lg:w-1/2 border-b lg:border-b-0 lg:border-r border-black lg:mr-0 pr-10 mb-4 lg:mb-0">
             <ProfilePictureUpload />
           </div>
           <SelectedProfilePage
