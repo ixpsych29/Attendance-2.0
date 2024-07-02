@@ -10,8 +10,8 @@ export default function SelectedProfilePage({
 }) {
   return (
     <form onSubmit={handleSubmit} className="space-y-4 w-full lg:w-1/2">
-      <div className="ml-0 lg:ml-12">
-        <div className="flex items-center space-x-4 mb-4 justify-end">
+      <div className="mr-0 lg:ml-12 pl-20">
+        <div className="flex items-center space-x-4 mb-4  justify-end">
           <label htmlFor="name" className="label-style">
             Name:
           </label>
@@ -19,7 +19,9 @@ export default function SelectedProfilePage({
             id="name"
             name="name"
             type="text"
-            className={`input-style ${formErrors.name ? "border-red-500" : ""}`}
+            className={`input-style ${
+              formErrors.name ? "border-red-500" : ""
+            } px-14`}
             value={formData.name}
             onChange={handleValueChange}
             maxLength="30"
@@ -38,7 +40,7 @@ export default function SelectedProfilePage({
           <input
             id="email"
             type="email"
-            className="input-style cursor-not-allowed"
+            className="input-style cursor-not-allowed px-14"
             value={formData.email}
             disabled
           />
@@ -50,7 +52,7 @@ export default function SelectedProfilePage({
           <input
             id="username"
             type="text"
-            className="input-style cursor-not-allowed"
+            className="input-style px-14 cursor-not-allowed"
             value={formData.username}
             disabled
           />
@@ -64,8 +66,8 @@ export default function SelectedProfilePage({
               id="dob"
               name="dob"
               type="date"
-              style={{ width: "210px" }}
-              className="input-style"
+              // style={{ width: "250px" }}
+              className="input-style px-[84px]"
               value={formatDate(formData.dob)}
               onChange={(e) =>
                 setFormData((prevFormData) => ({
@@ -87,7 +89,7 @@ export default function SelectedProfilePage({
               type="tel"
               className={`input-style ${
                 formErrors.phoneNo ? "border-red-500" : ""
-              }`}
+              } px-14`}
               value={formData.phoneNo}
               onChange={handleValueChange}
             />
@@ -100,7 +102,8 @@ export default function SelectedProfilePage({
       <div className="flex justify-center">
         <button
           type="submit"
-          className="mt-10 mr-48 px-7 py-2 rounded-md shadow-xl text-white bg-gradient-to-r from-sky-600 to-cyan-400 hover:from-cyan-400 hover:to-sky-600">
+          className="mt-10 mr-48 px-7 py-2 rounded-md shadow-xl text-white bg-gradient-to-r from-sky-600 to-cyan-400 hover:from-cyan-400 hover:to-sky-600"
+        >
           Update Profile
         </button>
       </div>
