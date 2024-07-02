@@ -18,6 +18,7 @@ const migrateAdminUser = async () => {
         email: "admin@gmail.com",
         password: hashedPassword,
         role: "admin",
+        status: "approved",
       });
 
       await newAdminUser.save();

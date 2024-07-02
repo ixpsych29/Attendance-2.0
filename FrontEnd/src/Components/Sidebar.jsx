@@ -25,9 +25,14 @@ const Sidebar = ({ mode, setMode }) => {
   const [darkMode, setDarkMode] = useState(false);
   const [showSidebar, setShowSidebar] = useState(true);
   const [showLeavesSubMenu, setShowLeavesSubMenu] = useState(false);
+  const [showEmployeesSubMenu, setShowEmployeesSubMenu] = useState(false);
 
   const isAdmin = role === "admin";
   const isUser = role === "user";
+
+  const toggleEmployeesSubMenu = () => {
+    setShowEmployeesSubMenu(!showEmployeesSubMenu);
+  };
 
   const isActiveLink = (to) => location.pathname === to;
 
@@ -136,30 +141,71 @@ const Sidebar = ({ mode, setMode }) => {
               {isAdmin && (
                 <>
                   <li>
-                    <Link
-                      to="/home/signup"
-                      className={`px-4 py-3 flex items-center space-x-4 rounded-md ${
-                        isActiveLink("/home/signup")
+                    <div
+                      className={`px-4 py-3 flex items-center space-x-4 rounded-md cursor-pointer ${
+                        showEmployeesSubMenu
                           ? "btn-style text-white"
                           : "text-white"
                       }`}
-                    >
-                      <MdManageAccounts className="w-6 h-6" />
-                      <span className="-mr-1 font-medium">Create Account</span>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to="/home/totalemployee"
-                      className={`px-4 py-3 flex items-center space-x-4 rounded-md ${
-                        isActiveLink("/home/totalemployee")
-                          ? "btn-style text-white"
-                          : "text-white"
-                      }`}
+                      onClick={toggleEmployeesSubMenu}
                     >
                       <FaPeopleGroup className="w-6 h-6" />
                       <span className="-mr-1 font-medium">Employees</span>
-                    </Link>
+                      <RiArrowRightSLine
+                        className={`text-white ${
+                          showEmployeesSubMenu ? "rotate-90" : ""
+                        }`}
+                      />
+                    </div>
+                    {showEmployeesSubMenu && isAdmin && (
+                      <ul className="space-y-2 tracking-wide">
+                        <li>
+                          <Link
+                            to="/home/totalemployee"
+                            className={`px-4 py-3 flex items-center space-x-4 rounded-md ${
+                              isActiveLink("/home/totalemployee")
+                                ? "btn-style text-white"
+                                : "text-white"
+                            }`}
+                          >
+                            <FaPeopleGroup className="w-6 h-6" />
+                            <span className="-mr-1 font-medium">
+                              Total Employees
+                            </span>
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/home/signup"
+                            className={`px-4 py-3 flex items-center space-x-4 rounded-md ${
+                              isActiveLink("/home/signup")
+                                ? "btn-style text-white"
+                                : "text-white"
+                            }`}
+                          >
+                            <MdManageAccounts className="w-6 h-6" />
+                            <span className="-mr-1 font-medium">
+                              Create Account
+                            </span>
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/home/signupapproval"
+                            className={`px-4 py-3 flex items-center space-x-4 rounded-md ${
+                              isActiveLink("/home/signupapproval")
+                                ? "btn-style text-white"
+                                : "text-white"
+                            }`}
+                          >
+                            <FaChartBar className="w-6 h-6" />
+                            <span className="-mr-1 font-medium">
+                              Signup Approval
+                            </span>
+                          </Link>
+                        </li>
+                      </ul>
+                    )}
                   </li>
 
                   <li>
@@ -175,20 +221,9 @@ const Sidebar = ({ mode, setMode }) => {
                       <span className="-mr-1 font-medium">Reports</span>
                     </Link>
                   </li>
-                  {/* <li>
-                    <Link
-                      to="/home/signupapproval"
-                      className={`px-4 py-3 flex items-center space-x-4 rounded-md ${
-                        isActiveLink("/home/signupapproval")
-                          ? "btn-style text-white"
-                          : "text-white"
-                      }`}>
-                      <FaChartBar className="w-6 h-6" />
-                      <span className="-mr-1 font-medium">Signup Approval</span>
-                    </Link>
-                  </li> */}
                 </>
               )}
+
               <li>
                 <Link
                   to="/home/update-password"
