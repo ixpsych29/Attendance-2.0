@@ -15,9 +15,8 @@ import { CiCalendarDate } from "react-icons/ci";
 import { FaPeopleGroup } from "react-icons/fa6";
 import { CgProfile } from "react-icons/cg";
 import { MdManageAccounts } from "react-icons/md";
-import { RiArrowLeftDoubleLine, RiArrowRightSLine } from "react-icons/ri";
+import { RiArrowRightSLine } from "react-icons/ri";
 import { TbReportSearch } from "react-icons/tb";
-
 import Cookies from "js-cookie";
 
 const Sidebar = ({ mode, setMode }) => {
@@ -161,10 +160,13 @@ const Sidebar = ({ mode, setMode }) => {
                       <FaPeopleGroup className="w-6 h-6" />
                       <span className="-mr-1 font-medium">Employees</span>
                     </Link>
+                  </li>
+
+                  <li>
                     <Link
-                      to="/home/totalemployee"
+                      to="/home/reports"
                       className={`px-4 py-3 flex items-center space-x-4 rounded-md ${
-                        isActiveLink("/home/totalemployee")
+                        isActiveLink("/home/reports")
                           ? "btn-style text-white"
                           : "text-white"
                       }`}
