@@ -1,55 +1,43 @@
-import DataTable from "./DataTable";
-import axios from "axios";
+import { DataTable } from "./DataTable";
 import { useContext, useEffect, useState } from "react";
+import axios from "axios";
 import UserContext from "./UserContext";
-import toast from "react-hot-toast";
 
 const RemainingLeavesReport = () => {
-  const [user, setUser] = useState([]);
-  const { Api_EndPoint, nameUser, leaveCount, unpaidLeaves } =
-    useContext(UserContext);
+  const [users, setUsers] = useState([]);
+  const { Api_EndPoint } = useContext(UserContext);
 
-  const fetchUserLeaves = async () => {
+  const fetchUsers = async () => {
     try {
       const response = await axios.get(`${Api_EndPoint}/api/users`);
-
-      // Filter users by role 'user' and map to include remaining leave data
-      const usersWithRemainingLeaves = response.data
-        .filter((user) => user.role === "user")
-        .map((user) => ({
-          id: user.username,
-          name: user.name,
-          remainingLeaves: user.leaveCount,
-          unpaidLeaves: user.unpaidLeaves,
-        }));
-
-      setUser(usersWithRemainingLeaves);
+      setUsers(response.data.users);
+      console.log(response.data.users);
     } catch (error) {
       console.error("Error fetching users:", error);
-      toast.error("Error fetching users");
     }
   };
 
   useEffect(() => {
-    fetchUserLeaves();
+    fetchUsers();
   }, []);
 
   const leaveColumns = [
-    { field: "id", headerName: "ID", width: 200 },
+    { field: "id", headerName: "ID", width: 100 },
     { field: "name", headerName: "Name", width: 200 },
-    { field: "remainingLeaves", headerName: "Remaining Leaves", width: 150 },
+    { field: "leaveCount", headerName: "Remaining Leaves", width: 150 },
     { field: "unpaidLeaves", headerName: "Unpaid Leaves", width: 150 },
   ];
 
-  const leaveRows = user.map((user, index) => ({
-    id: index + 1, // Use index as the ID
+  const leaveRows = users.map((user, index) => ({
+    id: index + 1,
     name: user.name,
-    remainingLeaves: user.remainingLeaves,
+    leaveCount: user.leaveCount,
     unpaidLeaves: user.unpaidLeaves,
   }));
 
   return (
     <div>
+      <h2>Employee Leave Report</h2>
       <DataTable columns={leaveColumns} rows={leaveRows} />
     </div>
   );

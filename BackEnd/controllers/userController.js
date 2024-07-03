@@ -42,6 +42,7 @@ const getUsers = async (req, res) => {
         profilePicture: user.profilePicture,
         unpaidLeaves: user.unpaidLeaves,
         leaveRequests: leaveDetails,
+        leaveCount: user.leaveCount,
       };
 
       return userWithLeaveCount;
