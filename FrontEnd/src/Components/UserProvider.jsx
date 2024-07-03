@@ -12,10 +12,18 @@ const UserProvider = ({ children }) => {
   const [email, setEmail] = useState("");
   const [nameUser, setNameUser] = useState("");
   const [phNumber, setPhNumber] = useState("");
+  const [leaveCount, setLeaveCount] = useState("");
+  const [unpaidLeaves, setUnpaidLeaves] = useState("");
   const [dob, setDobState] = useState(""); // Renamed the setter function
 
   const setNameOfUser = (name) => {
     setNameUser(name);
+  };
+  const setLeaveCnt = (count) => {
+    setLeaveCount(count);
+  };
+  const setUnpaid = (leave) => {
+    setUnpaidLeaves(leave);
   };
   const setPhoneNumber = (phone) => {
     setPhNumber(phone);
@@ -46,10 +54,12 @@ const UserProvider = ({ children }) => {
         setUserEmail(response.data.email);
         setPhoneNumber(response.data.phoneNumber);
         setDob(response.data.dob); // Set the date of birth
+        setLeaveCnt(response.data.leaveCount);
+        setUnpaid(response.data.unpaidLeaves);
       } else {
         console.error(
           "Error fetching profile picture. Server response:",
-          response.status,
+          response.status
         );
       }
     } catch (error) {
@@ -76,7 +86,10 @@ const UserProvider = ({ children }) => {
         email,
         Api_EndPoint,
         dob,
-      }}>
+        leaveCount,
+        unpaidLeaves,
+      }}
+    >
       {children}
     </UserContext.Provider>
   );

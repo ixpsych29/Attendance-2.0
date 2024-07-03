@@ -1,18 +1,7 @@
-import { Button } from "@mui/material";
-// import React from "react";
-import DataTable from "./DataTable";
+import React from "react";
 
 const Reports = () => {
-  return (
-    <>
-      <div>
-        <Button>Test Button</Button>
-      </div>
-      <div>
-        <DataTable />
-      </div>
-    </>
-  );
+  return <div>Reports</div>;
 };
 
 export default Reports;

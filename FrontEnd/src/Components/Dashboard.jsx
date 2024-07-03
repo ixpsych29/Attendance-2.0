@@ -6,6 +6,7 @@ import axios from "axios";
 import dayjs from "dayjs";
 import UserContext from "./UserContext";
 import { Link } from "react-router-dom";
+import DailyAttendanceChart from "../utilities/DailyAttendanceChart";
 
 const Dashboard = () => {
   const [totalEmployees, setTotalEmployees] = useState(0);
@@ -13,6 +14,15 @@ const Dashboard = () => {
   const [absentEmployees, setAbsentEmployees] = useState(0);
   const [selectedDate, setSelectedDate] = useState(dayjs());
   const { Api_EndPoint } = useContext(UserContext);
+
+  const attendanceData = [
+    { name: "Jon Snow", entranceTime: "09:00", leaveTime: "17:00" },
+    { name: "Cersei Lannister", entranceTime: "09:15", leaveTime: "17:30" },
+    { name: "Jaime Lannister", entranceTime: "09:10", leaveTime: "17:25" },
+    { name: "Arya Stark", entranceTime: "08:50", leaveTime: "16:50" },
+    { name: "Daenerys Targaryen", entranceTime: "09:05", leaveTime: "17:10" },
+    // Add more data as needed
+  ];
 
   useEffect(() => {
     const fetchRecords = async () => {
@@ -64,6 +74,9 @@ const Dashboard = () => {
           selectedDate={selectedDate}
           setSelectedDate={setSelectedDate}
         />
+        <div>
+          <DailyAttendanceChart data={attendanceData} />
+        </div>
       </Container>
     </Box>
   );
