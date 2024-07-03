@@ -210,7 +210,7 @@ const Sidebar = ({ mode, setMode }) => {
 
                   <li>
                     <Link
-                      to="/home/reports"
+                      to="/home/LateComingReport"
                       className={`px-4 py-3 flex items-center space-x-4 rounded-md ${
                         isActiveLink("/home/reports")
                           ? "btn-style text-white"

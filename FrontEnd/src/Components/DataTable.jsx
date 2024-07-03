@@ -1,10 +1,16 @@
 import { DataGrid } from "@mui/x-data-grid";
 
-const DataTable = ({ columns, rows }) => {
+const DataTable = ({ rows, columns }) => {
+  // Ensure each row has a unique id
+  const rowsWithId = rows.map((row, index) => ({
+    ...row,
+    id: row.id || index + 1,
+  }));
+
   return (
     <div style={{ height: 475, width: "100%" }}>
       <DataGrid
-        rows={rows}
+        rows={rowsWithId}
         columns={columns}
         initialState={{
           pagination: {
@@ -18,4 +24,4 @@ const DataTable = ({ columns, rows }) => {
   );
 };
 
-export default DataTable;
+export { DataTable }; // Export DataTable

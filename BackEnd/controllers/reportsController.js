@@ -3,13 +3,12 @@ const Attendance = require("../models/attendanceModel");
 const dayjs = require("dayjs");
 
 // Utility function to calculate late comings
-const getLateComings = async (username, startDate, endDate) => {
+const getLateComings = async (startDate, endDate) => {
   const lateComings = await Attendance.find({
-    username: username,
     entranceTime: { $gte: startDate, $lte: endDate },
-    entranceTime: { $gt: new Date().setHours(12, 0, 0) }, // Assuming 9:00 AM as the start time
+    entranceTime: { $gt: new Date().setHours(12, 0, 0, 0) }, // After 12:00 PM
   });
-  return lateComings.length;
+  return lateComings;
 };
 
 // Report 1: Approved leave requests with leave type 'unpaid' in the last year
@@ -87,24 +86,15 @@ const getMonthlyAttendanceReport = async (req, res) => {
 // Report 4: Late coming report
 const getLateComingReport = async (req, res) => {
   try {
-    // Calculate the date range for the past week
     const reportEndDate = dayjs().endOf("day");
     const reportStartDate = dayjs().subtract(7, "day").startOf("day");
 
-    const users = await User.find({ role: "user" }, { username: 1 });
-
-    const lateComingsData = await Promise.all(
-      users.map(async (user) => {
-        const lateComings = await getLateComings(
-          user.username,
-          reportStartDate.toDate(),
-          reportEndDate.toDate()
-        );
-        return { username: user.username, lateComings };
-      })
+    const lateComings = await getLateComings(
+      reportStartDate.toDate(),
+      reportEndDate.toDate()
     );
 
-    res.status(200).json(lateComingsData);
+    res.status(200).json(lateComings);
   } catch (error) {
     console.error("Error fetching late coming report:", error);
     res.status(500).json({ error: "Internal Server Error" });

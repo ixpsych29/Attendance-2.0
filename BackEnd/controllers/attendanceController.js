@@ -15,12 +15,30 @@ const getTodayAttendances = async (req, res) => {
     const dateParam = req.query.date;
     const date = dateParam ? new Date(dateParam) : new Date();
     date.setHours(0, 0, 0, 0);
+
+    // Query attendances for today
     const attendances = await Attendance.find({
       entranceTime: {
         $gte: date,
         $lt: new Date(date.getTime() + 24 * 60 * 60 * 1000),
       },
     }).sort({ entranceTime: 1 });
+
+    // Mark late entries
+    const lateThreshold = new Date(date);
+    lateThreshold.setHours(11, 30, 0, 0);
+
+    attendances.forEach((att) => {
+      if (att.entranceTime > lateThreshold) {
+        att.late = true;
+      } else {
+        att.late = false;
+      }
+    });
+
+    // Save the updated attendances with late status
+    await Promise.all(attendances.map((att) => att.save()));
+
     res.status(200).json(attendances);
   } catch (error) {
     console.log(error);
