@@ -1,13 +1,17 @@
 const FormatDateTime = (date) => {
   const time = new Date(date);
-  //format date
+  if (isNaN(time)) {
+    return { formattedDate: "Invalid Date", formattedTime: "Invalid Time" };
+  }
+
+  // Format date
   const formattedDate = time.toLocaleDateString("en-US", {
     year: "numeric",
     month: "long",
     day: "2-digit",
   });
 
-  //format Time
+  // Format Time
   let hours = time.getHours();
   const minutes = time.getMinutes();
   const period = hours >= 12 ? "PM" : "AM";

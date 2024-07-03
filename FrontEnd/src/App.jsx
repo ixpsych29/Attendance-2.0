@@ -16,7 +16,8 @@ import AdminLeaveDashboard from "./Components/AdminLeaveDashboard";
 import UserLeaveDashboard from "./Components/UserLeaveDashboard";
 import SignupApprovals from "./Components/SignupApprovals";
 import EmpProfilePage from "./Components/EmpProfilePage";
-import Reports from "./Components/Reports";
+// import Reports from "./Components/Reports";
+import LateComingReport from "./Components/LateComingReport";
 
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
@@ -70,8 +71,8 @@ function App() {
             element={<ProtectedRoute element={<TotalEmployee />} />}
           />
           <Route
-            path="reports"
-            element={<ProtectedRoute element={<Reports />} />}
+            path="LateComingReport"
+            element={<ProtectedRoute element={<LateComingReport />} />}
           />
           {role === "user" && (
             <Route

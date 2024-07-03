@@ -12,7 +12,9 @@ const UserProvider = ({ children }) => {
   const [email, setEmail] = useState("");
   const [nameUser, setNameUser] = useState("");
   const [phNumber, setPhNumber] = useState("");
-  const [dob, setDobState] = useState(""); // Renamed the setter function
+  const [dob, setDobState] = useState("");
+  const [entranceTime, setEntranceTime] = useState(null);
+  const [leaveTime, setLeaveTime] = useState(null);
 
   const setNameOfUser = (name) => {
     setNameUser(name);
@@ -33,7 +35,6 @@ const UserProvider = ({ children }) => {
     setEmail(userEmail);
   };
   const setDob = (userDob) => {
-    // Renamed this function
     setDobState(userDob);
   };
 
@@ -45,11 +46,11 @@ const UserProvider = ({ children }) => {
         setUserProfilePic(response.data.profilePicture);
         setUserEmail(response.data.email);
         setPhoneNumber(response.data.phoneNumber);
-        setDob(response.data.dob); // Set the date of birth
+        setDob(response.data.dob);
       } else {
         console.error(
           "Error fetching profile picture. Server response:",
-          response.status,
+          response.status
         );
       }
     } catch (error) {
@@ -57,8 +58,24 @@ const UserProvider = ({ children }) => {
     }
   };
 
+  const fetchAttendanceTimes = async () => {
+    try {
+      const response = await axios.get(
+        `${Api_EndPoint}/api/reports/late-coming`
+      );
+      if (response.status === 200 && response.data.length > 0) {
+        const latestAttendance = response.data[0];
+        setEntranceTime(new Date(latestAttendance.entranceTime));
+        setLeaveTime(new Date(latestAttendance.leaveTime));
+      }
+    } catch (error) {
+      console.error("Error fetching attendance times:", error);
+    }
+  };
+
   useEffect(() => {
     fetchProfilePicture(username);
+    fetchAttendanceTimes();
   }, [username, Api_EndPoint]);
 
   return (
@@ -76,7 +93,10 @@ const UserProvider = ({ children }) => {
         email,
         Api_EndPoint,
         dob,
-      }}>
+        entranceTime,
+        leaveTime, // Add entranceTime and leaveTime to the context
+      }}
+    >
       {children}
     </UserContext.Provider>
   );
