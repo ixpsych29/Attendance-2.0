@@ -12,7 +12,7 @@ const LateComingReport = () => {
 
   const columns = [
     { field: "username", headerName: "Username", width: 150 },
-    { field: "email", headerName: "Email", width: 200 },
+    // { field: "email", headerName: "Email", width: 200 },
     { field: "leavingTime", headerName: "Leaving Time", width: 180 },
     { field: "entranceTime", headerName: "Entrance Time", width: 180 },
     { field: "entranceDate", headerName: "Entrance Date", width: 120 },
@@ -21,7 +21,7 @@ const LateComingReport = () => {
   useEffect(() => {
     const fetchLateComingsData = async () => {
       try {
-        const response = await axios.get(`${Api_EndPoint}/api/attendance/all`);
+        const response = await axios.get(`${Api_EndPoint}/api/attendance/all/`);
         if (response.status === 200) {
           const formattedData = response.data.map((item, index) => {
             const entranceDateTime = item.entranceTime

@@ -1,5 +1,6 @@
 const dayjs = require("dayjs");
 const Attendance = require("../models/attendanceModel");
+const fetchUsers = require("../controllers/userController").fetchUsers;
 
 //get all history with distinct employee count
 const getAttendance = async (req, res) => {
@@ -121,19 +122,65 @@ const updateAttendance = async (req, res) => {
 
 // Get present attendees for the current date
 const getPresentOnes = async (req, res) => {
+  console.log("sad");
+  //   try {
+  //     const today = new Date();
+  //     today.setHours(0, 0, 0, 0);
+
+  //     const todayAttendances = await Attendance.find({
+  //       entranceTime: {
+  //         $gte: today,
+  //         $lt: new Date(today.getTime() + 24 * 60 * 60 * 1000),
+  //       },
+  //     }).populate("user"); // Assuming Attendance model has a reference to the User model
+
+  //     if (todayAttendances.length === 0) {
+  //       return res.status(200).json([]); // Return an empty array if no present employees
+  //     }
+
+  //     const presentEmployees = todayAttendances.map((att) => ({
+  //       _id: att.user._id,
+  //       name: att.user.name,
+  //       username: att.user.username,
+  //     }));
+
+  //     res.status(200).json(presentEmployees);
+  //   } catch (error) {
+  //     console.error("Error fetching present attendees:", error);
+  //     res.status(500).json({ error: "Internal Server Error" });
+  //   }
+};
+
+const getAbsentOnes = async (req, res) => {
   try {
-    const { entranceTime } = req.body;
-    const employee = await Attendance.find({ entranceTime: entranceTime });
-    if (!employee) {
-      return res.status(404).json({ error: "No user found" });
-    }
-    res.status(200).json(employee);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    // Find today's attendances
+    const todayAttendances = await Attendance.find({
+      entranceTime: {
+        $gte: today,
+        $lt: new Date(today.getTime() + 24 * 60 * 60 * 1000),
+      },
+    });
+
+    // Get usernames of users who have checked in today
+    const presentUsernames = todayAttendances.map((att) => att.username);
+
+    // Retrieve all users using fetchUsers function
+    const allUsers = await fetchUsers({ role: "user" });
+
+    // Filter users who don't have an entrance time for today
+    const absentUsers = allUsers.filter(
+      (user) => !presentUsernames.includes(user.username)
+    );
+
+    res.status(200).json(absentUsers);
   } catch (error) {
-    console.error("Error fetching present attendees:", error);
+    console.error("Error fetching absent attendees:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
-
 const getMonthlyAttendances = async (req, res) => {
   try {
     const { userName } = req.params;
@@ -189,4 +236,5 @@ module.exports = {
   getTodayAttendances,
   getMonthlyAttendances,
   getAttendanceReport,
+  getAbsentOnes,
 };

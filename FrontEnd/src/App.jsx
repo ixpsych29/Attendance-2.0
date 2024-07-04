@@ -18,6 +18,11 @@ import SignupApprovals from "./Components/SignupApprovals";
 import EmpProfilePage from "./Components/EmpProfilePage";
 // import Reports from "./Components/Reports";
 import LateComingReport from "./Components/LateComingReport";
+import RemainingLeavesReport from "./Components/RemainingLeavesReport";
+import ThreeMonthAttendanceReport from "./Components/ThreeMonthAttendanceReport";
+import MonthlyReportOfOneEmp from "./Components/MonthlyReportOfOneEmp";
+import AbsentEmp from "./Components/AbsentEmp";
+import PresentEmp from "./Components/PresentEmp";
 
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
@@ -71,8 +76,30 @@ function App() {
             element={<ProtectedRoute element={<TotalEmployee />} />}
           />
           <Route
+            path="AbsentEmp"
+            element={<ProtectedRoute element={<AbsentEmp />} />}
+          />
+          <Route
+            path="PresentEmp"
+            element={<ProtectedRoute element={<PresentEmp />} />}
+          />
+          <Route
             path="LateComingReport"
             element={<ProtectedRoute element={<LateComingReport />} />}
+          />
+          <Route
+            path="RemainingLeavesReport"
+            element={<ProtectedRoute element={<RemainingLeavesReport />} />}
+          />
+          <Route
+            path="ThreeMonthAttendanceReport"
+            element={
+              <ProtectedRoute element={<ThreeMonthAttendanceReport />} />
+            }
+          />
+          <Route
+            path="MonthlyReportOfOneEmp"
+            element={<ProtectedRoute element={<MonthlyReportOfOneEmp />} />}
           />
           {role === "user" && (
             <Route
