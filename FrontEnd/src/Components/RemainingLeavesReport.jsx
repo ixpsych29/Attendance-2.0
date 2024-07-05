@@ -46,7 +46,12 @@ const RemainingLeavesReport = () => {
   return (
     <div>
       <h2>Employee Leave Report</h2>
-      <button onClick={handleDownloadCSV}>Download CSV</button>
+      <button
+        className="font-bold py-2 px-4 rounded mb-4 btn-style"
+        onClick={handleDownloadCSV}
+      >
+        Download CSV
+      </button>
       <DataTable columns={leaveColumns} rows={leaveRows} />
     </div>
   );

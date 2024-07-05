@@ -104,9 +104,9 @@ const RecordList = ({ selectedDate, setSelectedDate }) => {
   return (
     <TableContainer
       component={Paper}
-      sx={{ mt: 7, ml: "auto", pt: 5, bgcolor: "#DBF3FA" }}
+      sx={{ mt: 1, ml: "auto", pt: 1, bgcolor: "#DBF3FA" }}
     >
-      <Typography variant="h4" textAlign="center" sx={{ mb: 3, color: "#000" }}>
+      {/* <Typography variant="h4" textAlign="center" sx={{ mb: 3, color: "#000" }}>
         {role === "admin"
           ? "Admin Dashboard"
           : `${capitalizedUserName}, Welcome to the Daily log`}
@@ -115,7 +115,7 @@ const RecordList = ({ selectedDate, setSelectedDate }) => {
       <Divider
         variant="middle"
         sx={{ mt: 7, mb: 7, borderColor: "primary.main", borderWidth: 2 }}
-      />
+      /> */}
       {isAdmin ? (
         <Box>
           <Button
