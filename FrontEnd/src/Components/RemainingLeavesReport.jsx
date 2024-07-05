@@ -1,7 +1,11 @@
+//
+
 import { DataTable } from "./DataTable";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import UserContext from "./UserContext";
+import DownloadCSVReport from "./DownladReport"; // Assuming the download function is in this file
+import { toast } from "react-hot-toast";
 
 const RemainingLeavesReport = () => {
   const [users, setUsers] = useState([]);
@@ -35,9 +39,14 @@ const RemainingLeavesReport = () => {
     unpaidLeaves: user.unpaidLeaves,
   }));
 
+  const handleDownloadCSV = () => {
+    DownloadCSVReport(leaveRows, "remaining_leaves");
+  };
+
   return (
     <div>
       <h2>Employee Leave Report</h2>
+      <button onClick={handleDownloadCSV}>Download CSV</button>
       <DataTable columns={leaveColumns} rows={leaveRows} />
     </div>
   );

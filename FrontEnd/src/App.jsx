@@ -23,6 +23,8 @@ import ThreeMonthAttendanceReport from "./Components/ThreeMonthAttendanceReport"
 import MonthlyReportOfOneEmp from "./Components/MonthlyReportOfOneEmp";
 import AbsentEmp from "./Components/AbsentEmp";
 import PresentEmp from "./Components/PresentEmp";
+import RecordList from "./Components/RecordList";
+import DailyAttendance from "./Components/DailyAttendance";
 
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
@@ -100,6 +102,10 @@ function App() {
           <Route
             path="MonthlyReportOfOneEmp"
             element={<ProtectedRoute element={<MonthlyReportOfOneEmp />} />}
+          />
+          <Route
+            path="DailyAttendance"
+            element={<ProtectedRoute element={<DailyAttendance />} />}
           />
           {role === "user" && (
             <Route

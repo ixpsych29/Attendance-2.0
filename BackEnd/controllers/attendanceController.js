@@ -71,6 +71,23 @@ const getOneAttendance = async (req, res) => {
   }
 };
 
+const getWeeklyAttendance = async (req, res) => {
+  try {
+    const { userName } = req.params;
+    const today = new Date();
+    const startDate = new Date(today.setDate(today.getDate() - 7));
+
+    const attendances = await Attendance.find({
+      username: userName,
+      entranceTime: { $gte: startDate, $lte: new Date() },
+    });
+
+    res.status(200).json(attendances);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Internal Server Error!" });
+  }
+};
 //insert new attendance record
 const createAttendance = async (req, res) => {
   const { username, entranceTime } = req.body;
@@ -287,4 +304,5 @@ module.exports = {
   getMonthlyAttendances,
   getAttendanceReport,
   getAbsentOnes,
+  getWeeklyAttendance,
 };
