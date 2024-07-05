@@ -35,10 +35,10 @@ export default function SignupForm() {
       isValid = false;
     }
     if (
-      formData.password.length < 7 ||
+      formData.password.length <= 7 ||
       formData.password.length > 15 ||
       !/^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*()_+=\-{}|:;\\'\\",<.>/?\\`~]).{8,}$/.test(
-        formData.password,
+        formData.password
       )
     ) {
       newErrors.password =
@@ -62,11 +62,11 @@ export default function SignupForm() {
     if (validateForm()) {
       try {
         const usernameExists = await axios.get(
-          `${Api_EndPoint}${apiEndpoint}/exists/${formData.userName}`,
+          `${Api_EndPoint}${apiEndpoint}/exists/${formData.userName}`
         );
         if (usernameExists.data.exists) {
           toast.error(
-            "Username already exists. Please choose a different username.",
+            "Username already exists. Please choose a different username."
           );
           return;
         }
@@ -111,7 +111,8 @@ export default function SignupForm() {
         <div className="w-full px-8 md:px-32 lg:px-24">
           <form
             className="bg-[#DBF3FA] rounded-md shadow-2xl p-5 mb-10"
-            onSubmit={handleSubmit}>
+            onSubmit={handleSubmit}
+          >
             <h1 className="text-gray-800 font-bold text-2xl mb-10 flex flex-col justify-center  ">
               SignUp
             </h1>
@@ -121,7 +122,8 @@ export default function SignupForm() {
                 className="h-5 w-5 text-black-400"
                 fill="none"
                 viewBox="0 0 24 24"
-                stroke="currentColor">
+                stroke="currentColor"
+              >
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -151,7 +153,8 @@ export default function SignupForm() {
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-5 text-black-400"
                 viewBox="0 0 20 20"
-                fill="currentColor">
+                fill="currentColor"
+              >
                 <path
                   fillRule="evenodd"
                   d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
@@ -180,7 +183,8 @@ export default function SignupForm() {
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-5 text-black-400"
                 viewBox="0 0 20 20"
-                fill="currentColor">
+                fill="currentColor"
+              >
                 <path
                   fillRule="evenodd"
                   d="M2 5a2 2 0 012-2h12a2 2 0 012 2v5a2 2 0 01-2 2H4a2 2 0 01-2-2V5zm2-2a1 1 0 00-1 1v5a1 1 0 001 1h12a1 1 0 001-1V4a1 1 0 00-1-1H4z"
@@ -213,7 +217,8 @@ export default function SignupForm() {
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-5 text-black-400"
                 viewBox="0 0 20 20"
-                fill="currentColor">
+                fill="currentColor"
+              >
                 <path
                   fillRule="evenodd"
                   d="M3 8a2 2 0 012-2h2a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8zm4-2a1 1 0 00-1-1h2a1 1 0 000-2H6a1 1 0 00-1 1v2zM5 16a1 1 0 100-2h10a1 1 0 100 2H5z"
@@ -235,14 +240,16 @@ export default function SignupForm() {
               <button
                 type="button"
                 className="focus:outline-none ml-auto"
-                onClick={() => setShowPassword(!showPassword)}>
+                onClick={() => setShowPassword(!showPassword)}
+              >
                 {showPassword ? (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-5 w-5 text-black-400 cursor-pointer"
                     fill="none"
                     viewBox="0 0 24 24"
-                    stroke="currentColor">
+                    stroke="currentColor"
+                  >
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -256,7 +263,8 @@ export default function SignupForm() {
                     className="h-5 w-5 text-black-400 cursor-pointer"
                     fill="none"
                     viewBox="0 0 24 24"
-                    stroke="currentColor">
+                    stroke="currentColor"
+                  >
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -281,7 +289,8 @@ export default function SignupForm() {
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-5 text-black-400"
                 viewBox="0 0 20 20"
-                fill="currentColor">
+                fill="currentColor"
+              >
                 <path
                   fillRule="evenodd"
                   d="M3 8a2 2 0 012-2h2a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8zm4-2a1 1 0 00-1-1h2a1 1 0 000-2H6a1 1 0 00-1 1v2zM5 16a1 1 0 100-2h10a1 1 0 100 2H5z"
@@ -311,7 +320,8 @@ export default function SignupForm() {
                     className="h-5 w-5 text-black-400 cursor-pointer"
                     fill="none"
                     viewBox="0 0 24 24"
-                    stroke="currentColor">
+                    stroke="currentColor"
+                  >
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -331,7 +341,8 @@ export default function SignupForm() {
                     className="h-5 w-5 text-black-400 cursor-pointer"
                     fill="none"
                     viewBox="0 0 24 24"
-                    stroke="currentColor">
+                    stroke="currentColor"
+                  >
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -351,7 +362,8 @@ export default function SignupForm() {
             <div className="flex justify-between items-center mb-8">
               <button
                 type="submit"
-                className="focus:outline-none bg-cyan-400 hover:bg-cyan-500 text-white font-bold py-2 px-8 rounded-2xl">
+                className="focus:outline-none bg-cyan-400 hover:bg-cyan-500 text-white font-bold py-2 px-8 rounded-2xl"
+              >
                 Register
               </button>
               {/* <RouterLink
@@ -361,7 +373,8 @@ export default function SignupForm() {
               </RouterLink> */}
               <RouterLink
                 to="/home"
-                className="text-sm text-gray-600 hover:underline">
+                className="text-sm text-gray-600 hover:underline"
+              >
                 <button className="focus:outline-none bg-cyan-400 hover:bg-cyan-500 text-white font-bold py-2 px-8 rounded-2xl">
                   Admin Dashboard
                 </button>

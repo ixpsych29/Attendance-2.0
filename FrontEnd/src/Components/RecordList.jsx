@@ -57,6 +57,7 @@ const RecordList = ({ selectedDate, setSelectedDate }) => {
   const handleDateChange = (newDate) => {
     setSelectedDate(newDate);
   };
+
   const handleMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -87,6 +88,7 @@ const RecordList = ({ selectedDate, setSelectedDate }) => {
       console.error("Error generating CSV report", error);
     }
   };
+
   const handleLastMonthClick = () => {
     // Set the date range to last month
     setDateRange({
@@ -95,24 +97,25 @@ const RecordList = ({ selectedDate, setSelectedDate }) => {
     });
     setShowPreviousMonth(true);
   };
+
   const capitalizedUserName =
     username.charAt(0).toUpperCase() + username.slice(1);
 
   return (
     <TableContainer
       component={Paper}
-      sx={{ mt: 7, ml: "auto", pt: 5, bgcolor: "#DBF3FA" }}
+      sx={{ mt: 1, ml: "auto", pt: 1, bgcolor: "#DBF3FA" }}
     >
-      <Typography variant="h4" textAlign="center" sx={{ mb: 3, color: "#000" }}>
+      {/* <Typography variant="h4" textAlign="center" sx={{ mb: 3, color: "#000" }}>
         {role === "admin"
           ? "Admin Dashboard"
           : `${capitalizedUserName}, Welcome to the Daily log`}
-      </Typography>
+      </Typography> */}
 
-      <Divider
+      {/* <Divider
         variant="middle"
         sx={{ mt: 7, mb: 7, borderColor: "primary.main", borderWidth: 2 }}
-      />
+      /> */}
       {isAdmin ? (
         <Box>
           <Button

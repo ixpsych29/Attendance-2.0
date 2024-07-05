@@ -16,6 +16,15 @@ import AdminLeaveDashboard from "./Components/AdminLeaveDashboard";
 import UserLeaveDashboard from "./Components/UserLeaveDashboard";
 import SignupApprovals from "./Components/SignupApprovals";
 import EmpProfilePage from "./Components/EmpProfilePage";
+// import Reports from "./Components/Reports";
+import LateComingReport from "./Components/LateComingReport";
+import RemainingLeavesReport from "./Components/RemainingLeavesReport";
+import ThreeMonthAttendanceReport from "./Components/ThreeMonthAttendanceReport";
+import MonthlyReportOfOneEmp from "./Components/MonthlyReportOfOneEmp";
+import AbsentEmp from "./Components/AbsentEmp";
+import PresentEmp from "./Components/PresentEmp";
+import RecordList from "./Components/RecordList";
+import DailyAttendance from "./Components/DailyAttendance";
 
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
@@ -42,7 +51,8 @@ function App() {
           path="/home/"
           element={
             <ProtectedRoute element={<Home login={setAuthenticated} />} />
-          }>
+          }
+        >
           {role === "user" && <Route index element={<UserDashboard />} />}
           {role === "admin" && <Route index element={<Dashboard />} />}
           {role === "admin" && (
@@ -66,6 +76,36 @@ function App() {
           <Route
             path="totalemployee"
             element={<ProtectedRoute element={<TotalEmployee />} />}
+          />
+          <Route
+            path="AbsentEmp"
+            element={<ProtectedRoute element={<AbsentEmp />} />}
+          />
+          <Route
+            path="PresentEmp"
+            element={<ProtectedRoute element={<PresentEmp />} />}
+          />
+          <Route
+            path="LateComingReport"
+            element={<ProtectedRoute element={<LateComingReport />} />}
+          />
+          <Route
+            path="RemainingLeavesReport"
+            element={<ProtectedRoute element={<RemainingLeavesReport />} />}
+          />
+          <Route
+            path="ThreeMonthAttendanceReport"
+            element={
+              <ProtectedRoute element={<ThreeMonthAttendanceReport />} />
+            }
+          />
+          <Route
+            path="MonthlyReportOfOneEmp"
+            element={<ProtectedRoute element={<MonthlyReportOfOneEmp />} />}
+          />
+          <Route
+            path="DailyAttendance"
+            element={<ProtectedRoute element={<DailyAttendance />} />}
           />
           {role === "user" && (
             <Route

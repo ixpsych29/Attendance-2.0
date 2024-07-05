@@ -5,6 +5,8 @@ const mongoose = require("mongoose");
 const path = require("path");
 const userRoutes = require("./routes/userRoutes");
 const attendanceRoutes = require("./routes/attendanceRoutes");
+const reportRoutes = require("./routes/reportsRoutes"); // Import report routes
+
 const migrateAdminUser = require("./migration/migrateAdminUser");
 const fs = require("fs");
 const https = require("https");
@@ -35,6 +37,7 @@ app.use((req, res, next) => {
 // Routes
 app.use("/api/users", userRoutes);
 app.use("/api/attendance", attendanceRoutes);
+app.use("/api/reports", reportRoutes); // Register report routes
 
 // Connect to DB
 mongoose

@@ -14,8 +14,15 @@ import {
 import { CiCalendarDate } from "react-icons/ci";
 import { FaPeopleGroup } from "react-icons/fa6";
 import { CgProfile } from "react-icons/cg";
-import { MdManageAccounts } from "react-icons/md";
-import { RiArrowLeftDoubleLine, RiArrowRightSLine } from "react-icons/ri";
+import { BiSolidReport } from "react-icons/bi";
+
+import {
+  MdCalendarMonth,
+  MdManageAccounts,
+  MdOutlineWatchLater,
+} from "react-icons/md";
+import { RiArrowRightSLine } from "react-icons/ri";
+import { TbReport, TbReportSearch } from "react-icons/tb";
 import Cookies from "js-cookie";
 
 const Sidebar = ({ mode, setMode }) => {
@@ -23,7 +30,7 @@ const Sidebar = ({ mode, setMode }) => {
   const location = useLocation();
   const [darkMode, setDarkMode] = useState(false);
   const [showSidebar, setShowSidebar] = useState(true);
-  const [showLeavesSubMenu, setShowLeavesSubMenu] = useState(false);
+  const [openSubMenu, setOpenSubMenu] = useState(null);
 
   const isAdmin = role === "admin";
   const isUser = role === "user";
@@ -44,15 +51,15 @@ const Sidebar = ({ mode, setMode }) => {
   };
 
   const logout = () => {
-    // Clear the cookie named 'yourCookieName'
     Cookies.remove("authToken");
-    // Perform any additional logout logic
     login(false);
   };
 
   const toggleSidebar = () => setShowSidebar(!showSidebar);
 
-  const toggleLeavesSubMenu = () => setShowLeavesSubMenu(!showLeavesSubMenu);
+  const toggleSubMenu = (menu) => {
+    setOpenSubMenu(openSubMenu === menu ? null : menu);
+  };
 
   useEffect(() => {
     if (
@@ -62,33 +69,15 @@ const Sidebar = ({ mode, setMode }) => {
         "/home/adminleavedashboard",
       ].includes(location.pathname)
     ) {
-      setShowLeavesSubMenu(false);
+      setOpenSubMenu(null);
     }
   }, [location]);
 
   return (
     <div>
-      {/* {showSidebar ? (
-        <RiArrowLeftDoubleLine
-          onClick={toggleSidebar}
-          className="fixed z-50 ml-72 mt-80 text-[#19B0E7] text-3xl focus:outline-none transform cursor-pointer"
-          title="Close Sidebar"
-        />
-      ) : (
-        <RiArrowLeftDoubleLine
-          onClick={toggleSidebar}
-          className="fixed z-50 ml-2 mt-80 rotate-180 text-[#19B0E7] text-3xl focus:outline-none transform cursor-pointer"
-          title="Open Sidebar"
-        />
-      )} */}
       {showSidebar && (
-        <aside className="sidebar fixed z-10 top-0 pb-14 px-6 w-full flex flex-col justify-between h-screen border-r transition duration-300  bg-[#19b0e7]">
+        <aside className="sidebar fixed z-10 top-0 pb-14 px-6 w-full flex flex-col justify-between h-screen border-r transition duration-300 bg-[#19b0e7]">
           <div>
-            {/* <img
-              src="/src/assets/Images/sidebarlogo.png"
-              alt="Your Logo"
-              style={{ marginTop: "20px" }}
-            /> */}
             <div className="h-[2px] bg-white opacity-50 my-2" />
             <ul className="space-y-2 tracking-wide">
               <li>
@@ -135,45 +124,175 @@ const Sidebar = ({ mode, setMode }) => {
               {isAdmin && (
                 <>
                   <li>
-                    <Link
-                      to="/home/signup"
-                      className={`px-4 py-3 flex items-center space-x-4 rounded-md ${
-                        isActiveLink("/home/signup")
+                    <div
+                      className={`px-4 py-3 flex items-center space-x-4 rounded-md cursor-pointer ${
+                        openSubMenu === "employees"
                           ? "btn-style text-white"
                           : "text-white"
                       }`}
-                    >
-                      <MdManageAccounts className="w-6 h-6" />
-                      <span className="-mr-1 font-medium">Create Account</span>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to="/home/totalemployee"
-                      className={`px-4 py-3 flex items-center space-x-4 rounded-md ${
-                        isActiveLink("/home/totalemployee")
-                          ? "btn-style text-white"
-                          : "text-white"
-                      }`}
+                      onClick={() => toggleSubMenu("employees")}
                     >
                       <FaPeopleGroup className="w-6 h-6" />
                       <span className="-mr-1 font-medium">Employees</span>
-                    </Link>
+                      <RiArrowRightSLine
+                        className={`text-white ${
+                          openSubMenu === "employees" ? "rotate-90" : ""
+                        }`}
+                      />
+                    </div>
+                    {openSubMenu === "employees" && (
+                      <ul className="space-y-2 tracking-wide">
+                        <li>
+                          <Link
+                            to="/home/totalemployee"
+                            className={`px-4 py-3 flex items-center space-x-4 rounded-md ${
+                              isActiveLink("/home/totalemployee")
+                                ? "btn-style text-white"
+                                : "text-white"
+                            }`}
+                          >
+                            <FaPeopleGroup className="w-6 h-6" />
+                            <span className="-mr-1 font-medium">
+                              Total Employees
+                            </span>
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/home/signup"
+                            className={`px-4 py-3 flex items-center space-x-4 rounded-md ${
+                              isActiveLink("/home/signup")
+                                ? "btn-style text-white"
+                                : "text-white"
+                            }`}
+                          >
+                            <MdManageAccounts className="w-6 h-6" />
+                            <span className="-mr-1 font-medium">
+                              Create Account
+                            </span>
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/home/signupapproval"
+                            className={`px-4 py-3 flex items-center space-x-4 rounded-md ${
+                              isActiveLink("/home/signupapproval")
+                                ? "btn-style text-white"
+                                : "text-white"
+                            }`}
+                          >
+                            <FaChartBar className="w-6 h-6" />
+                            <span className="-mr-1 font-medium">
+                              Signup Approval
+                            </span>
+                          </Link>
+                        </li>
+                      </ul>
+                    )}
                   </li>
-                  {/* <li>
-                    <Link
-                      to="/home/signupapproval"
-                      className={`px-4 py-3 flex items-center space-x-4 rounded-md ${
-                        isActiveLink("/home/signupapproval")
+
+                  <li>
+                    <div
+                      className={`px-4 py-3 flex items-center space-x-4 rounded-md cursor-pointer ${
+                        openSubMenu === "reports"
                           ? "btn-style text-white"
                           : "text-white"
-                      }`}>
+                      }`}
+                      onClick={() => toggleSubMenu("reports")}
+                    >
+                      <TbReportSearch className="w-6 h-6" />
+                      <span className="-mr-1 font-medium">Reports</span>
+                      <RiArrowRightSLine
+                        className={`text-white ${
+                          openSubMenu === "reports" ? "rotate-90" : ""
+                        }`}
+                      />
+                    </div>
+                    {openSubMenu === "reports" && (
+                      <ul className="space-y-2 tracking-wide">
+                        <li>
+                          <Link
+                            to="/home/LateComingReport"
+                            className={`px-4 py-3 flex items-center space-x-4 rounded-md ${
+                              isActiveLink("/home/LateComingReport")
+                                ? "btn-style text-white"
+                                : "text-white"
+                            }`}
+                          >
+                            <MdOutlineWatchLater className="w-6 h-6" />
+                            <span className="-mr-1 font-medium">
+                              Late Coming
+                            </span>
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/home/RemainingLeavesReport"
+                            className={`px-4 py-3 flex items-center space-x-4 rounded-md ${
+                              isActiveLink("/home/RemainingLeavesReport")
+                                ? "btn-style text-white"
+                                : "text-white"
+                            }`}
+                          >
+                            <MdCalendarMonth className="w-6 h-6" />
+                            <span className="-mr-1 font-medium">
+                              Leaves Count
+                            </span>
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/home/ThreeMonthAttendanceReport"
+                            className={`px-4 py-3 flex items-center space-x-4 rounded-md ${
+                              isActiveLink("/home/ThreeMonthAttendanceReport")
+                                ? "btn-style text-white"
+                                : "text-white"
+                            }`}
+                          >
+                            <TbReport className="w-6 h-6" />
+                            <span className="-mr-1 font-medium">
+                              3 Month Report
+                            </span>
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/home/MonthlyReportOfOneEmp"
+                            className={`px-4 py-3 flex items-center space-x-4 rounded-md ${
+                              isActiveLink("/home/MonthlyReportOfOneEmp")
+                                ? "btn-style text-white"
+                                : "text-white"
+                            }`}
+                          >
+                            <BiSolidReport className="w-6 h-6" />
+                            <span className="-mr-1 font-medium">
+                              Monthly Report
+                            </span>
+                          </Link>
+                        </li>
+                      </ul>
+                    )}
+                  </li>
+
+                  {/* New Record List Menu Item */}
+                  <li>
+                    <Link
+                      to="/home/DailyAttendance"
+                      className={`px-4 py-3 flex items-center space-x-4 rounded-md ${
+                        isActiveLink("/home/DailyAttendance")
+                          ? "btn-style text-white"
+                          : "text-white"
+                      }`}
+                    >
                       <FaChartBar className="w-6 h-6" />
-                      <span className="-mr-1 font-medium">Signup Approval</span>
+                      <span className="-mr-1 font-medium">
+                        Daily Attendance
+                      </span>
                     </Link>
-                  </li> */}
+                  </li>
                 </>
               )}
+
               <li>
                 <Link
                   to="/home/update-password"
@@ -190,19 +309,21 @@ const Sidebar = ({ mode, setMode }) => {
               <li>
                 <div
                   className={`px-4 py-3 flex items-center space-x-4 rounded-md cursor-pointer ${
-                    showLeavesSubMenu ? "btn-style text-white" : "text-white"
+                    openSubMenu === "leaves"
+                      ? "btn-style text-white"
+                      : "text-white"
                   }`}
-                  onClick={toggleLeavesSubMenu}
+                  onClick={() => toggleSubMenu("leaves")}
                 >
                   <CiCalendarDate className="w-6 h-6" />
                   <span className="-mr-1 font-medium">Leaves</span>
                   <RiArrowRightSLine
                     className={`text-white ${
-                      showLeavesSubMenu ? "rotate-90" : ""
+                      openSubMenu === "leaves" ? "rotate-90" : ""
                     }`}
                   />
                 </div>
-                {showLeavesSubMenu && (
+                {openSubMenu === "leaves" && (
                   <ul className="space-y-2 tracking-wide">
                     <li>
                       <Link
@@ -256,7 +377,7 @@ const Sidebar = ({ mode, setMode }) => {
               </li>
             </ul>
           </div>
-          <div className="px-6 -mx-6 pt-4 flex justify-between items-center border-t mb-0.1">
+          {/* <div className="px-6 -mx-6 pt-4 flex justify-between items-center border-t mb-0.1">
             <button
               onClick={toggleDarkMode}
               className="px-4 py-3 flex flex-col items-center rounded-md text-white group transition duration-300 ease-in-out transform hover:scale-110"
@@ -274,7 +395,7 @@ const Sidebar = ({ mode, setMode }) => {
                 <span>Logout</span>
               </Link>
             </button>
-          </div>
+          </div> */}
         </aside>
       )}
     </div>

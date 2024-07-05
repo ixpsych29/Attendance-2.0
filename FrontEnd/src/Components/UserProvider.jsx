@@ -12,10 +12,20 @@ const UserProvider = ({ children }) => {
   const [email, setEmail] = useState("");
   const [nameUser, setNameUser] = useState("");
   const [phNumber, setPhNumber] = useState("");
-  const [dob, setDobState] = useState(""); // Renamed the setter function
+  const [leaveCount, setLeaveCount] = useState("");
+  const [unpaidLeaves, setUnpaidLeaves] = useState("");
+  const [dob, setDobState] = useState("");
+  const [entranceTime, setEntranceTime] = useState(null);
+  const [leaveTime, setLeaveTime] = useState(null);
 
   const setNameOfUser = (name) => {
     setNameUser(name);
+  };
+  const setLeaveCnt = (count) => {
+    setLeaveCount(count);
+  };
+  const setUnpaid = (leave) => {
+    setUnpaidLeaves(leave);
   };
   const setPhoneNumber = (phone) => {
     setPhNumber(phone);
@@ -33,7 +43,6 @@ const UserProvider = ({ children }) => {
     setEmail(userEmail);
   };
   const setDob = (userDob) => {
-    // Renamed this function
     setDobState(userDob);
   };
 
@@ -46,10 +55,12 @@ const UserProvider = ({ children }) => {
         setUserEmail(response.data.email);
         setPhoneNumber(response.data.phoneNumber);
         setDob(response.data.dob); // Set the date of birth
+        setLeaveCnt(response.data.leaveCount);
+        setUnpaid(response.data.unpaidLeaves);
       } else {
         console.error(
           "Error fetching profile picture. Server response:",
-          response.status,
+          response.status
         );
       }
     } catch (error) {
@@ -57,8 +68,24 @@ const UserProvider = ({ children }) => {
     }
   };
 
+  const fetchAttendanceTimes = async () => {
+    try {
+      const response = await axios.get(
+        `${Api_EndPoint}/api/reports/late-coming`
+      );
+      if (response.status === 200 && response.data.length > 0) {
+        const latestAttendance = response.data[0];
+        setEntranceTime(new Date(latestAttendance.entranceTime));
+        setLeaveTime(new Date(latestAttendance.leaveTime));
+      }
+    } catch (error) {
+      console.error("Error fetching attendance times:", error);
+    }
+  };
+
   useEffect(() => {
     fetchProfilePicture(username);
+    fetchAttendanceTimes();
   }, [username, Api_EndPoint]);
 
   return (
@@ -76,7 +103,12 @@ const UserProvider = ({ children }) => {
         email,
         Api_EndPoint,
         dob,
-      }}>
+        entranceTime,
+        leaveTime, // Add entranceTime and leaveTime to the context
+        leaveCount,
+        unpaidLeaves,
+      }}
+    >
       {children}
     </UserContext.Provider>
   );

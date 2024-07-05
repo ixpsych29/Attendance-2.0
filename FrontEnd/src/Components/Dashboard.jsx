@@ -6,6 +6,9 @@ import axios from "axios";
 import dayjs from "dayjs";
 import UserContext from "./UserContext";
 import { Link } from "react-router-dom";
+// import DailyAttendanceChart from "../utilities/DailyAttendanceChart";
+import AttendancePercentMonthly from "../utilities/AttendancePercentMonthly";
+import LateUsersPieChart from "../utilities/LateUsersPieChart";
 
 const Dashboard = () => {
   const [totalEmployees, setTotalEmployees] = useState(0);
@@ -48,22 +51,33 @@ const Dashboard = () => {
     <Box>
       <CssBaseline />
 
-      <Container>
+      <Container className="overflow-y-hidden">
         <div className="flex justify-between mx-auto mb-10">
           <Link to="/home/totalemployee" style={{ textDecoration: "none" }}>
             <DisplayCard title="Total" count={totalEmployees} />
           </Link>
-          <Link to="/home" style={{ textDecoration: "none" }}>
+          <Link to="/home/PresentEmp" style={{ textDecoration: "none" }}>
             <DisplayCard title="Present" count={presentEmployees} />
           </Link>
-          <Link to="/home" style={{ textDecoration: "none" }}>
+          <Link to="/home/AbsentEmp" style={{ textDecoration: "none" }}>
             <DisplayCard title="Absent" count={absentEmployees} />
           </Link>
         </div>
-        <RecordList
+        {/* <RecordList
           selectedDate={selectedDate}
           setSelectedDate={setSelectedDate}
-        />
+        /> */}
+        <div className="flex">
+          <div
+            className="flex-grow"
+            style={{ marginTop: "40px", flexBasis: "70%" }}
+          >
+            <AttendancePercentMonthly />
+          </div>
+          <div className="flex-none" style={{ flexBasis: "30%" }}>
+            <LateUsersPieChart />
+          </div>
+        </div>
       </Container>
     </Box>
   );
