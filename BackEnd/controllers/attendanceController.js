@@ -122,33 +122,26 @@ const updateAttendance = async (req, res) => {
 
 // Get present attendees for the current date
 const getPresentOnes = async (req, res) => {
-  console.log("sad");
-  //   try {
-  //     const today = new Date();
-  //     today.setHours(0, 0, 0, 0);
+  try {
+    const startOfDay = new Date();
+    startOfDay.setHours(0, 0, 0, 0);
 
-  //     const todayAttendances = await Attendance.find({
-  //       entranceTime: {
-  //         $gte: today,
-  //         $lt: new Date(today.getTime() + 24 * 60 * 60 * 1000),
-  //       },
-  //     }).populate("user"); // Assuming Attendance model has a reference to the User model
+    const endOfDay = new Date();
+    endOfDay.setHours(23, 59, 59, 999);
 
-  //     if (todayAttendances.length === 0) {
-  //       return res.status(200).json([]); // Return an empty array if no present employees
-  //     }
+    // Assuming that `entranceTime` being non-null and within today's date signifies presence
+    const presentEmployees = await Attendance.find({
+      entranceTime: {
+        $gte: startOfDay,
+        $lte: endOfDay,
+      },
+    });
 
-  //     const presentEmployees = todayAttendances.map((att) => ({
-  //       _id: att.user._id,
-  //       name: att.user.name,
-  //       username: att.user.username,
-  //     }));
-
-  //     res.status(200).json(presentEmployees);
-  //   } catch (error) {
-  //     console.error("Error fetching present attendees:", error);
-  //     res.status(500).json({ error: "Internal Server Error" });
-  //   }
+    res.status(200).json(presentEmployees);
+  } catch (error) {
+    console.error("Error fetching present employees:", error);
+    res.status(500).json({ message: "Error fetching present employees" });
+  }
 };
 
 const getAbsentOnes = async (req, res) => {
