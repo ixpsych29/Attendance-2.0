@@ -1,6 +1,7 @@
 const dayjs = require("dayjs");
 const Attendance = require("../models/attendanceModel");
 const fetchUsers = require("../controllers/userController").fetchUsers;
+const User = require("../models/userModel");
 
 //get all history with distinct employee count
 const getAttendance = async (req, res) => {
@@ -140,24 +141,80 @@ const updateAttendance = async (req, res) => {
 // Get present attendees for the current date
 const getPresentOnes = async (req, res) => {
   try {
-    const startOfDay = new Date();
-    startOfDay.setHours(0, 0, 0, 0);
+    const currentDate = new Date();
+    const firstDayOfMonth = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth(),
+      1
+    );
+    const lastDayOfMonth = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth() + 1,
+      0
+    );
+    const daysInMonth = lastDayOfMonth.getDate();
 
-    const endOfDay = new Date();
-    endOfDay.setHours(23, 59, 59, 999);
+    // Get total number of users
+    const totalUsers = await User.countDocuments({ role: "user" });
 
-    // Assuming that `entranceTime` being non-null and within today's date signifies presence
-    const presentEmployees = await Attendance.find({
-      entranceTime: {
-        $gte: startOfDay,
-        $lte: endOfDay,
+    const attendanceData = await Attendance.aggregate([
+      {
+        $match: {
+          entranceTime: {
+            $gte: firstDayOfMonth,
+            $lte: lastDayOfMonth,
+          },
+        },
       },
+      {
+        $group: {
+          _id: { $dateToString: { format: "%Y-%m-%d", date: "$entranceTime" } },
+          count: { $sum: 1 },
+        },
+      },
+      {
+        $project: {
+          date: "$_id",
+          presentPercentage: {
+            $multiply: [{ $divide: ["$count", totalUsers] }, 100],
+          },
+        },
+      },
+    ]);
+
+    // Create an array with all days of the month
+    const allDays = Array.from({ length: daysInMonth }, (_, i) => {
+      const day = new Date(
+        currentDate.getFullYear(),
+        currentDate.getMonth(),
+        i + 1
+      );
+      return {
+        date: day.toISOString().split("T")[0],
+        presentPercentage: 0,
+        absentPercentage: 100,
+      };
     });
 
-    res.status(200).json(presentEmployees);
+    // Merge attendance data with all days
+    const mergedData = allDays.map((day) => {
+      const matchingDay = attendanceData.find((d) => d.date === day.date);
+      if (matchingDay) {
+        return {
+          ...matchingDay,
+          absentPercentage: 100 - matchingDay.presentPercentage,
+        };
+      }
+      return day;
+    });
+
+    res.status(200).json(mergedData);
   } catch (error) {
-    console.error("Error fetching present employees:", error);
-    res.status(500).json({ message: "Error fetching present employees" });
+    console.error("Error fetching attendance data:", error);
+    res.status(500).json({
+      message: "Error fetching attendance data",
+      error: error.message,
+    });
   }
 };
 
