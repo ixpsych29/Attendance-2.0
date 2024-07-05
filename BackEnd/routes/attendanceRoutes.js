@@ -13,7 +13,7 @@ const {
 
 const router = express.Router();
 
-router.post("/present-users", getPresentOnes);
+router.get("/present-users", getPresentOnes);
 // router.get("/absent", getAbsentOnes);
 router.get("/absent-users", getAbsentOnes);
 
