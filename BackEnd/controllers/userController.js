@@ -462,6 +462,18 @@ const updateLeaveRequest = async (req, res) => {
   }
 };
 
+const fetchUsers = async (filter = {}) => {
+  try {
+    const users = await User.find(filter)
+      .sort({ created_at: 1 })
+      .populate("leaveRequests");
+    return users;
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    throw new Error("Internal Server Error");
+  }
+};
+
 //exporting modules
 module.exports = {
   getUsers,
@@ -475,4 +487,5 @@ module.exports = {
   upload,
   UserExist,
   updateLeaveRequest,
+  fetchUsers,
 };
