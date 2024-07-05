@@ -54,11 +54,17 @@ const AttendancePercentMonthly = () => {
         width: "100%",
         height: 400,
         padding: "20px",
-        backgroundColor: "#f3f4f7",
+        backgroundColor: "#ffc64c",
         borderRadius: "10px",
       }}
     >
-      <h2 style={{ textAlign: "center", color: "#333", marginBottom: "20px" }}>
+      <h2
+        style={{
+          textAlign: "center",
+          color: "#29406d",
+          marginBottom: "20px",
+        }}
+      >
         Monthly Attendance Percentage
       </h2>
       <ResponsiveContainer>
@@ -68,19 +74,19 @@ const AttendancePercentMonthly = () => {
             top: 5,
             right: 30,
             left: 20,
-            bottom: 5,
+            bottom: 30,
           }}
         >
           <XAxis
             dataKey="date"
             tickFormatter={formatXAxis}
-            stroke="#888"
-            tick={{ fill: "#888", fontSize: 12 }}
+            stroke="#29406d"
+            tick={{ fill: "#29406d", fontSize: 12 }}
           />
           <YAxis
             domain={[0, 100]}
-            stroke="#888"
-            tick={{ fill: "#888", fontSize: 12 }}
+            stroke="#29406d"
+            tick={{ fill: "#29406d", fontSize: 12 }}
           />
           <Tooltip
             labelFormatter={formatTooltipLabel}
