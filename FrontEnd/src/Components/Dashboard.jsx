@@ -63,10 +63,10 @@ const Dashboard = () => {
             <DisplayCard title="Absent" count={absentEmployees} />
           </Link>
         </div>
-        <RecordList
+        {/* <RecordList
           selectedDate={selectedDate}
           setSelectedDate={setSelectedDate}
-        />
+        /> */}
         <div>
           <LateUsersPieChart />
         </div>

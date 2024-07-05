@@ -1,5 +1,4 @@
 import convertArrayToCSV from "convert-array-to-csv";
-import FormatDateTime from "./FormatDateTime";
 import toast from "react-hot-toast";
 
 const DownloadCSVReport = async (reportData, reportType) => {
@@ -9,20 +8,28 @@ const DownloadCSVReport = async (reportData, reportType) => {
       return;
     }
 
-    // Extract relevant data for CSV
+    // Gather all unique keys from the data
+    const allKeys = new Set();
+    reportData.forEach((record) => {
+      Object.keys(record).forEach((key) => allKeys.add(key));
+    });
+
+    // Convert the set to an array for easier processing
+    const keysArray = Array.from(allKeys);
+
+    // Extract relevant data for CSV and ensure all fields are included
     const csvData = reportData.map((record) => {
-      return {
-        username: record.username,
-        date: FormatDateTime(record.entranceTime).formattedDate,
-        entranceTime: FormatDateTime(record.entranceTime).formattedTime,
-        leavingTime: record.leavingTime
-          ? FormatDateTime(record.leavingTime).formattedTime
-          : "Not Checked Out",
-      };
+      const formattedRecord = {};
+      keysArray.forEach((key) => {
+        formattedRecord[key] = record[key] || "";
+      });
+      return formattedRecord;
     });
 
     // Convert array to CSV
-    const csvContent = convertArrayToCSV(csvData);
+    const csvContent = convertArrayToCSV(csvData, {
+      header: keysArray,
+    });
 
     // Set the file name based on the report type
     const fileName = `attendance_report_${reportType}.csv`;

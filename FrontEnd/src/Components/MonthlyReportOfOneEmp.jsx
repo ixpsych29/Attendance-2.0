@@ -5,6 +5,7 @@ import {
   Typography,
   TextField,
   Button,
+  Box,
 } from "@mui/material";
 import UserContext from "./UserContext";
 import axios from "axios";
@@ -12,6 +13,7 @@ import dayjs from "dayjs";
 import { DataTable } from "./DataTable";
 import FormatDateTime from "./FormatDateTime";
 import Loader from "../Loader/Loader";
+import DownloadCSVReport from "./DownladReport"; // Assuming the download function is in this file
 
 const MonthlyReportOfOneEmp = () => {
   const { Api_EndPoint } = useContext(UserContext);
@@ -64,41 +66,62 @@ const MonthlyReportOfOneEmp = () => {
     setSearchUserName(userName);
   };
 
+  const handleDownloadCSV = () => {
+    DownloadCSVReport(attendanceData, `monthly_${searchUserName}`);
+  };
+
   if (loading) {
     return <Typography>{<Loader />}</Typography>;
   }
 
   return (
-    <TableContainer
-      component={Paper}
-      sx={{ mt: 7, ml: "auto", pt: 5, bgcolor: "#DBF3FA" }}
-    >
-      <Typography variant="h4" textAlign="center" sx={{ mb: 3, color: "#000" }}>
-        Monthly Attendance Report
-      </Typography>
-      <TextField
-        label="Username"
-        value={userName}
-        onChange={(e) => setUserName(e.target.value)}
-        variant="outlined"
-        sx={{ mb: 2 }}
-      />
-      <Button variant="contained" onClick={handleSearch}>
-        Search
-      </Button>
-      {searchUserName && (
-        <>
-          <Typography
-            variant="h6"
-            textAlign="center"
-            sx={{ mb: 3, color: "#000", mt: 3 }}
-          >
-            Report for {searchUserName}
-          </Typography>
-          <DataTable rows={attendanceData} columns={columns} />
-        </>
-      )}
-    </TableContainer>
+    <Box sx={{ mt: 3, mx: "auto", width: "95%" }}>
+      <Paper sx={{ p: 3, bgcolor: "#DBF3FA" }}>
+        <Typography
+          variant="h4"
+          textAlign="center"
+          sx={{ mb: 3, color: "#000" }}
+        >
+          Monthly Attendance Report
+        </Typography>
+        <TextField
+          label="Username"
+          value={userName}
+          onChange={(e) => setUserName(e.target.value)}
+          variant="outlined"
+          sx={{ mb: 2, width: 300, display: "block", mx: "auto" }}
+        />
+        <Button
+          variant="contained"
+          onClick={handleSearch}
+          sx={{ mb: 2, mx: "auto", display: "block" }}
+        >
+          Search
+        </Button>
+        {searchUserName && (
+          <>
+            <Typography
+              variant="h6"
+              textAlign="center"
+              sx={{ mb: 3, color: "#000", mt: 3 }}
+            >
+              Report for {searchUserName}
+            </Typography>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleDownloadCSV}
+              sx={{ mb: 3, mx: "auto", display: "block" }}
+            >
+              Download CSV
+            </Button>
+            <TableContainer>
+              <DataTable rows={attendanceData} columns={columns} />
+            </TableContainer>
+          </>
+        )}
+      </Paper>
+    </Box>
   );
 };
 
