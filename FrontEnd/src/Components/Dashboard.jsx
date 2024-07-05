@@ -6,7 +6,8 @@ import axios from "axios";
 import dayjs from "dayjs";
 import UserContext from "./UserContext";
 import { Link } from "react-router-dom";
-import DailyAttendanceChart from "../utilities/DailyAttendanceChart";
+// import DailyAttendanceChart from "../utilities/DailyAttendanceChart";
+import AttendancePercentMonthly from "../utilities/AttendancePercentMonthly";
 
 const Dashboard = () => {
   const [totalEmployees, setTotalEmployees] = useState(0);
@@ -75,7 +76,8 @@ const Dashboard = () => {
           setSelectedDate={setSelectedDate}
         />
         <div>
-          <DailyAttendanceChart data={attendanceData} />
+          {/* <DailyAttendanceChart data={attendanceData} /> */}
+          <AttendancePercentMonthly />
         </div>
       </Container>
     </Box>

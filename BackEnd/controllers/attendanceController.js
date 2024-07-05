@@ -122,14 +122,42 @@ const updateAttendance = async (req, res) => {
 // Get present attendees for the current date
 const getPresentOnes = async (req, res) => {
   try {
-    const { entranceTime } = req.body;
-    const employee = await Attendance.find({ entranceTime: entranceTime });
-    if (!employee) {
-      return res.status(404).json({ error: "No user found" });
-    }
-    res.status(200).json(employee);
+    const now = new Date();
+    const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+    const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+
+    console.log(now, startOfMonth, endOfMonth);
+
+    const totalEmployees = await Employee.countDocuments(); // Assuming you have an Employee model
+
+    const attendances = await Attendance.aggregate([
+      {
+        $match: {
+          entranceTime: { $gte: startOfMonth, $lte: endOfMonth },
+        },
+      },
+      {
+        $group: {
+          _id: { $dateToString: { format: "%Y-%m-%d", date: "$entranceTime" } },
+          count: { $sum: 1 },
+        },
+      },
+      {
+        $project: {
+          date: "$_id",
+          percentage: {
+            $multiply: [{ $divide: ["$count", totalEmployees] }, 100],
+          },
+        },
+      },
+      {
+        $sort: { date: 1 },
+      },
+    ]);
+
+    res.status(200).json(attendances);
   } catch (error) {
-    console.error("Error fetching present attendees:", error);
+    console.error("Error fetching attendance data:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };

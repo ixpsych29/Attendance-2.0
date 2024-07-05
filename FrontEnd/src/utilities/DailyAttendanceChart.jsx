@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import ApexCharts from "react-apexcharts";
 
 const DailyAttendanceChart = ({ data }) => {

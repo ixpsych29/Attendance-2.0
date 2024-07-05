@@ -12,6 +12,9 @@ const {
 
 const router = express.Router();
 
+//get presentOnes
+router.post("/present-users", getPresentOnes);
+
 // Get one month  report
 router.get("/report", getAttendanceReport);
 
