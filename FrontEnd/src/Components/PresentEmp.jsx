@@ -157,7 +157,7 @@ const PresentEmp = () => {
             textAlign="center"
             sx={{ mb: 3, color: "text.primary" }}
           >
-            Present Employees
+            Present Employeess
           </Typography>
           <Divider
             variant="middle"
