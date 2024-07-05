@@ -71,10 +71,10 @@ const Dashboard = () => {
             <DisplayCard title="Absent" count={absentEmployees} />
           </Link>
         </div>
-        <RecordList
+        {/* <RecordList
           selectedDate={selectedDate}
           setSelectedDate={setSelectedDate}
-        />
+        /> */}
         <div>
           {/* <DailyAttendanceChart data={attendanceData} /> */}
           <AttendancePercentMonthly />

@@ -9,9 +9,12 @@ const {
   getMonthlyAttendances,
   getAttendanceReport,
   getAbsentOnes,
+  getWeeklyAttendance,
 } = require("../controllers/attendanceController");
 
 const router = express.Router();
+
+router.get("/weekly/:userName", getWeeklyAttendance);
 
 router.get("/present-users", getPresentOnes);
 // router.get("/absent", getAbsentOnes);

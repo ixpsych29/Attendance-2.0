@@ -7,6 +7,8 @@ import axios from "axios";
 import UserContext from "./UserContext";
 import toast from "react-hot-toast";
 import Loader from "../Loader/Loader";
+import WeeklyAttendance from "../utilities/WeeklyAttendance";
+import LeaveCountChartUser from "../utilities/LeaveCountChartUser";
 
 const UserDashboard = () => {
   const [selectedDate, setSelectedDate] = useState(dayjs());
@@ -46,10 +48,16 @@ const UserDashboard = () => {
       ) : (
         <>
           <CssBaseline />
-          <RecordList
-            selectedDate={selectedDate}
-            setSelectedDate={setSelectedDate}
-          />
+          <div className="">
+            <RecordList
+              selectedDate={selectedDate}
+              setSelectedDate={setSelectedDate}
+            />
+          </div>
+          <div className="flex col mt-2">
+            <WeeklyAttendance />
+            <LeaveCountChartUser />
+          </div>
         </>
       )}
     </Container>

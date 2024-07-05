@@ -1,18 +1,19 @@
-import { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { DataTable } from "./DataTable";
 import axios from "axios";
 import UserContext from "./UserContext";
-import FormatDateTime from "./FormatDateTime"; // Assuming FormatDateTime is in a separate file
+import FormatDateTime from "./FormatDateTime";
 import Loader from "../Loader/Loader";
+import DownloadCSVReport from "./DownladReport";
+import { toast } from "react-hot-toast";
 
 const LateComingReport = () => {
   const { Api_EndPoint } = useContext(UserContext);
   const [lateComingsData, setLateComingsData] = useState([]);
-  const [loading, setLoading] = useState(true); // State to handle loading
+  const [loading, setLoading] = useState(true);
 
   const columns = [
     { field: "username", headerName: "Username", width: 150 },
-    // { field: "email", headerName: "Email", width: 200 },
     { field: "leavingTime", headerName: "Leaving Time", width: 180 },
     { field: "entranceTime", headerName: "Entrance Time", width: 180 },
     { field: "entranceDate", headerName: "Entrance Date", width: 120 },
@@ -30,19 +31,14 @@ const LateComingReport = () => {
             const leavingDateTime = item.leavingTime
               ? FormatDateTime(item.leavingTime)
               : { formattedDate: "-", formattedTime: "-" };
-            const dateFormatted = item.date
-              ? FormatDateTime(item.date)
-              : { formattedDate: "-" };
 
             return {
               id: index + 1,
               username: item.username,
-              email: item.email,
               entranceTime: entranceDateTime.formattedTime,
               entranceDate: entranceDateTime.formattedDate,
               leavingTime: leavingDateTime.formattedTime,
-              leavingDate: leavingDateTime.formattedDate,
-              date: dateFormatted.formattedDate,
+              date: item.date,
             };
           });
 
@@ -53,21 +49,37 @@ const LateComingReport = () => {
       } catch (error) {
         console.error("Error fetching late comings:", error);
       } finally {
-        setLoading(false); // Set loading to false after data is fetched
+        setLoading(false);
       }
     };
 
     fetchLateComingsData();
   }, [Api_EndPoint]);
 
+  const handleDownloadCSV = () => {
+    DownloadCSVReport(lateComingsData, "late_comings");
+  };
+
   if (loading) {
-    return <p>{<Loader />}</p>; // Loading message
+    return (
+      <p>
+        <Loader />
+      </p>
+    );
   }
 
   return (
     <>
+      <button
+        onClick={handleDownloadCSV}
+        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4"
+      >
+        Download CSV
+      </button>
       {lateComingsData.length > 0 ? (
-        <DataTable rows={lateComingsData} columns={columns} />
+        <div className="overflow-x-auto">
+          <DataTable rows={lateComingsData} columns={columns} />
+        </div>
       ) : (
         <p>Congratulations, everyone is on time!</p>
       )}
