@@ -8,9 +8,14 @@ const {
   getTodayAttendances,
   getMonthlyAttendances,
   getAttendanceReport,
+  getAbsentOnes,
 } = require("../controllers/attendanceController");
 
 const router = express.Router();
+
+router.post("/present-users", getPresentOnes);
+// router.get("/absent", getAbsentOnes);
+router.get("/absent-users", getAbsentOnes);
 
 // Get one month  report
 router.get("/report", getAttendanceReport);
@@ -32,4 +37,7 @@ router.put("/", updateAttendance);
 // Monthly attendance history for a specific user
 router.get("/monthly/:userName", getMonthlyAttendances);
 
+// Get present and absent employees
+
+// Route to get absent employees
 module.exports = router;

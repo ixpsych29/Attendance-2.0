@@ -7,6 +7,7 @@ import dayjs from "dayjs";
 import UserContext from "./UserContext";
 import { Link } from "react-router-dom";
 import DailyAttendanceChart from "../utilities/DailyAttendanceChart";
+// import AbsentEmp from "./AbsentEmp";
 
 const Dashboard = () => {
   const [totalEmployees, setTotalEmployees] = useState(0);
@@ -63,10 +64,10 @@ const Dashboard = () => {
           <Link to="/home/totalemployee" style={{ textDecoration: "none" }}>
             <DisplayCard title="Total" count={totalEmployees} />
           </Link>
-          <Link to="/home" style={{ textDecoration: "none" }}>
+          <Link to="/home/PresentEmp" style={{ textDecoration: "none" }}>
             <DisplayCard title="Present" count={presentEmployees} />
           </Link>
-          <Link to="/home" style={{ textDecoration: "none" }}>
+          <Link to="/home/AbsentEmp" style={{ textDecoration: "none" }}>
             <DisplayCard title="Absent" count={absentEmployees} />
           </Link>
         </div>

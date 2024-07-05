@@ -332,6 +332,7 @@
 // };
 
 // export default Sidebar;
+
 import { Link, useLocation } from "react-router-dom";
 import { useContext, useState, useEffect } from "react";
 import UserContext from "./UserContext";
@@ -348,9 +349,15 @@ import {
 import { CiCalendarDate } from "react-icons/ci";
 import { FaPeopleGroup } from "react-icons/fa6";
 import { CgProfile } from "react-icons/cg";
-import { MdManageAccounts } from "react-icons/md";
+import { BiSolidReport } from "react-icons/bi";
+
+import {
+  MdCalendarMonth,
+  MdManageAccounts,
+  MdOutlineWatchLater,
+} from "react-icons/md";
 import { RiArrowRightSLine } from "react-icons/ri";
-import { TbReportSearch } from "react-icons/tb";
+import { TbReport, TbReportSearch } from "react-icons/tb";
 import Cookies from "js-cookie";
 
 const Sidebar = ({ mode, setMode }) => {
@@ -547,9 +554,54 @@ const Sidebar = ({ mode, setMode }) => {
                                 : "text-white"
                             }`}
                           >
-                            <TbReportSearch className="w-6 h-6" />
+                            <MdOutlineWatchLater className="w-6 h-6" />
                             <span className="-mr-1 font-medium">
                               Late Coming
+                            </span>
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/home/RemainingLeavesReport"
+                            className={`px-4 py-3 flex items-center space-x-4 rounded-md ${
+                              isActiveLink("/home/RemainingLeavesReport")
+                                ? "btn-style text-white"
+                                : "text-white"
+                            }`}
+                          >
+                            <MdCalendarMonth className="w-6 h-6" />
+                            <span className="-mr-1 font-medium">
+                              Leaves Count
+                            </span>
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/home/ThreeMonthAttendanceReport"
+                            className={`px-4 py-3 flex items-center space-x-4 rounded-md ${
+                              isActiveLink("/home/ThreeMonthAttendanceReport")
+                                ? "btn-style text-white"
+                                : "text-white"
+                            }`}
+                          >
+                            <TbReport className="w-6 h-6" />
+                            <span className="-mr-1 font-medium">
+                              3 Month Report
+                            </span>
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/home/MonthlyReportOfOneEmp"
+                            className={`px-4 py-3 flex items-center space-x-4 rounded-md ${
+                              isActiveLink("/home/MonthlyReportOfOneEmp")
+                                ? "btn-style text-white"
+                                : "text-white"
+                            }`}
+                          >
+                            <BiSolidReport className="w-6 h-6" />
+                            <span className="-mr-1 font-medium">
+                              Monthly Report
                             </span>
                           </Link>
                         </li>
@@ -643,7 +695,7 @@ const Sidebar = ({ mode, setMode }) => {
               </li>
             </ul>
           </div>
-          <div className="px-6 -mx-6 pt-4 flex justify-between items-center border-t mb-0.1">
+          {/* <div className="px-6 -mx-6 pt-4 flex justify-between items-center border-t mb-0.1">
             <button
               onClick={toggleDarkMode}
               className="px-4 py-3 flex flex-col items-center rounded-md text-white group transition duration-300 ease-in-out transform hover:scale-110"
@@ -661,7 +713,7 @@ const Sidebar = ({ mode, setMode }) => {
                 <span>Logout</span>
               </Link>
             </button>
-          </div>
+          </div> */}
         </aside>
       )}
     </div>
