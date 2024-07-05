@@ -36,7 +36,7 @@ const TwoLevelPieChart = () => {
 
           setChartData({
             inner: [
-              { name: "On Time", value: onTimeUsersCount },
+              { name: "On-Time", value: onTimeUsersCount },
               { name: "Late", value: lateUsersCount },
             ],
             outer: [{ name: "Total", value: totalUsersCount }],

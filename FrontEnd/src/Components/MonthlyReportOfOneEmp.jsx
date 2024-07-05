@@ -86,37 +86,44 @@ const MonthlyReportOfOneEmp = () => {
             Monthly Attendance report{" "}
           </h1>
         </Typography>
-        <TextField
-          label="Username"
-          value={userName}
-          onChange={(e) => setUserName(e.target.value)}
-          variant="outlined"
-          sx={{ mb: 2, width: 300, display: "block", mx: "auto" }}
-        />
-        <Button
-          variant="contained"
-          onClick={handleSearch}
-          sx={{ mb: 2, mx: "auto", display: "block" }}
-        >
-          Search
-        </Button>
+        <div className="flex items-center space-x-4 ml-[30%]">
+          <TextField
+            label="Username"
+            value={userName}
+            onChange={(e) => setUserName(e.target.value)}
+            variant="outlined"
+            sx={{ mb: 2, width: 500 }} // Increased width to 400
+          />
+          <Button
+            variant="contained"
+            onClick={handleSearch}
+            className="font-bold py-2 px-4 rounded mb-4 btn-style"
+            sx={{ mb: 2 }}
+          >
+            Search
+          </Button>
+        </div>
+
         {searchUserName && (
           <>
-            <Typography
-              variant="h6"
-              textAlign="center"
-              sx={{ mb: 3, color: "#000", mt: 3 }}
-            >
-              Report for {searchUserName}
-            </Typography>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={handleDownloadCSV}
-              sx={{ mb: 3, mx: "auto", display: "block" }}
-            >
-              Download CSV
-            </Button>
+            <div className="flex items-center space-x-4 ml-[37%] mt-5">
+              <Typography
+                variant="h6"
+                textAlign="center"
+                sx={{ mb: 3, color: "#000" }}
+              >
+                Report for : " {searchUserName} "
+              </Typography>
+              <Button
+                variant="contained"
+                className="font-bold py-2 px-4 rounded mb-4 btn-style"
+                color="primary"
+                onClick={handleDownloadCSV}
+                sx={{ mb: 3, mx: "auto", display: "block" }}
+              >
+                Download CSV
+              </Button>
+            </div>
             <TableContainer>
               <DataTable rows={attendanceData} columns={columns} />
             </TableContainer>
