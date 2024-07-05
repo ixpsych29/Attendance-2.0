@@ -377,7 +377,7 @@ const Sidebar = ({ mode, setMode }) => {
               </li>
             </ul>
           </div>
-          <div className="px-6 -mx-6 pt-4 flex justify-between items-center border-t mb-0.1">
+          {/* <div className="px-6 -mx-6 pt-4 flex justify-between items-center border-t mb-0.1">
             <button
               onClick={toggleDarkMode}
               className="px-4 py-3 flex flex-col items-center rounded-md text-white group transition duration-300 ease-in-out transform hover:scale-110"
@@ -395,7 +395,7 @@ const Sidebar = ({ mode, setMode }) => {
                 <span>Logout</span>
               </Link>
             </button>
-          </div>
+          </div> */}
         </aside>
       )}
     </div>

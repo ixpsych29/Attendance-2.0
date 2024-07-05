@@ -48,15 +48,15 @@ const UserDashboard = () => {
       ) : (
         <>
           <CssBaseline />
+          <div className="flex flex-row min-h-64">
+            <WeeklyAttendance />
+            <LeaveCountChartUser />
+          </div>
           <div className="">
             <RecordList
               selectedDate={selectedDate}
               setSelectedDate={setSelectedDate}
             />
-          </div>
-          <div className="flex col mt-2">
-            <WeeklyAttendance />
-            <LeaveCountChartUser />
           </div>
         </>
       )}

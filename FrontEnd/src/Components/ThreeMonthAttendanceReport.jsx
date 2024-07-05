@@ -69,7 +69,9 @@ const ThreeMonthAttendanceReport = () => {
           textAlign="center"
           sx={{ mb: 3, color: "#000" }}
         >
-          Three Month Attendance Report
+          <h1 className="text-center font-bold text-3xl">
+            Three Month Attendance Report
+          </h1>
         </Typography>
         <Button
           onClick={handleDownloadCSV}

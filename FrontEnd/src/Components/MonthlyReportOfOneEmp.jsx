@@ -82,7 +82,9 @@ const MonthlyReportOfOneEmp = () => {
           textAlign="center"
           sx={{ mb: 3, color: "#000" }}
         >
-          Monthly Attendance Report
+          <h1 className="text-center font-bold text-3xl">
+            Monthly Attendance report{" "}
+          </h1>
         </Typography>
         <TextField
           label="Username"

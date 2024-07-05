@@ -104,8 +104,8 @@ const LeaveCountChartUser = () => {
 
   // Adjusting the chart data based on the calculated values
   const data = [
-    { value: paidLeaves, label: "Paid Leaves", color: "#87CEEB" }, // Light blue color for paid leaves
-    { value: remainingLeaves, label: "Remaining Leaves", color: "#FFFF00" }, // Yellow color for remaining leaves
+    { value: paidLeaves, label: "Paid Leaves", color: "#f50057" }, // Light blue color for paid leaves
+    { value: remainingLeaves, label: "Remaining Leaves", color: "#3f51b5" }, // Yellow color for remaining leaves
   ];
 
   return (
@@ -123,7 +123,8 @@ const LeaveCountChartUser = () => {
         x={remainingLeaveTextPosition.x}
         y={remainingLeaveTextPosition.y}
       >
-        Remaining Unpaid Leave: {unpaidLeaves}{" "}
+        Remaining Unpaid Leave: {unpaidLeaves}
+        {""}
         {/* Display remaining unpaid leaves */}
       </StyledRemainingLeaveText>
     </div>

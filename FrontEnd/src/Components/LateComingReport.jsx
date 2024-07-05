@@ -70,12 +70,14 @@ const LateComingReport = () => {
 
   return (
     <>
+      <h1 className="text-center font-bold text-3xl">Late Coming Report</h1>
       <button
         onClick={handleDownloadCSV}
         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4"
       >
         Download CSV
       </button>
+
       {lateComingsData.length > 0 ? (
         <div className="overflow-x-auto">
           <DataTable rows={lateComingsData} columns={columns} />
