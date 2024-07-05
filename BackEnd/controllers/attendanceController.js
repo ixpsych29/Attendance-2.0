@@ -135,6 +135,7 @@ const getPresentOnes = async (req, res) => {
       currentDate.getMonth() + 1,
       0
     );
+    const daysInMonth = lastDayOfMonth.getDate();
 
     // Get total number of users
     const totalUsers = await User.countDocuments({ role: "user" });
@@ -157,15 +158,40 @@ const getPresentOnes = async (req, res) => {
       {
         $project: {
           date: "$_id",
-          percentage: { $multiply: [{ $divide: ["$count", totalUsers] }, 100] },
+          presentPercentage: {
+            $multiply: [{ $divide: ["$count", totalUsers] }, 100],
+          },
         },
-      },
-      {
-        $sort: { date: 1 },
       },
     ]);
 
-    res.status(200).json(attendanceData);
+    // Create an array with all days of the month
+    const allDays = Array.from({ length: daysInMonth }, (_, i) => {
+      const day = new Date(
+        currentDate.getFullYear(),
+        currentDate.getMonth(),
+        i + 1
+      );
+      return {
+        date: day.toISOString().split("T")[0],
+        presentPercentage: 0,
+        absentPercentage: 100,
+      };
+    });
+
+    // Merge attendance data with all days
+    const mergedData = allDays.map((day) => {
+      const matchingDay = attendanceData.find((d) => d.date === day.date);
+      if (matchingDay) {
+        return {
+          ...matchingDay,
+          absentPercentage: 100 - matchingDay.presentPercentage,
+        };
+      }
+      return day;
+    });
+
+    res.status(200).json(mergedData);
   } catch (error) {
     console.error("Error fetching attendance data:", error);
     res.status(500).json({

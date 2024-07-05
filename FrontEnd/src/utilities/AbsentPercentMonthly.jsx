@@ -4,14 +4,15 @@ import {
   Line,
   XAxis,
   YAxis,
+  CartesianGrid,
   Tooltip,
   ResponsiveContainer,
-  Legend,
 } from "recharts";
 import UserContext from "../Components/UserContext";
+import FormatDateTime from "../Components/FormatDateTime";
 import axios from "axios";
 
-const AttendancePercentMonthly = () => {
+const AbsentPercentMonthly = () => {
   const [attendanceData, setAttendanceData] = useState([]);
   const { Api_EndPoint } = useContext(UserContext);
 
@@ -21,7 +22,12 @@ const AttendancePercentMonthly = () => {
         const response = await axios.get(
           `${Api_EndPoint}/api/attendance/present-users`
         );
-        if (Array.isArray(response.data) && response.data.length > 0) {
+        console.log("API response:", response.data);
+        if (
+          response.data &&
+          Array.isArray(response.data) &&
+          response.data.length > 0
+        ) {
           setAttendanceData(response.data);
         } else {
           console.log("No data received from API or data is empty");
@@ -37,11 +43,13 @@ const AttendancePercentMonthly = () => {
   }, [Api_EndPoint]);
 
   const formatXAxis = (tickItem) => {
-    return new Date(tickItem).getDate();
+    const { formattedDate } = FormatDateTime(tickItem);
+    return formattedDate.split(" ")[1]; // Return only the day part
   };
 
   const formatTooltipLabel = (value) => {
-    return `Date: ${new Date(value).toLocaleDateString()}`;
+    const { formattedDate } = FormatDateTime(value);
+    return `Date: ${formattedDate}`;
   };
 
   if (attendanceData.length === 0) {
@@ -49,18 +57,8 @@ const AttendancePercentMonthly = () => {
   }
 
   return (
-    <div
-      style={{
-        width: "100%",
-        height: 400,
-        padding: "20px",
-        backgroundColor: "#f3f4f7",
-        borderRadius: "10px",
-      }}
-    >
-      <h2 style={{ textAlign: "center", color: "#333", marginBottom: "20px" }}>
-        Monthly Attendance Percentage
-      </h2>
+    <div style={{ width: "100%", height: 400 }}>
+      <h2>Monthly Attendance Percentage</h2>
       <ResponsiveContainer>
         <LineChart
           data={attendanceData}
@@ -71,45 +69,33 @@ const AttendancePercentMonthly = () => {
             bottom: 5,
           }}
         >
+          <CartesianGrid strokeDasharray="3 3" />
           <XAxis
             dataKey="date"
             tickFormatter={formatXAxis}
-            stroke="#888"
-            tick={{ fill: "#888", fontSize: 12 }}
+            label={{
+              value: "Date",
+              position: "insideBottomRight",
+              offset: -10,
+            }}
           />
           <YAxis
             domain={[0, 100]}
-            stroke="#888"
-            tick={{ fill: "#888", fontSize: 12 }}
+            label={{
+              value: "Attendance (%)",
+              angle: -90,
+              position: "insideLeft",
+            }}
           />
           <Tooltip
             labelFormatter={formatTooltipLabel}
-            formatter={(value, name) => [`${value.toFixed(2)}%`, name]}
-            contentStyle={{
-              backgroundColor: "#fff",
-              border: "none",
-              borderRadius: "5px",
-              boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
-            }}
-          />
-          <Legend verticalAlign="top" height={36} iconType="circle" />
-          <Line
-            type="monotone"
-            dataKey="presentPercentage"
-            name="Present"
-            stroke="#4CAF50"
-            strokeWidth={3}
-            dot={false}
-            activeDot={{ r: 8, fill: "#4CAF50", stroke: "#fff" }}
+            formatter={(value) => [`${value.toFixed(2)}%`, "Attendance"]}
           />
           <Line
             type="monotone"
-            dataKey="absentPercentage"
-            name="Absent"
-            stroke="#F44336"
-            strokeWidth={3}
-            dot={false}
-            activeDot={{ r: 8, fill: "#F44336", stroke: "#fff" }}
+            dataKey="percentage"
+            stroke="#8884d8"
+            activeDot={{ r: 8 }}
           />
         </LineChart>
       </ResponsiveContainer>
@@ -117,4 +103,4 @@ const AttendancePercentMonthly = () => {
   );
 };
 
-export default AttendancePercentMonthly;
+export default AbsentPercentMonthly;
