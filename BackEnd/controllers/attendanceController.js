@@ -198,6 +198,7 @@ const getPresentOnes = async (req, res) => {
 
     // Merge attendance data with all days
     const mergedData = allDays.map((day) => {
+      console.log("day", day);
       const matchingDay = attendanceData.find((d) => d.date === day.date);
       if (matchingDay) {
         return {

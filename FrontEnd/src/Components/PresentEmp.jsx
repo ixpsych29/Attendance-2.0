@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import {
   Box,
@@ -34,7 +34,7 @@ const PresentEmp = () => {
 
   useEffect(() => {
     fetchPresentEmployees();
-  }, [Api_EndPoint]);
+  }, []);
 
   if (loading) {
     return <Loader />;
