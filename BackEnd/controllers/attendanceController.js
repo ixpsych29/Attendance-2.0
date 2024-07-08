@@ -28,7 +28,7 @@ const getTodayAttendances = async (req, res) => {
 
     // Mark late entries
     const lateThreshold = new Date(date);
-    lateThreshold.setHours(11, 30, 0, 0);
+    lateThreshold.setHours(12, 30, 0, 0);
 
     attendances.forEach((att) => {
       if (att.entranceTime > lateThreshold) {
@@ -139,77 +139,141 @@ const updateAttendance = async (req, res) => {
 };
 
 // Get present attendees for the current date
+// const getPresentOnes = async (req, res) => {
+//   try {
+//     const today = new Date();
+//     today.setHours(0, 0, 0, 0);
+
+//     // Find today's attendances
+//     const todayAttendances = await Attendance.find({
+//       entranceTime: {
+//         $gte: today,
+//         $lt: new Date(today.getTime() + 24 * 60 * 60 * 1000),
+//       },
+//     });
+
+//     // Get usernames of users who have checked in today
+//     const presentUsernames = todayAttendances.map((att) => att.username);
+
+//     // Retrieve all users using fetchUsers function
+//     const allUsers = await fetchUsers({ role: "user" });
+
+//     // Filter users who have an entrance time for today
+//     const presentUsers = allUsers.filter((user) =>
+//       presentUsernames.includes(user.username)
+//     );
+
+//     res.status(200).json(presentUsers);
+//   } catch (error) {
+//     console.error("Error fetching present attendees:", error);
+//     res.status(500).json({ error: "Internal Server Error" });
+//   }
+// };
+
 const getPresentOnes = async (req, res) => {
   try {
-    const currentDate = new Date();
-    const firstDayOfMonth = new Date(
-      currentDate.getFullYear(),
-      currentDate.getMonth(),
-      1
-    );
-    const lastDayOfMonth = new Date(
-      currentDate.getFullYear(),
-      currentDate.getMonth() + 1,
-      0
-    );
-    const daysInMonth = lastDayOfMonth.getDate();
+    const { type } = req.query; // type can be 'monthly' or 'daily'
 
-    // Get total number of users
-    const totalUsers = await User.countDocuments({ role: "user" });
-
-    const attendanceData = await Attendance.aggregate([
-      {
-        $match: {
-          entranceTime: {
-            $gte: firstDayOfMonth,
-            $lte: lastDayOfMonth,
-          },
-        },
-      },
-      {
-        $group: {
-          _id: { $dateToString: { format: "%Y-%m-%d", date: "$entranceTime" } },
-          count: { $sum: 1 },
-        },
-      },
-      {
-        $project: {
-          date: "$_id",
-          presentPercentage: {
-            $multiply: [{ $divide: ["$count", totalUsers] }, 100],
-          },
-        },
-      },
-    ]);
-
-    // Create an array with all days of the month
-    const allDays = Array.from({ length: daysInMonth }, (_, i) => {
-      const day = new Date(
+    if (type === "monthly") {
+      const currentDate = new Date();
+      const firstDayOfMonth = new Date(
         currentDate.getFullYear(),
         currentDate.getMonth(),
-        i + 1
+        1
       );
-      return {
-        date: day.toISOString().split("T")[0],
-        presentPercentage: 0,
-        absentPercentage: 100,
-      };
-    });
+      const lastDayOfMonth = new Date(
+        currentDate.getFullYear(),
+        currentDate.getMonth() + 1,
+        0
+      );
+      const daysInMonth = lastDayOfMonth.getDate();
 
-    // Merge attendance data with all days
-    const mergedData = allDays.map((day) => {
-      console.log("day", day);
-      const matchingDay = attendanceData.find((d) => d.date === day.date);
-      if (matchingDay) {
+      // Get total number of users
+      const totalUsers = await User.countDocuments({ role: "user" });
+
+      const attendanceData = await Attendance.aggregate([
+        {
+          $match: {
+            entranceTime: {
+              $gte: firstDayOfMonth,
+              $lte: lastDayOfMonth,
+            },
+          },
+        },
+        {
+          $group: {
+            _id: {
+              $dateToString: { format: "%Y-%m-%d", date: "$entranceTime" },
+            },
+            count: { $sum: 1 },
+          },
+        },
+        {
+          $project: {
+            date: "$_id",
+            presentPercentage: {
+              $multiply: [{ $divide: ["$count", totalUsers] }, 100],
+            },
+          },
+        },
+      ]);
+
+      // Create an array with all days of the month
+      const allDays = Array.from({ length: daysInMonth }, (_, i) => {
+        const day = new Date(
+          currentDate.getFullYear(),
+          currentDate.getMonth(),
+          i + 1
+        );
         return {
-          ...matchingDay,
-          absentPercentage: 100 - matchingDay.presentPercentage,
+          date: day.toISOString().split("T")[0],
+          presentPercentage: 0,
+          absentPercentage: 100,
         };
-      }
-      return day;
-    });
+      });
 
-    res.status(200).json(mergedData);
+      // Merge attendance data with all days
+      const mergedData = allDays.map((day) => {
+        const matchingDay = attendanceData.find((d) => d.date === day.date);
+        if (matchingDay) {
+          return {
+            ...matchingDay,
+            absentPercentage: 100 - matchingDay.presentPercentage,
+          };
+        }
+        return day;
+      });
+
+      res.status(200).json(mergedData);
+    } else if (type === "daily") {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      // Find today's attendances
+      const todayAttendances = await Attendance.find({
+        entranceTime: {
+          $gte: today,
+          $lt: new Date(today.getTime() + 24 * 60 * 60 * 1000),
+        },
+      });
+
+      // Get usernames of users who have checked in today
+      const presentUsernames = todayAttendances.map((att) => att.username);
+
+      // Retrieve all users using fetchUsers function
+      const allUsers = await fetchUsers({ role: "user" });
+
+      // Filter users who have an entrance time for today
+      const presentUsers = allUsers.filter((user) =>
+        presentUsernames.includes(user.username)
+      );
+
+      res.status(200).json(presentUsers);
+    } else {
+      res
+        .status(400)
+        .json({ error: 'Invalid type parameter. Use "monthly" or "daily".' });
+    }
   } catch (error) {
     console.error("Error fetching attendance data:", error);
     res.status(500).json({
