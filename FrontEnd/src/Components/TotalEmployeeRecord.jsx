@@ -98,90 +98,80 @@ const TotalEmployeeRecord = ({ users, handleEdit, handleDelete }) => {
         </TableHead>
 
         <TableBody>
-          {Array.isArray(users) && users.length > 0 ? (
-            users
-              .sort((a, b) =>
-                a.name && b.name ? a.name.localeCompare(b.name) : 0
-              )
-              .map((user) => (
-                <TableRow key={user.id}>
-                  <TableCell align="center" className="px-6 py-2">
-                    {user.profilePicture ? (
-                      <img
-                        src={`${Api_EndPoint}/uploads/Images/${user.profilePicture}`}
-                        className="ml-20 mt-2 mb-2"
-                        alt="Profile Picture"
-                        style={{ width: 50, height: 50, borderRadius: "50%" }}
-                      />
-                    ) : (
-                      <div
-                        className="ml-20 mt-2 mb-2 flex items-center justify-center"
-                        style={{
-                          width: 50,
-                          height: 50,
-                          borderRadius: "50%",
-                          backgroundColor: "#ccc",
-                          color: "#fff",
-                          fontSize: "1.5rem",
-                          fontWeight: "bold",
-                        }}
-                      >
-                        {user.username.slice(0, 2).toUpperCase()}
-                      </div>
-                    )}
-                  </TableCell>
+          {users
+            .sort((a, b) => a.name.localeCompare(b.name)) // Sort users alphabetically by name
+            .map((user) => (
+              <TableRow key={user.id}>
+                <TableCell align="center" className="px-6 py-2">
+                  {user.profilePicture ? (
+                    <img
+                      src={`${Api_EndPoint}/uploads/Images/${user.profilePicture}`}
+                      className="ml-20 mt-2 mb-2"
+                      alt="Profile Picture"
+                      style={{ width: 50, height: 50, borderRadius: "50%" }}
+                    />
+                  ) : (
+                    <div
+                      className="ml-20 mt-2 mb-2 flex items-center justify-center"
+                      style={{
+                        width: 50,
+                        height: 50,
+                        borderRadius: "50%",
+                        backgroundColor: "#ccc",
+                        color: "#fff",
+                        fontSize: "1.5rem",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {user.username.slice(0, 2).toUpperCase()}
+                    </div>
+                  )}
+                </TableCell>
 
-                  <TableCell align="center" className="px-4 py-2">
-                    {user.name}
-                  </TableCell>
-                  <TableCell align="center" className="px-4 py-2">
-                    <Tooltip title="View Profile" arrow>
-                      <span
-                        onClick={() => handleOpenProfile(user.username)}
-                        style={{
-                          cursor: "pointer",
-                          textDecoration: "underline",
-                        }}
-                      >
-                        {user.username}
-                      </span>
-                    </Tooltip>
-                  </TableCell>
-                  <TableCell align="center" className="px-4 py-2">
-                    {user.email}
-                  </TableCell>
-                  <TableCell align="center" className="px-4 py-2">
-                    {user.phoneNumber}
-                  </TableCell>
-                  <TableCell align="center" className="px-4 py-2">
-                    <Tooltip title="Edit Profile" arrow>
-                      <IconButton
-                        aria-label="edit"
-                        onClick={() => handleEdit(user)}
-                      >
-                        <Edit />
-                      </IconButton>
-                    </Tooltip>
-                  </TableCell>
-                  <TableCell align="center" className="px-4 py-2">
-                    <Tooltip title="Delete Profile" arrow>
-                      <IconButton
-                        aria-label="delete"
-                        onClick={() => handleDelete(user)}
-                      >
-                        <Delete />
-                      </IconButton>
-                    </Tooltip>
-                  </TableCell>
-                </TableRow>
-              ))
-          ) : (
-            <TableRow>
-              <TableCell colSpan={7} align="center">
-                No employees to display
-              </TableCell>
-            </TableRow>
-          )}
+                <TableCell align="center" className="px-4 py-2">
+                  {user.name}
+                </TableCell>
+                <TableCell align="center" className="px-4 py-2">
+                  <Tooltip title="View Profile" arrow>
+                    <span
+                      onClick={() => handleOpenProfile(user.username)}
+                      style={{
+                        cursor: "pointer",
+                        textDecoration: "underline",
+                      }}
+                    >
+                      {user.username}
+                    </span>
+                  </Tooltip>
+                </TableCell>
+                <TableCell align="center" className="px-4 py-2">
+                  {user.email}
+                </TableCell>
+                <TableCell align="center" className="px-4 py-2">
+                  {user.phoneNumber}
+                </TableCell>
+                <TableCell align="center" className="px-4 py-2">
+                  <Tooltip title="Edit Profile" arrow>
+                    <IconButton
+                      aria-label="edit"
+                      onClick={() => handleEdit(user)}
+                    >
+                      <Edit />
+                    </IconButton>
+                  </Tooltip>
+                </TableCell>
+                <TableCell align="center" className="px-4 py-2">
+                  <Tooltip title="Delete Profile" arrow>
+                    <IconButton
+                      aria-label="delete"
+                      onClick={() => handleDelete(user)}
+                    >
+                      <Delete />
+                    </IconButton>
+                  </Tooltip>
+                </TableCell>
+              </TableRow>
+            ))}
         </TableBody>
       </Table>
     </>
