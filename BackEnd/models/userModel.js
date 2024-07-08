@@ -22,8 +22,8 @@ const leaveRequestSchema = new Schema(
     },
     disapprovalReason: { type: String },
     approvalComments: { type: String },
-  },
-  { timestamps: true },
+  }
+  // { timestamps: true },
 );
 
 // Define schema for user model
@@ -80,7 +80,7 @@ const userModel = new Schema(
 
   {
     timestamps: true,
-  },
+  }
 );
 
 const User = mongoose.model("User", userModel);
