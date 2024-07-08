@@ -31,49 +31,57 @@ const TotalEmployeeRecord = ({ users, handleEdit, handleDelete }) => {
         }}
         size="small"
         aria-label="a dense table"
-        className="w-full border-collapse">
+        className="w-full border-collapse"
+      >
         <TableHead>
           <TableRow>
             <TableCell
               align="center"
               className="px-2 py-2"
-              style={{ backgroundColor: "#DBF3FA", color: "black" }}>
+              style={{ backgroundColor: "#DBF3FA", color: "black" }}
+            >
               Picture
             </TableCell>
             <TableCell
               align="center"
               className="px-2 py-2"
-              style={{ backgroundColor: "#DBF3FA", color: "black" }}>
+              style={{ backgroundColor: "#DBF3FA", color: "black" }}
+            >
               Name
             </TableCell>
             <TableCell
               align="center"
               className="px-4 py-2"
-              style={{ backgroundColor: "#DBF3FA", color: "black" }}>
+              style={{ backgroundColor: "#DBF3FA", color: "black" }}
+            >
               User Name
             </TableCell>
             <TableCell
               align="center"
               className="px-4 py-2"
-              style={{ backgroundColor: "#DBF3FA", color: "black" }}>
+              style={{ backgroundColor: "#DBF3FA", color: "black" }}
+            >
               Email
             </TableCell>
             <TableCell
               align="center"
               className="px-4 py-2"
-              style={{ backgroundColor: "#DBF3FA", color: "black" }}>
+              style={{ backgroundColor: "#DBF3FA", color: "black" }}
+            >
               Phone Number
             </TableCell>
             <TableCell
               align="center"
               className="px-4 py-2"
-              style={{ backgroundColor: "#DBF3FA", color: "black" }}>
+              style={{ backgroundColor: "#DBF3FA", color: "black" }}
+            >
               Edit
             </TableCell>
             <TableCell
               align="center"
               className="px-4 py-2"
-              style={{ backgroundColor: "#DBF3FA", color: "black" }}>
+              style={{ backgroundColor: "#DBF3FA", color: "black" }}
+            >
               Delete
             </TableCell>
           </TableRow>
@@ -103,7 +111,8 @@ const TotalEmployeeRecord = ({ users, handleEdit, handleDelete }) => {
                         color: "#fff",
                         fontSize: "1.5rem",
                         fontWeight: "bold",
-                      }}>
+                      }}
+                    >
                       {user.username.slice(0, 2).toUpperCase()}
                     </div>
                   )}
@@ -119,7 +128,8 @@ const TotalEmployeeRecord = ({ users, handleEdit, handleDelete }) => {
                       style={{
                         cursor: "pointer",
                         textDecoration: "underline",
-                      }}>
+                      }}
+                    >
                       {user.username}
                     </span>
                   </Tooltip>
@@ -134,7 +144,8 @@ const TotalEmployeeRecord = ({ users, handleEdit, handleDelete }) => {
                   <Tooltip title="Edit Profile" arrow>
                     <IconButton
                       aria-label="edit"
-                      onClick={() => handleEdit(user)}>
+                      onClick={() => handleEdit(user)}
+                    >
                       <Edit />
                     </IconButton>
                   </Tooltip>
@@ -143,7 +154,8 @@ const TotalEmployeeRecord = ({ users, handleEdit, handleDelete }) => {
                   <Tooltip title="Delete Profile" arrow>
                     <IconButton
                       aria-label="delete"
-                      onClick={() => handleDelete(user)}>
+                      onClick={() => handleDelete(user)}
+                    >
                       <Delete />
                     </IconButton>
                   </Tooltip>

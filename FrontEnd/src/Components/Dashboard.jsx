@@ -51,7 +51,7 @@ const Dashboard = () => {
     <Box>
       <CssBaseline />
 
-      <Container>
+      <Container className="overflow-y-hidden">
         <div className="flex justify-between mx-auto mb-10">
           <Link to="/home/totalemployee" style={{ textDecoration: "none" }}>
             <DisplayCard title="Total" count={totalEmployees} />
@@ -67,11 +67,16 @@ const Dashboard = () => {
           selectedDate={selectedDate}
           setSelectedDate={setSelectedDate}
         /> */}
-        <div>
-          <LateUsersPieChart />
-        </div>
-        <div style={{ marginTop: "40px" }}>
-          <AttendancePercentMonthly />
+        <div className="flex">
+          <div
+            className="flex-grow"
+            style={{ marginTop: "40px", flexBasis: "70%" }}
+          >
+            <AttendancePercentMonthly />
+          </div>
+          <div className="flex-none" style={{ flexBasis: "30%" }}>
+            <LateUsersPieChart />
+          </div>
         </div>
       </Container>
     </Box>

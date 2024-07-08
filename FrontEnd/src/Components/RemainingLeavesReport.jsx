@@ -46,9 +46,14 @@ const RemainingLeavesReport = () => {
   return (
     <div>
       <h1 className="text-center font-bold text-3xl">
-        Leave Count of all users
+        Leave Count of All Users
       </h1>
-      <button onClick={handleDownloadCSV}>Download CSV</button>
+      <button
+        className="font-bold py-2 px-4 rounded mb-4 btn-style"
+        onClick={handleDownloadCSV}
+      >
+        Download CSV
+      </button>
       <DataTable columns={leaveColumns} rows={leaveRows} />
     </div>
   );

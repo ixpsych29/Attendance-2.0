@@ -75,6 +75,7 @@ const ThreeMonthAttendanceReport = () => {
         </Typography>
         <Button
           onClick={handleDownloadCSV}
+          className="font-bold py-2 px-4 rounded mb-4 btn-style"
           variant="contained"
           color="primary"
           sx={{ mb: 3 }}
