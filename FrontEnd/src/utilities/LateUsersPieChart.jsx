@@ -10,7 +10,7 @@ import {
 import UserContext from "../Components/UserContext";
 import axios from "axios";
 
-const COLORS = ["#4CAF50", "#F44336", "#19b0e7"]; // Yellow for On Time, Blue for Late, Green for outer ring
+const COLORS = ["#4CAF50", "#F44336", "#19b0e7"];
 
 const TwoLevelPieChart = () => {
   const [chartData, setChartData] = useState({ inner: [], outer: [] });
@@ -24,7 +24,6 @@ const TwoLevelPieChart = () => {
           const attendanceData = response.data;
           const totalUsersCount = attendanceData.length;
 
-          // Assuming entranceTime is in a proper Date format
           const onTimeUsersCount = attendanceData.filter(
             (item) =>
               item.entranceTime && new Date(item.entranceTime).getHours() < 12
@@ -57,12 +56,12 @@ const TwoLevelPieChart = () => {
     innerRadius,
     outerRadius,
     percent,
+    index,
     name,
   }) => {
-    const RADIAN = Math.PI / 180;
     const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
-    const x = cx + radius * Math.cos(-midAngle * RADIAN);
-    const y = cy + radius * Math.sin(-midAngle * RADIAN);
+    const x = cx;
+    const y = index === 0 ? cy - radius / 2 : cy + radius / 2;
 
     return (
       <text
@@ -71,6 +70,8 @@ const TwoLevelPieChart = () => {
         fill="white"
         textAnchor="middle"
         dominantBaseline="central"
+        fontSize="12"
+        fontWeight="bold"
       >
         {`${name}: ${(percent * 100).toFixed(0)}%`}
       </text>
@@ -89,7 +90,7 @@ const TwoLevelPieChart = () => {
             cx="50%"
             cy="50%"
             outerRadius={120}
-            innerRadius={90}
+            innerRadius={100}
             fill={COLORS[2]}
             dataKey="value"
           />
@@ -98,10 +99,11 @@ const TwoLevelPieChart = () => {
             cx="50%"
             cy="50%"
             innerRadius={0}
-            outerRadius={90}
+            outerRadius={80}
             fill={COLORS[0]}
             dataKey="value"
             label={renderCustomizedLabel}
+            labelLine={false}
           >
             {chartData.inner.map((entry, index) => (
               <Cell key={`cell-${index}`} fill={COLORS[index]} />

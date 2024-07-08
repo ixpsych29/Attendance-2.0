@@ -10,7 +10,7 @@ const migrateAdminUser = async () => {
 
     // If no admin user found, create one
     if (!adminUser) {
-      const hashedPassword = await bcrypt.hash("!S@ndyAPP$8080", 10);
+      const hashedPassword = await bcrypt.hash("S@ndy2024", 10);
 
       const newAdminUser = new User({
         name: "Admin User",
