@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import {
   Table,
   TableBody,
@@ -14,12 +14,22 @@ import { useNavigate } from "react-router-dom";
 
 const TotalEmployeeRecord = ({ users, handleEdit, handleDelete }) => {
   const { Api_EndPoint } = useContext(UserContext);
-
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    if (users) {
+      setIsLoading(false);
+    }
+  }, [users]);
 
   const handleOpenProfile = (username) => {
     navigate("/home/empprofile", { state: { username: username } });
   };
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <>

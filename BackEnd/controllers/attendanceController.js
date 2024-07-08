@@ -28,7 +28,7 @@ const getTodayAttendances = async (req, res) => {
 
     // Mark late entries
     const lateThreshold = new Date(date);
-    lateThreshold.setHours(11, 30, 0, 0);
+    lateThreshold.setHours(12, 30, 0, 0);
 
     attendances.forEach((att) => {
       if (att.entranceTime > lateThreshold) {
