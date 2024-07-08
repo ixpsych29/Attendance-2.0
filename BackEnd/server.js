@@ -39,6 +39,14 @@ app.use("/api/users", userRoutes);
 app.use("/api/attendance", attendanceRoutes);
 app.use("/api/reports", reportRoutes); // Register report routes
 
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, "../client/dist")));
+
+// Catch-all handler to return the React app for any route not handled by API
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../client/dist", "index.html"));
+});
+
 // Connect to DB
 mongoose
   .connect(process.env.MONGO_URI)
