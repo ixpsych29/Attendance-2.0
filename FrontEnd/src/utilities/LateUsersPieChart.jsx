@@ -52,7 +52,6 @@ const TwoLevelPieChart = () => {
   const renderCustomizedLabel = ({
     cx,
     cy,
-    midAngle,
     innerRadius,
     outerRadius,
     percent,
