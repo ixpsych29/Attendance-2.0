@@ -36,7 +36,7 @@ const TwoLevelPieChart = () => {
               { name: "On-Time", value: onTimeUsersCount },
               { name: "Late", value: lateUsersCount },
             ],
-            outer: [{ name: "Total", value: totalUsersCount }],
+            outer: [{ name: "Total Present", value: totalUsersCount }],
           });
         }
       } catch (error) {
