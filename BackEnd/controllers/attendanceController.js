@@ -49,8 +49,6 @@ const getTodayAttendances = async (req, res) => {
 };
 
 //get single day history
-//
-//
 const getOneAttendance = async (req, res) => {
   try {
     const { userName } = req.params;

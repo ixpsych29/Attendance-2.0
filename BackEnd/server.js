@@ -24,7 +24,7 @@ app.use(cors());
 
 // Middleware
 app.use(express.json());
-app.use(express.static(path.join(__dirname, "static")));
+// app.use(express.static(path.join(__dirname, "static")));
 app.use(
   "/uploads/Images",
   express.static(path.join(__dirname, "uploads/Images"))
@@ -40,11 +40,11 @@ app.use("/api/attendance", attendanceRoutes);
 app.use("/api/reports", reportRoutes); // Register report routes
 
 // Serve static files from the React app
-app.use(express.static(path.join(__dirname, "../client/dist")));
+app.use(express.static(path.join(__dirname, "../FrontEnd/dist")));
 
 // Catch-all handler to return the React app for any route not handled by API
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../client/dist", "index.html"));
+  res.sendFile(path.join(__dirname, "../FrontEnd/dist", "index.html"));
 });
 
 // Connect to DB

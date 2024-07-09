@@ -11,5 +11,6 @@ export default defineConfig({
       "/api": "192.168.18.35:3001",
       // "/api": "localhost:3001",
     },
+    base: "/",
   },
 });
