@@ -10,9 +10,12 @@ const {
   getAttendanceReport,
   getAbsentOnes,
   getWeeklyAttendance,
+  getLateComings,
 } = require("../controllers/attendanceController");
 
 const router = express.Router();
+
+router.get("/late", getLateComings); // Add this route
 
 router.get("/weekly/:userName", getWeeklyAttendance);
 
