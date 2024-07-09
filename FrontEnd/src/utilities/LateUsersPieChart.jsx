@@ -19,19 +19,17 @@ const TwoLevelPieChart = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${Api_EndPoint}/api/attendance/all/`);
-        if (response.status === 200) {
-          const attendanceData = response.data;
-          const totalUsersCount = attendanceData.length;
+        const lateResponse = await axios.get(
+          `${Api_EndPoint}/api/attendance/late`
+        );
+        const allResponse = await axios.get(
+          `${Api_EndPoint}/api/attendance/all`
+        ); // Assuming you have an endpoint for all attendances
 
-          const onTimeUsersCount = attendanceData.filter(
-            (item) =>
-              item.entranceTime && new Date(item.entranceTime).getHours() < 12
-          ).length;
-          const lateUsersCount = attendanceData.filter(
-            (item) =>
-              item.entranceTime && new Date(item.entranceTime).getHours() >= 12
-          ).length;
+        if (lateResponse.status === 200 && allResponse.status === 200) {
+          const lateUsersCount = lateResponse.data.length;
+          const totalUsersCount = allResponse.data.length;
+          const onTimeUsersCount = totalUsersCount - lateUsersCount;
 
           setChartData({
             inner: [
@@ -45,7 +43,6 @@ const TwoLevelPieChart = () => {
         console.error("Error fetching attendance data:", error);
       }
     };
-
     fetchData();
   }, [Api_EndPoint]);
 
@@ -61,7 +58,6 @@ const TwoLevelPieChart = () => {
     const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
     const x = cx;
     const y = index === 0 ? cy - radius / 2 : cy + radius / 2;
-
     return (
       <text
         x={x}
