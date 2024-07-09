@@ -23,14 +23,14 @@ import ThreeMonthAttendanceReport from "./Components/ThreeMonthAttendanceReport"
 import MonthlyReportOfOneEmp from "./Components/MonthlyReportOfOneEmp";
 import AbsentEmp from "./Components/AbsentEmp";
 import PresentEmp from "./Components/PresentEmp";
-import RecordList from "./Components/RecordList";
+// import RecordList from "./Components/RecordList";
 import DailyAttendance from "./Components/DailyAttendance";
 
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
   const [role, setRole] = useState("");
 
-  const ProtectedRoute = ({ element, ...rest }) => {
+  const ProtectedRoute = ({ element }) => {
     const isAuthenticated = authenticated;
 
     return isAuthenticated ? element : <Navigate to="/" replace />;
