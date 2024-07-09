@@ -18,7 +18,6 @@ const getTodayAttendances = async (req, res) => {
     const date = dateParam ? new Date(dateParam) : new Date();
     date.setHours(0, 0, 0, 0);
 
-    // Query attendances for today
     const attendances = await Attendance.find({
       entranceTime: {
         $gte: date,
@@ -26,22 +25,33 @@ const getTodayAttendances = async (req, res) => {
       },
     }).sort({ entranceTime: 1 });
 
-    // Mark late entries
+    res.status(200).json(attendances);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Internal Server Error!" });
+  }
+};
+
+//For Late Coming
+const getLateComings = async (req, res) => {
+  try {
+    const dateParam = req.query.date;
+    const date = dateParam ? new Date(dateParam) : new Date();
+    date.setHours(0, 0, 0, 0);
+
+    // Define the late threshold
     const lateThreshold = new Date(date);
     lateThreshold.setHours(12, 30, 0, 0);
 
-    attendances.forEach((att) => {
-      if (att.entranceTime > lateThreshold) {
-        att.late = true;
-      } else {
-        att.late = false;
-      }
-    });
+    // Query attendances for today after the late threshold
+    const lateAttendances = await Attendance.find({
+      entranceTime: {
+        $gte: lateThreshold,
+        $lt: new Date(date.getTime() + 24 * 60 * 60 * 1000),
+      },
+    }).sort({ entranceTime: 1 });
 
-    // Save the updated attendances with late status
-    await Promise.all(attendances.map((att) => att.save()));
-
-    res.status(200).json(attendances);
+    res.status(200).json(lateAttendances);
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Internal Server Error!" });
@@ -368,4 +378,5 @@ module.exports = {
   getAttendanceReport,
   getAbsentOnes,
   getWeeklyAttendance,
+  getLateComings,
 };
