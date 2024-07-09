@@ -5,7 +5,6 @@ import UserContext from "./UserContext";
 import FormatDateTime from "./FormatDateTime";
 import Loader from "../Loader/Loader";
 import DownloadCSVReport from "./DownladReport";
-import { toast } from "react-hot-toast";
 
 const LateComingReport = () => {
   const { Api_EndPoint } = useContext(UserContext);
@@ -22,7 +21,7 @@ const LateComingReport = () => {
   useEffect(() => {
     const fetchLateComingsData = async () => {
       try {
-        const response = await axios.get(`${Api_EndPoint}/api/attendance/all/`);
+        const response = await axios.get(`${Api_EndPoint}/api/attendance/late`);
         if (response.status === 200) {
           const formattedData = response.data.map((item, index) => {
             const entranceDateTime = item.entranceTime
@@ -38,7 +37,6 @@ const LateComingReport = () => {
               entranceTime: entranceDateTime.formattedTime,
               entranceDate: entranceDateTime.formattedDate,
               leavingTime: leavingDateTime.formattedTime,
-              date: item.date,
             };
           });
 
