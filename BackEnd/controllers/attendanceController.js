@@ -41,7 +41,7 @@ const getLateComings = async (req, res) => {
 
     // Define the late threshold
     const lateThreshold = new Date(date);
-    lateThreshold.setHours(12, 30, 0, 0);
+    lateThreshold.setHours(11, 30, 0, 0);
 
     // Query attendances for today after the late threshold
     const lateAttendances = await Attendance.find({
