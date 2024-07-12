@@ -18,11 +18,28 @@ const getDayName = (date) => {
   return days[date.getDay()];
 };
 
+// Helper function to convert time to minutes since midnight
+const timeToMinutes = (timeString) => {
+  const [hours, minutes] = timeString.split(":").map(Number);
+  return hours * 60 + minutes;
+};
+
+// Helper function to convert minutes since midnight to a formatted time
+const minutesToTime = (minutes) => {
+  const hours = Math.floor(minutes / 60);
+  const mins = minutes % 60;
+  const period = hours >= 12 ? "PM" : "AM";
+  const formattedHours = hours % 12 || 12;
+  return `${formattedHours}:${mins.toString().padStart(2, "0")} ${period}`;
+};
+
 const WeeklyAttendance = () => {
   const { username, Api_EndPoint } = useContext(UserContext);
   const [xLabels, setXLabels] = useState([]);
   const [entranceTimes, setEntranceTimes] = useState([]);
   const [leaveTimes, setLeaveTimes] = useState([]);
+  const [formattedEntranceTimes, setFormattedEntranceTimes] = useState([]);
+  const [formattedLeaveTimes, setFormattedLeaveTimes] = useState([]);
 
   useEffect(() => {
     const fetchWeeklyAttendance = async () => {
@@ -66,7 +83,7 @@ const WeeklyAttendance = () => {
       series={[
         {
           data: entranceTimes,
-          label: "Entrance Time                            ",
+          label: "Entrance Time                                   ",
           id: "entranceId",
           color: "#3f51b5", // Blue color for entrance time bars
         },
@@ -78,6 +95,24 @@ const WeeklyAttendance = () => {
         },
       ]}
       xAxis={[{ data: xLabels, scaleType: "band" }]}
+      yAxis={[
+        {
+          scaleType: "linear",
+          tickFormat: minutesToTime,
+        },
+      ]}
+      tooltip={{
+        renderTooltip: (params) => {
+          const { id, value, dataIndex } = params;
+          const formattedTime =
+            id === "entranceId"
+              ? formattedEntranceTimes[dataIndex]
+              : formattedLeaveTimes[dataIndex];
+          return `${
+            id === "entranceId" ? "Entrance Time" : "Leave Time"
+          }: ${formattedTime}`;
+        },
+      }}
     />
   );
 };
