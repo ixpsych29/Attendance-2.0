@@ -181,12 +181,19 @@ const TotalEmployee = () => {
               {
                 field: "actions",
                 headerName: "Actions",
-                width: 150,
+                width: 180,
                 renderCell: (params) => (
                   <>
                     <Button
                       variant="outlined"
-                      color="primary"
+                      sx={{
+                        color: "darkblue",
+                        borderColor: "darkblue",
+                        "&:hover": {
+                          borderColor: "darkblue",
+                          backgroundColor: "lightblue",
+                        },
+                      }}
                       size="small"
                       onClick={() => handleEdit(params.row)}
                     >
@@ -194,10 +201,17 @@ const TotalEmployee = () => {
                     </Button>
                     <Button
                       variant="outlined"
-                      color="error"
+                      sx={{
+                        color: "darkblue",
+                        borderColor: "darkblue",
+
+                        "&:hover": {
+                          borderColor: "darkblue",
+                          backgroundColor: "lightblue",
+                        },
+                      }}
                       size="small"
                       onClick={() => handleDelete(params.row)}
-                      style={{ marginLeft: 8 }}
                     >
                       Delete
                     </Button>
