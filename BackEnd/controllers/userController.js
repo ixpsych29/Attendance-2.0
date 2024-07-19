@@ -4,7 +4,12 @@ const fs = require("fs");
 const path = require("path");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
-// const mongoose = require("mongoose");
+const nodemailer = require("nodemailer");
+const uuid = require("uuid");
+// const { getEmailConfig } = require("../utils/getEmailConfig.js");
+const mongoose = require("mongoose");
+const dotenv = require("dotenv");
+require("dotenv").config();
 
 //get all Users
 const getUsers = async (req, res) => {
@@ -473,7 +478,102 @@ const fetchUsers = async (filter = {}) => {
     throw new Error("Internal Server Error");
   }
 };
+const transporter = nodemailer.createTransport({
+  host: "smtp.gmail.com",
+  port: 587,
+  // service: "gmail",
+  secure: false, // true for 465, false for other ports
+  auth: {
+    user: process.env.EMAIL_USERNAME, // Your email addres
 
+    pass: process.env.EMAIL_PASSWORD, // Your password or app-specific password
+  },
+  // tls: {
+  //   ciphers: "SSLv3", // Specify compatible SSL/TLS ciphers
+  // },
+});
+
+// Function to handle forgot password request
+const forgotPassword = async (req, res) => {
+  const { email } = req.body;
+  // const clientURL = "http://localhost:3000";
+  try {
+    // Check if user with given email exists
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    // Generate unique token for password reset
+    const token = uuid.v4();
+    console.log(token);
+
+    // Save token and its expiration time to user document
+    user.resetPasswordToken = token;
+    user.resetPasswordExpires = Date.now() + 3600000; // Token expires in 1 hour
+    await user.save();
+
+    // Construct email content
+    const resetPasswordLink = `${process.env.clientURL}/reset-password/${token}`;
+    const mailOptions = {
+      from: "process.env.EMAIL_USERNAME", // Sender email address (must be your Gmail)
+      to: email,
+      subject: "Password Reset Request",
+      text:
+        `You are receiving this email because you (or someone else) have requested the reset of the password for your account.\n\n` +
+        `Please click on the following link, or paste this into your browser to complete the process:\n\n` +
+        `${resetPasswordLink}\n\n` +
+        `If you did not request this, please ignore this email and your password will remain unchanged.\n`,
+    };
+
+    // Send email
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.error("Error sending email:", error);
+        return res.status(500).json({ error: "Failed to send email" });
+      }
+      console.log("Email sent:", info.response);
+      res
+        .status(200)
+        .json({ message: "Password reset email sent successfully" });
+    });
+  } catch (error) {
+    console.log("i am in the catch error of try");
+    console.error("Error in forgotPassword:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+// Controller to reset password using the token
+const resetPassword = async (req, res) => {
+  const { token } = req.params;
+  const { password } = req.body;
+
+  try {
+    // Find user by reset token and check if it's valid
+    const user = await User.findOne({
+      resetPasswordToken: token,
+      resetPasswordExpires: { $gt: Date.now() }, // Check if token is not expired
+    });
+
+    if (!user) {
+      return res.status(400).json({ error: "Invalid or expired token" });
+    }
+
+    // Update user's password and reset token fields
+    const hashedPassword = await bcrypt.hash(password, 10);
+    user.password = hashedPassword;
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpires = undefined;
+    await user.save();
+
+    // Respond with success message
+    res.status(200).json({ message: "Password reset successful" });
+  } catch (error) {
+    console.error("Error in resetPassword:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
 //exporting modules
 module.exports = {
   getUsers,
@@ -488,4 +588,6 @@ module.exports = {
   UserExist,
   updateLeaveRequest,
   fetchUsers,
+  forgotPassword,
+  resetPassword,
 };
