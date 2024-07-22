@@ -76,8 +76,14 @@ const userModel = new Schema(
       default: 0,
     },
     leaveRequests: [leaveRequestSchema],
-  },
 
+    resetPasswordToken: {
+      type: String,
+    },
+    resetPasswordExpires: {
+      type: Date,
+    },
+  },
   {
     timestamps: true,
   }
