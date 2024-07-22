@@ -10,6 +10,8 @@ const {
   UserExist,
   createLeaveRequest,
   updateLeaveRequest,
+  forgotPassword,
+  resetPassword,
 } = require("../controllers/userController");
 
 const router = express.Router();
@@ -40,5 +42,11 @@ router.post("/:userName/leave-request", createLeaveRequest);
 //  Update Leave request
 
 router.put("/:userName/updateLeaveRequest", updateLeaveRequest);
+
+// Route to initiate password reset process
+router.post("/forgot-password", forgotPassword);
+
+// Route to reset password using the token
+router.put("/reset-password/:token", resetPassword);
 
 module.exports = router;

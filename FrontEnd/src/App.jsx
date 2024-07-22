@@ -25,6 +25,8 @@ import AbsentEmp from "./Components/AbsentEmp";
 import PresentEmp from "./Components/PresentEmp";
 // import RecordList from "./Components/RecordList";
 import DailyAttendance from "./Components/DailyAttendance";
+import ForgetPassword from "./Components/ForgetPassword";
+import ResetPassword from "./Components/ResetPassword";
 
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
@@ -45,7 +47,9 @@ function App() {
           index
         />
         {/* <Route path="/signup" element={<SignupForm />} /> */}
-        <Route path="update-password" element={<ChangePassword />} />
+        <Route path="ForgetPassword" element={<ForgetPassword />} />
+        <Route path="/reset-password/:token" element={<ResetPassword />} />
+
         <Route path="/*" element={<Nopage />} />
         <Route
           path="/home/"
